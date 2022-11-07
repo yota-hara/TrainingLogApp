@@ -9,6 +9,7 @@ pod 'RxCocoa'
 pod 'RxDataSources'
 pod 'Charts'
 pod 'FSCalendar'
+pod 'RealmSwift'
 
 
   # Pods for TrainingLogApp
