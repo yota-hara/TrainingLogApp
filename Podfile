@@ -7,6 +7,7 @@ target 'TrainingLogApp' do
 pod 'RxSwift'
 pod 'RxCocoa'
 pod 'RxDataSources'
+pod 'Charts'
 
 
   # Pods for TrainingLogApp
