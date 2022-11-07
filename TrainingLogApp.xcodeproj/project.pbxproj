@@ -8,9 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		11163AB970AAC68FDD686B51 /* Pods_TrainingLogApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4D0FB1178C466971FAB3F98 /* Pods_TrainingLogApp.framework */; };
+		A14DC9F22919CFFA00FBC7B7 /* RealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9F12919CFFA00FBC7B7 /* RealmObject.swift */; };
+		A14DC9F82919D00400FBC7B7 /* UIColor-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9F42919D00400FBC7B7 /* UIColor-Extension.swift */; };
+		A14DC9F92919D00400FBC7B7 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9F52919D00400FBC7B7 /* DateUtils.swift */; };
+		A14DC9FA2919D00400FBC7B7 /* UIView-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9F62919D00400FBC7B7 /* UIView-Extension.swift */; };
+		A14DC9FB2919D00400FBC7B7 /* UIImage-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9F72919D00400FBC7B7 /* UIImage-Extension.swift */; };
+		A14DC9FF2919D00C00FBC7B7 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9FD2919D00C00FBC7B7 /* RealmModel.swift */; };
+		A14DCA002919D00C00FBC7B7 /* ValidattionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9FE2919D00C00FBC7B7 /* ValidattionModel.swift */; };
+		A14DCA0B2919D01600FBC7B7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA022919D01600FBC7B7 /* SettingViewController.swift */; };
+		A14DCA0C2919D01600FBC7B7 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA042919D01600FBC7B7 /* BaseViewController.swift */; };
+		A14DCA0D2919D01600FBC7B7 /* RegisterMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */; };
+		A14DCA0E2919D01600FBC7B7 /* PublicFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */; };
+		A14DCA0F2919D01600FBC7B7 /* RecordWorkoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA082919D01600FBC7B7 /* RecordWorkoutController.swift */; };
+		A14DCA102919D01600FBC7B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA092919D01600FBC7B7 /* HomeViewController.swift */; };
+		A14DCA112919D01600FBC7B7 /* RecordFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA0A2919D01600FBC7B7 /* RecordFormView.swift */; };
+		A14DCA162919D02700FBC7B7 /* FormValidateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA132919D02700FBC7B7 /* FormValidateViewModel.swift */; };
+		A14DCA172919D02700FBC7B7 /* WorkoutMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA142919D02700FBC7B7 /* WorkoutMenuViewModel.swift */; };
+		A14DCA182919D02700FBC7B7 /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA152919D02700FBC7B7 /* WorkoutViewModel.swift */; };
 		A16E3D6429196A72005BD52D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16E3D6329196A72005BD52D /* AppDelegate.swift */; };
 		A16E3D6629196A72005BD52D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16E3D6529196A72005BD52D /* SceneDelegate.swift */; };
-		A16E3D6829196A72005BD52D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16E3D6729196A72005BD52D /* ViewController.swift */; };
 		A16E3D6B29196A72005BD52D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A16E3D6929196A72005BD52D /* Main.storyboard */; };
 		A16E3D6D29196A73005BD52D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A16E3D6C29196A73005BD52D /* Assets.xcassets */; };
 		A16E3D7029196A73005BD52D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A16E3D6E29196A73005BD52D /* LaunchScreen.storyboard */; };
@@ -19,10 +35,26 @@
 /* Begin PBXFileReference section */
 		041325C5F451B2BC44C4BE7F /* Pods-TrainingLogApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainingLogApp.debug.xcconfig"; path = "Target Support Files/Pods-TrainingLogApp/Pods-TrainingLogApp.debug.xcconfig"; sourceTree = "<group>"; };
 		080981DAD0E9BF246C84F3E0 /* Pods-TrainingLogApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainingLogApp.release.xcconfig"; path = "Target Support Files/Pods-TrainingLogApp/Pods-TrainingLogApp.release.xcconfig"; sourceTree = "<group>"; };
+		A14DC9F12919CFFA00FBC7B7 /* RealmObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmObject.swift; sourceTree = "<group>"; };
+		A14DC9F42919D00400FBC7B7 /* UIColor-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor-Extension.swift"; sourceTree = "<group>"; };
+		A14DC9F52919D00400FBC7B7 /* DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
+		A14DC9F62919D00400FBC7B7 /* UIView-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView-Extension.swift"; sourceTree = "<group>"; };
+		A14DC9F72919D00400FBC7B7 /* UIImage-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage-Extension.swift"; sourceTree = "<group>"; };
+		A14DC9FD2919D00C00FBC7B7 /* RealmModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
+		A14DC9FE2919D00C00FBC7B7 /* ValidattionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidattionModel.swift; sourceTree = "<group>"; };
+		A14DCA022919D01600FBC7B7 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		A14DCA042919D01600FBC7B7 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterMenuController.swift; sourceTree = "<group>"; };
+		A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicFooterView.swift; sourceTree = "<group>"; };
+		A14DCA082919D01600FBC7B7 /* RecordWorkoutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordWorkoutController.swift; sourceTree = "<group>"; };
+		A14DCA092919D01600FBC7B7 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		A14DCA0A2919D01600FBC7B7 /* RecordFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordFormView.swift; sourceTree = "<group>"; };
+		A14DCA132919D02700FBC7B7 /* FormValidateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValidateViewModel.swift; sourceTree = "<group>"; };
+		A14DCA142919D02700FBC7B7 /* WorkoutMenuViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutMenuViewModel.swift; sourceTree = "<group>"; };
+		A14DCA152919D02700FBC7B7 /* WorkoutViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
 		A16E3D6029196A72005BD52D /* TrainingLogApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainingLogApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A16E3D6329196A72005BD52D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A16E3D6529196A72005BD52D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A16E3D6729196A72005BD52D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A16E3D6A29196A72005BD52D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A16E3D6C29196A73005BD52D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A16E3D6F29196A73005BD52D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -50,6 +82,66 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A14DC9F32919D00400FBC7B7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A14DC9F42919D00400FBC7B7 /* UIColor-Extension.swift */,
+				A14DC9F52919D00400FBC7B7 /* DateUtils.swift */,
+				A14DC9F62919D00400FBC7B7 /* UIView-Extension.swift */,
+				A14DC9F72919D00400FBC7B7 /* UIImage-Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A14DC9FC2919D00C00FBC7B7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A14DC9FD2919D00C00FBC7B7 /* RealmModel.swift */,
+				A14DC9FE2919D00C00FBC7B7 /* ValidattionModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A14DCA012919D01600FBC7B7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A14DCA022919D01600FBC7B7 /* SettingViewController.swift */,
+				A14DCA032919D01600FBC7B7 /* Home */,
+				A14DCA042919D01600FBC7B7 /* BaseViewController.swift */,
+				A14DCA052919D01600FBC7B7 /* Record */,
+				A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */,
+				A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */,
+				A14DCA082919D01600FBC7B7 /* RecordWorkoutController.swift */,
+				A14DCA092919D01600FBC7B7 /* HomeViewController.swift */,
+				A14DCA0A2919D01600FBC7B7 /* RecordFormView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A14DCA032919D01600FBC7B7 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		A14DCA052919D01600FBC7B7 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Record;
+			sourceTree = "<group>";
+		};
+		A14DCA122919D02700FBC7B7 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A14DCA132919D02700FBC7B7 /* FormValidateViewModel.swift */,
+				A14DCA142919D02700FBC7B7 /* WorkoutMenuViewModel.swift */,
+				A14DCA152919D02700FBC7B7 /* WorkoutViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		A16E3D5729196A72005BD52D = {
 			isa = PBXGroup;
 			children = (
@@ -71,9 +163,13 @@
 		A16E3D6229196A72005BD52D /* TrainingLogApp */ = {
 			isa = PBXGroup;
 			children = (
+				A14DC9F12919CFFA00FBC7B7 /* RealmObject.swift */,
+				A14DC9F32919D00400FBC7B7 /* Extensions */,
 				A16E3D6329196A72005BD52D /* AppDelegate.swift */,
 				A16E3D6529196A72005BD52D /* SceneDelegate.swift */,
-				A16E3D6729196A72005BD52D /* ViewController.swift */,
+				A14DC9FC2919D00C00FBC7B7 /* Models */,
+				A14DCA012919D01600FBC7B7 /* Views */,
+				A14DCA122919D02700FBC7B7 /* ViewModels */,
 				A16E3D6929196A72005BD52D /* Main.storyboard */,
 				A16E3D6C29196A73005BD52D /* Assets.xcassets */,
 				A16E3D6E29196A73005BD52D /* LaunchScreen.storyboard */,
@@ -88,7 +184,6 @@
 				041325C5F451B2BC44C4BE7F /* Pods-TrainingLogApp.debug.xcconfig */,
 				080981DAD0E9BF246C84F3E0 /* Pods-TrainingLogApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -207,7 +302,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A16E3D6829196A72005BD52D /* ViewController.swift in Sources */,
+				A14DCA0D2919D01600FBC7B7 /* RegisterMenuController.swift in Sources */,
+				A14DC9F22919CFFA00FBC7B7 /* RealmObject.swift in Sources */,
+				A14DCA0B2919D01600FBC7B7 /* SettingViewController.swift in Sources */,
+				A14DC9F92919D00400FBC7B7 /* DateUtils.swift in Sources */,
+				A14DCA182919D02700FBC7B7 /* WorkoutViewModel.swift in Sources */,
+				A14DC9F82919D00400FBC7B7 /* UIColor-Extension.swift in Sources */,
+				A14DC9FA2919D00400FBC7B7 /* UIView-Extension.swift in Sources */,
+				A14DCA162919D02700FBC7B7 /* FormValidateViewModel.swift in Sources */,
+				A14DCA172919D02700FBC7B7 /* WorkoutMenuViewModel.swift in Sources */,
+				A14DCA0C2919D01600FBC7B7 /* BaseViewController.swift in Sources */,
+				A14DC9FF2919D00C00FBC7B7 /* RealmModel.swift in Sources */,
+				A14DC9FB2919D00400FBC7B7 /* UIImage-Extension.swift in Sources */,
+				A14DCA112919D01600FBC7B7 /* RecordFormView.swift in Sources */,
+				A14DCA0E2919D01600FBC7B7 /* PublicFooterView.swift in Sources */,
+				A14DCA102919D01600FBC7B7 /* HomeViewController.swift in Sources */,
+				A14DCA002919D00C00FBC7B7 /* ValidattionModel.swift in Sources */,
+				A14DCA0F2919D01600FBC7B7 /* RecordWorkoutController.swift in Sources */,
 				A16E3D6429196A72005BD52D /* AppDelegate.swift in Sources */,
 				A16E3D6629196A72005BD52D /* SceneDelegate.swift in Sources */,
 			);
