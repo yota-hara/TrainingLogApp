@@ -11,11 +11,7 @@ import RxCocoa
 import FSCalendar
 
 protocol ViewControllerDelegate {
-    var footer: PublicFooterView? { get }
-    var viewModel: FormValidateViewModel? { get }
-    var recordForm: RecordFormView? { get }
-    
-    func footerBind()
+
 }
 
 class HomeViewController: UIViewController, ViewControllerDelegate {
@@ -39,7 +35,7 @@ class HomeViewController: UIViewController, ViewControllerDelegate {
         super.viewDidLoad()
         view.backgroundColor = .white
         workoutMenuViewModel = WorkoutMenuViewModel()
-        footer = PublicFooterView()
+        footer = PublicFooterView(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: 100))
         view.addSubview(footer!)
         
         setUpCalender()
@@ -272,9 +268,7 @@ extension HomeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             return workoutMenuViewModel?.workoutMenuArray[selectTarget].workoutNames[row].workoutName
         }
     }
-    
-    
-    
+        
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView.tag == 1 {
             recordForm?.targetPartTextField.textField!.text = workoutMenuViewModel?
@@ -292,11 +286,9 @@ extension HomeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
                 recordForm?.targetPartTextField.textField!.text = workoutMenuViewModel?
                     .workoutMenuArray[selectTarget].workoutNames[0].workoutName
             }
-            
-            
         }
-        
     }
+    
 }
 
 // MARK: - FSCalendar

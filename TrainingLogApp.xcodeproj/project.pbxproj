@@ -16,7 +16,6 @@
 		A14DC9FF2919D00C00FBC7B7 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9FD2919D00C00FBC7B7 /* RealmModel.swift */; };
 		A14DCA002919D00C00FBC7B7 /* ValidattionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9FE2919D00C00FBC7B7 /* ValidattionModel.swift */; };
 		A14DCA0B2919D01600FBC7B7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA022919D01600FBC7B7 /* SettingViewController.swift */; };
-		A14DCA0C2919D01600FBC7B7 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA042919D01600FBC7B7 /* BaseViewController.swift */; };
 		A14DCA0D2919D01600FBC7B7 /* RegisterMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */; };
 		A14DCA0E2919D01600FBC7B7 /* PublicFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */; };
 		A14DCA0F2919D01600FBC7B7 /* RecordWorkoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA082919D01600FBC7B7 /* RecordWorkoutController.swift */; };
@@ -43,7 +42,6 @@
 		A14DC9FD2919D00C00FBC7B7 /* RealmModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 		A14DC9FE2919D00C00FBC7B7 /* ValidattionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidattionModel.swift; sourceTree = "<group>"; };
 		A14DCA022919D01600FBC7B7 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		A14DCA042919D01600FBC7B7 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterMenuController.swift; sourceTree = "<group>"; };
 		A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicFooterView.swift; sourceTree = "<group>"; };
 		A14DCA082919D01600FBC7B7 /* RecordWorkoutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordWorkoutController.swift; sourceTree = "<group>"; };
@@ -105,31 +103,14 @@
 		A14DCA012919D01600FBC7B7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A14DCA022919D01600FBC7B7 /* SettingViewController.swift */,
-				A14DCA032919D01600FBC7B7 /* Home */,
-				A14DCA042919D01600FBC7B7 /* BaseViewController.swift */,
-				A14DCA052919D01600FBC7B7 /* Record */,
-				A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */,
-				A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */,
-				A14DCA082919D01600FBC7B7 /* RecordWorkoutController.swift */,
 				A14DCA092919D01600FBC7B7 /* HomeViewController.swift */,
+				A14DCA082919D01600FBC7B7 /* RecordWorkoutController.swift */,
+				A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */,
+				A14DCA022919D01600FBC7B7 /* SettingViewController.swift */,
+				A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */,
 				A14DCA0A2919D01600FBC7B7 /* RecordFormView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		A14DCA032919D01600FBC7B7 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
-		A14DCA052919D01600FBC7B7 /* Record */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Record;
 			sourceTree = "<group>";
 		};
 		A14DCA122919D02700FBC7B7 /* ViewModels */ = {
@@ -311,7 +292,6 @@
 				A14DC9FA2919D00400FBC7B7 /* UIView-Extension.swift in Sources */,
 				A14DCA162919D02700FBC7B7 /* FormValidateViewModel.swift in Sources */,
 				A14DCA172919D02700FBC7B7 /* WorkoutMenuViewModel.swift in Sources */,
-				A14DCA0C2919D01600FBC7B7 /* BaseViewController.swift in Sources */,
 				A14DC9FF2919D00C00FBC7B7 /* RealmModel.swift in Sources */,
 				A14DC9FB2919D00400FBC7B7 /* UIImage-Extension.swift in Sources */,
 				A14DCA112919D01600FBC7B7 /* RecordFormView.swift in Sources */,
@@ -476,6 +456,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -505,6 +486,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
