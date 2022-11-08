@@ -46,7 +46,7 @@ class ValidationModel: ValidationProtocol {
     
     func validateTextField(text: String) -> Bool {
 
-        return text != ""
+        return text != "" 
     }
     
     

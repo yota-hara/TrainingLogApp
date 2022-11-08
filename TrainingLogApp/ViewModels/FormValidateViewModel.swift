@@ -11,7 +11,6 @@ import RxSwift
 import RxCocoa
 
 protocol FormValidateViewModelInput {
-    func viewDidLoad()
 }
 
 protocol ViewModelOutput {
@@ -19,7 +18,7 @@ protocol ViewModelOutput {
 }
 
 class FormValidateViewModel: FormValidateViewModelInput {
-
+    
     private let disposeBag = DisposeBag()
     let model = ValidationModel()
     
@@ -28,15 +27,15 @@ class FormValidateViewModel: FormValidateViewModelInput {
     var workoutTextOutput = PublishSubject<String>()
     var weightTextOutput = PublishSubject<String>()
     var repsTextOutput = PublishSubject<String>()
-
+    
     var validRegisterSubject = BehaviorSubject<Bool>(value: false)
-
+    
     // Observer
     var targetTextInput: AnyObserver<String> {
         targetTextOutput.asObserver()
     }
     var workoutTextInput: AnyObserver<String> {
-        weightTextOutput.asObserver()
+        workoutTextOutput.asObserver()
     }
     var weightTextInput: AnyObserver<String> {
         weightTextOutput.asObserver()
@@ -46,24 +45,34 @@ class FormValidateViewModel: FormValidateViewModelInput {
     }
     
     var validRegisterDriver: Driver<Bool> = Driver.never()
-
+    
     
     init() {
         
-        let targetValid = targetTextOutput.map { text in
-            self.model.validateTextField(text: text)
+        validRegisterDriver = validRegisterSubject.asDriver(onErrorDriveWith: Driver.empty())
+        
+        let targetValid = targetTextOutput.asObservable().map { text -> Bool in
+            print("targetValid: ", self.model.validateTextField(text: text))
+
+            return self.model.validateTextField(text: text)
         }
         
-        let workoutValid = targetTextOutput.map { text in
-            self.model.validateTextField(text: text)
+        let workoutValid = workoutTextOutput.asObservable().map { text -> Bool in
+            print("workoutValid: ", self.model.validateTextField(text: text))
+            
+            return self.model.validateTextField(text: text)
         }
         
-        let weightValid = targetTextOutput.map { text in
-            self.model.validateTextField(text: text)
+        let weightValid = weightTextOutput.asObservable().map { text -> Bool in
+            print("weightValid: ", self.model.validateTextField(text: text))
+            
+            return self.model.validateTextField(text: text)
         }
         
-        let repsValid = targetTextOutput.map { text in
-            self.model.validateTextField(text: text)
+        let repsValid = repsTextOutput.asObservable().map { text -> Bool in
+            print("repsValid: ", self.model.validateTextField(text: text))
+            
+            return self.model.validateTextField(text: text)
         }
         
         Observable.combineLatest(targetValid, workoutValid, weightValid, repsValid) {
@@ -72,10 +81,6 @@ class FormValidateViewModel: FormValidateViewModelInput {
             self.validRegisterSubject.onNext(validAll)
         }
         .disposed(by: disposeBag)
-        
     }
-    
-    func viewDidLoad(){
+}
 
-}
-}

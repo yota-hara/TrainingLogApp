@@ -22,21 +22,21 @@ class RecordFormView: UIView, UITextFieldDelegate {
         return label
     }()
     
-    let targetPartLabel = RecordLabel(frame: .zero, text: "ターゲット部位")
-    let targetPartTextField = RecordTextField()
+    let targetPartLabel = RecordLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30), text: "ターゲット部位")
+    let targetPartTextField = RecordTextField(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
     
-    let workoutNameLabel = RecordLabel(frame: .zero, text: "トレーニング種目")
-    let workoutNameTextField = RecordTextField()
+    let workoutNameLabel = RecordLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30), text: "トレーニング種目")
+    let workoutNameTextField = RecordTextField(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
     
-    let weightLabel = RecordLabel(frame: .zero, text: "重量")
-    let weightTextField = RecordTextField()
+    let weightLabel = RecordLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30), text: "重量")
+    let weightTextField = RecordTextField(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
     
-    let repsLabel = RecordLabel(frame: .zero, text: "レップ数")
-    let repsTextField = RecordTextField()
+    let repsLabel = RecordLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30), text: "レップ数")
+    let repsTextField = RecordTextField(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
     
-    let memoTextView = RecordMemoView()
+    let memoTextView = RecordMemoView(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
     
-    let memoLabel = RecordLabel(frame: .zero, text: "メモ")
+    let memoLabel = RecordLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30), text: "メモ")
     
     let registerButton: UIButton = {
        let button = UIButton()
@@ -203,7 +203,6 @@ class RecordLabel: UIView {
         label = UILabel()
         label?.layer.cornerRadius = 8
         label?.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-//        label?.layer.backgroundColor = UIColor.white.cgColor
         label?.textAlignment = .center
         label?.textColor = .white
         label?.text = text
