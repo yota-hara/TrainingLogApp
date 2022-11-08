@@ -27,7 +27,7 @@ import Realm
 // The functions don't need to be documented here because Xcode/DocC inherit
 // the documentation from the RealmCollection protocol definition, and jazzy
 // excludes this file entirely.
-internal protocol RealmCollectionImpl: RealmCollection where Index == Int, SubSequence == Slice<Self>, Iterator == RLMIterator<Element> {
+internal protocol RealmCollectionImpl: RealmCollection where Index == Int, SubSequence == Slice<Self> {
     var collection: RLMCollection { get }
     init(collection: RLMCollection)
 }

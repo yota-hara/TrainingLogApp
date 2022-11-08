@@ -69,7 +69,7 @@ class WorkoutMenuViewModel {
         let bicepsMenu = WorkoutMenu(value: bicepsDic)
         workoutMenuArray.append(bicepsMenu)
         
-        let tricepsDic: [String: Any] = ["targetPart": "上腕二頭筋",
+        let tricepsDic: [String: Any] = ["targetPart": "上腕三頭筋",
                                          "workoutNames": [["workoutName": "ナローベンチプレス"],
                                                           ["workoutName": "フレンチプレス"],
                                                           ["workoutName": "スカルクラッシャー"],
