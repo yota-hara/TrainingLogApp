@@ -14,7 +14,7 @@
 		A14DC9FA2919D00400FBC7B7 /* UIView-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9F62919D00400FBC7B7 /* UIView-Extension.swift */; };
 		A14DC9FB2919D00400FBC7B7 /* UIImage-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9F72919D00400FBC7B7 /* UIImage-Extension.swift */; };
 		A14DC9FF2919D00C00FBC7B7 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9FD2919D00C00FBC7B7 /* RealmModel.swift */; };
-		A14DCA002919D00C00FBC7B7 /* ValidattionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9FE2919D00C00FBC7B7 /* ValidattionModel.swift */; };
+		A14DCA002919D00C00FBC7B7 /* ValidationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9FE2919D00C00FBC7B7 /* ValidationModel.swift */; };
 		A14DCA0B2919D01600FBC7B7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA022919D01600FBC7B7 /* SettingViewController.swift */; };
 		A14DCA0D2919D01600FBC7B7 /* RegisterMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */; };
 		A14DCA0E2919D01600FBC7B7 /* PublicFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */; };
@@ -29,6 +29,7 @@
 		A16E3D6B29196A72005BD52D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A16E3D6929196A72005BD52D /* Main.storyboard */; };
 		A16E3D6D29196A73005BD52D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A16E3D6C29196A73005BD52D /* Assets.xcassets */; };
 		A16E3D7029196A73005BD52D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A16E3D6E29196A73005BD52D /* LaunchScreen.storyboard */; };
+		A1BEC040291BD43400CF8DB3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BEC03F291BD43400CF8DB3 /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +41,7 @@
 		A14DC9F62919D00400FBC7B7 /* UIView-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView-Extension.swift"; sourceTree = "<group>"; };
 		A14DC9F72919D00400FBC7B7 /* UIImage-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage-Extension.swift"; sourceTree = "<group>"; };
 		A14DC9FD2919D00C00FBC7B7 /* RealmModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
-		A14DC9FE2919D00C00FBC7B7 /* ValidattionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidattionModel.swift; sourceTree = "<group>"; };
+		A14DC9FE2919D00C00FBC7B7 /* ValidationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationModel.swift; sourceTree = "<group>"; };
 		A14DCA022919D01600FBC7B7 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterMenuController.swift; sourceTree = "<group>"; };
 		A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicFooterView.swift; sourceTree = "<group>"; };
@@ -57,6 +58,7 @@
 		A16E3D6C29196A73005BD52D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A16E3D6F29196A73005BD52D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A16E3D7129196A73005BD52D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1BEC03F291BD43400CF8DB3 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		C4D0FB1178C466971FAB3F98 /* Pods_TrainingLogApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrainingLogApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -95,7 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				A14DC9FD2919D00C00FBC7B7 /* RealmModel.swift */,
-				A14DC9FE2919D00C00FBC7B7 /* ValidattionModel.swift */,
+				A14DC9FE2919D00C00FBC7B7 /* ValidationModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -103,12 +105,12 @@
 		A14DCA012919D01600FBC7B7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A1BEC03F291BD43400CF8DB3 /* BaseViewController.swift */,
 				A14DCA092919D01600FBC7B7 /* HomeViewController.swift */,
 				A14DCA082919D01600FBC7B7 /* RecordWorkoutController.swift */,
 				A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */,
 				A14DCA022919D01600FBC7B7 /* SettingViewController.swift */,
-				A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */,
-				A14DCA0A2919D01600FBC7B7 /* RecordFormView.swift */,
+				A1BEC03E291BD3AD00CF8DB3 /* SubViews */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -152,11 +154,20 @@
 				A14DCA012919D01600FBC7B7 /* Views */,
 				A14DCA122919D02700FBC7B7 /* ViewModels */,
 				A16E3D6929196A72005BD52D /* Main.storyboard */,
-				A16E3D6C29196A73005BD52D /* Assets.xcassets */,
 				A16E3D6E29196A73005BD52D /* LaunchScreen.storyboard */,
+				A16E3D6C29196A73005BD52D /* Assets.xcassets */,
 				A16E3D7129196A73005BD52D /* Info.plist */,
 			);
 			path = TrainingLogApp;
+			sourceTree = "<group>";
+		};
+		A1BEC03E291BD3AD00CF8DB3 /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */,
+				A14DCA0A2919D01600FBC7B7 /* RecordFormView.swift */,
+			);
+			path = SubViews;
 			sourceTree = "<group>";
 		};
 		E74F3D5E073896B3AA6029D8 /* Pods */ = {
@@ -287,6 +298,7 @@
 				A14DC9F22919CFFA00FBC7B7 /* RealmObject.swift in Sources */,
 				A14DCA0B2919D01600FBC7B7 /* SettingViewController.swift in Sources */,
 				A14DC9F92919D00400FBC7B7 /* DateUtils.swift in Sources */,
+				A1BEC040291BD43400CF8DB3 /* BaseViewController.swift in Sources */,
 				A14DCA182919D02700FBC7B7 /* WorkoutViewModel.swift in Sources */,
 				A14DC9F82919D00400FBC7B7 /* UIColor-Extension.swift in Sources */,
 				A14DC9FA2919D00400FBC7B7 /* UIView-Extension.swift in Sources */,
@@ -297,7 +309,7 @@
 				A14DCA112919D01600FBC7B7 /* RecordFormView.swift in Sources */,
 				A14DCA0E2919D01600FBC7B7 /* PublicFooterView.swift in Sources */,
 				A14DCA102919D01600FBC7B7 /* HomeViewController.swift in Sources */,
-				A14DCA002919D00C00FBC7B7 /* ValidattionModel.swift in Sources */,
+				A14DCA002919D00C00FBC7B7 /* ValidationModel.swift in Sources */,
 				A14DCA0F2919D01600FBC7B7 /* RecordWorkoutController.swift in Sources */,
 				A16E3D6429196A72005BD52D /* AppDelegate.swift in Sources */,
 				A16E3D6629196A72005BD52D /* SceneDelegate.swift in Sources */,
