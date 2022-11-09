@@ -118,6 +118,12 @@ class HomeViewController: UIViewController, ViewControllerDelegate, UITextFieldD
         }).disposed(by: disposeBag)
 
         recordForm?.registerButton.rx.tap.asDriver().drive(onNext: { [weak self] _ in
+            UIView.animate(withDuration: 0.4, delay: 0.1, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+                self?.recordForm?.alpha = 0
+                self?.footer?.addWorkoutButton.setImage(UIImage(systemName: "plus"), for: .normal)
+                self?.footer?.addWorkoutButton.backgroundColor = .orange
+            })
+
             print("buttonTapped")
         }).disposed(by: disposeBag)
     }

@@ -38,15 +38,7 @@ class RecordFormView: UIView, UITextFieldDelegate {
     
     let memoLabel = RecordLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30), text: "メモ")
     
-    let registerButton: UIButton = {
-       let button = UIButton()
-        button.layer.backgroundColor = UIColor.orange.cgColor
-        button.layer.cornerRadius = 8
-        button.setTitle("記録", for: .normal)
-        button.tintColor = .white
-        
-        return button
-    }()
+    let registerButton = RecordButton(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -154,6 +146,7 @@ class RecordFormView: UIView, UITextFieldDelegate {
     }
 }
 
+// MARK: - RecordTextField
 
 class RecordTextField: UIView {
     
@@ -190,6 +183,8 @@ class RecordTextField: UIView {
     
 }
 
+// MARK: - RecordLabel
+
 class RecordLabel: UIView {
     
     var label: UILabel?
@@ -224,6 +219,7 @@ class RecordLabel: UIView {
                          rightPadding: 0)
     }
 }
+// MARK: - RecordMemoView
 
 class RecordMemoView: UIView {
     var textView: UITextView?
@@ -254,6 +250,40 @@ class RecordMemoView: UIView {
                          bottomPadding: 4,
                          leftPadding: 4,
                          rightPadding: 4)
+    }
+    
+}
+
+// MARK: - RecordButton
+class RecordButton: UIButton {
+    
+    override var isHighlighted: Bool {
+        didSet {
+            if isHighlighted {
+                UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.9, options: []) {
+                    self.transform = .init(scaleX: 0.92, y: 0.92)
+                    self.alpha = 0.9
+                    self.layoutIfNeeded()
+                }
+            } else {
+                self.transform = .identity
+                self.alpha = 1
+                self.layoutIfNeeded()
+            }
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        layer.backgroundColor = UIColor.orange.cgColor
+        layer.cornerRadius = 8
+        setTitle("記録", for: .normal)
+        tintColor = .white
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
 }

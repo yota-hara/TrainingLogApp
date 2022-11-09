@@ -29,8 +29,6 @@ class PublicFooterView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         clipsToBounds = true
-        
-        
 
         let stackView = UIStackView(arrangedSubviews: [homeButton, recordWorkoutButton, registerMenuButton, settingsButton])
         stackView.axis = .horizontal
@@ -46,9 +44,9 @@ class PublicFooterView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
 }
+
+// MARK: - FooterButtonView
 
 class FooterButtonView: UIView {
     var label = UILabel()
@@ -65,11 +63,6 @@ class FooterButtonView: UIView {
         button?.translatesAutoresizingMaskIntoConstraints = false
         button?.tintColor = .orange
         button?.backgroundColor = .clear
-//        button?.layer.cornerRadius = 10
-//        button?.layer.shadowOffset = .init(width: 1.5, height: 2)
-//        button?.layer.shadowColor = UIColor.black.cgColor
-//        button?.layer.shadowOpacity = 0.5
-//        button?.layer.shadowRadius = 15
         
         addSubview(button!)
         button?.anchor(top: topAnchor, centerX: centerXAnchor, width: width, height: width, topPadding: 10)
@@ -87,6 +80,8 @@ class FooterButtonView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+// MARK: - FooterButton
 
 class FooterButton: UIButton {
     
