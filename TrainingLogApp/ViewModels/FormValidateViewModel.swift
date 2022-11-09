@@ -52,27 +52,27 @@ class FormValidateViewModel: FormValidateViewModelInput {
         validRegisterDriver = validRegisterSubject.asDriver(onErrorDriveWith: Driver.empty())
         
         let targetValid = targetTextOutput.asObservable().map { text -> Bool in
-            print("targetValid: ", self.model.validateTextField(text: text))
+            print("targetValid: ", self.model.validateText(text: text))
 
-            return self.model.validateTextField(text: text)
+            return self.model.validateText(text: text)
         }
         
         let workoutValid = workoutTextOutput.asObservable().map { text -> Bool in
-            print("workoutValid: ", self.model.validateTextField(text: text))
+            print("workoutValid: ", self.model.validateText(text: text))
             
-            return self.model.validateTextField(text: text)
+            return self.model.validateText(text: text)
         }
         
         let weightValid = weightTextOutput.asObservable().map { text -> Bool in
-            print("weightValid: ", self.model.validateTextField(text: text))
+            print("weightValid: ", self.model.validateText(text: text))
             
-            return self.model.validateTextField(text: text)
+            return self.model.validateTextDouble(text: text)
         }
         
         let repsValid = repsTextOutput.asObservable().map { text -> Bool in
-            print("repsValid: ", self.model.validateTextField(text: text))
+            print("repsValid: ", self.model.validateText(text: text))
             
-            return self.model.validateTextField(text: text)
+            return self.model.validateText(text: text)
         }
         
         Observable.combineLatest(targetValid, workoutValid, weightValid, repsValid) {

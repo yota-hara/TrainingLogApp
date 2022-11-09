@@ -35,20 +35,13 @@ class HomeViewController: UIViewController, ViewControllerDelegate, UITextFieldD
         super.viewDidLoad()
         view.backgroundColor = .white
         workoutMenuViewModel = WorkoutMenuViewModel()
-        footer = PublicFooterView(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: 100))
-        view.addSubview(footer!)
-        
+
         setUpCalender()
         view.addSubview(calender)
-        
-        recordForm = RecordFormView()
-        recordForm?.alpha = 0
-        view.addSubview(recordForm!)
         
         viewModel = FormValidateViewModel()
         
         footerBind()
-        setupTextFields()
         recordFormBind()
     }
     
@@ -63,6 +56,11 @@ class HomeViewController: UIViewController, ViewControllerDelegate, UITextFieldD
     // MARK: - Bindings
     
     func recordFormBind() {
+        recordForm = RecordFormView()
+        recordForm?.alpha = 0
+        view.addSubview(recordForm!)
+        setupTextFields()
+        
         recordForm?.targetPartTextField.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
             self?.viewModel?.targetTextInput.onNext(text ?? "")
         }).disposed(by: disposeBag)
@@ -91,7 +89,8 @@ class HomeViewController: UIViewController, ViewControllerDelegate, UITextFieldD
     
     
     func footerBind() {
-        
+        footer = PublicFooterView(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: 100))
+        view.addSubview(footer!)
         footer?.addWorkoutButton.rx.tap.asDriver().drive(onNext: { [weak self] in
             switch self?.recordForm?.alpha {
             case 0:
@@ -193,7 +192,7 @@ class HomeViewController: UIViewController, ViewControllerDelegate, UITextFieldD
         recordForm?.workoutNameTextField.textField!.delegate = self
         
         // weightTextField
-        recordForm?.weightTextField.textField!.keyboardType = .numberPad
+        recordForm?.weightTextField.textField!.keyboardType = .decimalPad
         let weightToolbar = UIToolbar()
         weightToolbar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
         let space3 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -259,25 +258,28 @@ extension HomeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView.tag == 1 {
-            
-            return (workoutMenuViewModel?.workoutMenuArray.count)!
-        } else {
-            return (workoutMenuViewModel?.workoutMenuArray[selectTarget].workoutNames.count)!
+        
+        switch pickerView.tag {
+        case 1: return (workoutMenuViewModel?.workoutMenuArray.count)!
+        case 2: return (workoutMenuViewModel?.workoutMenuArray[selectTarget].workoutNames.count)!
+        default: fatalError()
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView.tag == 1 {
+        switch pickerView.tag {
+        case 1:
             selectTarget = row
             return workoutMenuViewModel?.workoutMenuArray[row].targetPart
-        } else {
+        case 2:
             return workoutMenuViewModel?.workoutMenuArray[selectTarget].workoutNames[row].workoutName
+        default: fatalError()
         }
     }
-        
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView.tag == 1 {
+        switch pickerView.tag {
+        case 1:
             recordForm?.targetPartTextField.textField!.text = workoutMenuViewModel?
                 .workoutMenuArray[row].targetPart
             
@@ -285,7 +287,7 @@ extension HomeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
                 recordForm?.targetPartTextField.textField!.text = workoutMenuViewModel?
                     .workoutMenuArray[0].targetPart
             }
-        } else {
+        case 2:
             recordForm?.workoutNameTextField.textField!.text = workoutMenuViewModel?
                 .workoutMenuArray[selectTarget].workoutNames[row].workoutName
             
@@ -293,9 +295,9 @@ extension HomeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
                 recordForm?.targetPartTextField.textField!.text = workoutMenuViewModel?
                     .workoutMenuArray[selectTarget].workoutNames[0].workoutName
             }
+        default: fatalError()
         }
     }
-    
 }
 
 // MARK: - FSCalendar

@@ -44,11 +44,13 @@ protocol ValidationProtocol {
 class ValidationModel: ValidationProtocol {
     
     
-    func validateTextField(text: String) -> Bool {
+    func validateText(text: String) -> Bool {
 
         return text != "" 
     }
     
-    
+    func validateTextDouble(text: String) -> Bool {
+        return Double(text) != nil
+    }
 }
 
