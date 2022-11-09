@@ -38,7 +38,9 @@ class RecordFormView: UIView, UITextFieldDelegate {
     
     let memoLabel = RecordLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30), text: "メモ")
     
-    let registerButton = RecordButton(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
+    let registerButton = RecordButton(frame: CGRect(x: 0, y: 0, width: 100, height: 30), title: "記録", backgroundColor: .orange)
+
+    let clearButton = RecordButton(frame: CGRect(x: 0, y: 0, width: 100, height: 30), title: "クリア", backgroundColor: .systemMint)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -64,6 +66,7 @@ class RecordFormView: UIView, UITextFieldDelegate {
         addSubview(memoTextView)
         addSubview(memoLabel)
         addSubview(registerButton)
+        addSubview(clearButton)
     }
     
     required init?(coder: NSCoder) {
@@ -139,10 +142,18 @@ class RecordFormView: UIView, UITextFieldDelegate {
                             bottomPadding: 20)
                 
         registerButton.anchor(bottom: bottomAnchor,
-                              centerX: centerXAnchor,
+                              left: memoTextView.leftAnchor,
                               width: 80,
                               height: 30,
-                              bottomPadding: 20)
+                              bottomPadding: 20,
+                              leftPadding: 5)
+        
+        clearButton.anchor(bottom: bottomAnchor,
+                           right: memoTextView.rightAnchor,
+                           width: 80,
+                           height: 30,
+                           bottomPadding: 20,
+                           rightPadding: 5)
     }
 }
 
@@ -162,7 +173,6 @@ class RecordTextField: UIView {
         textField?.layer.cornerRadius = 8
         textField?.backgroundColor = .white
         textField?.textAlignment = .center
-        textField?.placeholder = "uuuu"
         addSubview(textField!)
     }
     
@@ -273,12 +283,11 @@ class RecordButton: UIButton {
         }
     }
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, title: String, backgroundColor: UIColor) {
         super.init(frame: frame)
-        
-        layer.backgroundColor = UIColor.orange.cgColor
+        setTitle(title, for: .normal)
+        layer.backgroundColor = backgroundColor.cgColor
         layer.cornerRadius = 8
-        setTitle("記録", for: .normal)
         tintColor = .white
     }
     

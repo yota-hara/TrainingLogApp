@@ -126,6 +126,14 @@ class HomeViewController: UIViewController, ViewControllerDelegate, UITextFieldD
 
             print("buttonTapped")
         }).disposed(by: disposeBag)
+        
+        recordForm?.clearButton.rx.tap.asDriver().drive(onNext: { [weak self] _ in
+            self?.recordForm?.targetPartTextField.textField?.text = ""
+            self?.recordForm?.workoutNameTextField.textField?.text = ""
+            self?.recordForm?.weightTextField.textField?.text = ""
+            self?.recordForm?.repsTextField.textField?.text = ""
+            self?.recordForm?.memoTextView.textView?.text = ""
+        }).disposed(by: disposeBag)
     }
     
     private func footerBind() {
