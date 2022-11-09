@@ -52,26 +52,18 @@ class FormValidateViewModel: FormValidateViewModelInput {
         validRegisterDriver = validRegisterSubject.asDriver(onErrorDriveWith: Driver.empty())
         
         let targetValid = targetTextOutput.asObservable().map { text -> Bool in
-            print("targetValid: ", self.model.validateText(text: text))
-
             return self.model.validateText(text: text)
         }
         
         let workoutValid = workoutTextOutput.asObservable().map { text -> Bool in
-            print("workoutValid: ", self.model.validateText(text: text))
-            
             return self.model.validateText(text: text)
         }
         
         let weightValid = weightTextOutput.asObservable().map { text -> Bool in
-            print("weightValid: ", self.model.validateText(text: text))
-            
             return self.model.validateTextDouble(text: text)
         }
         
-        let repsValid = repsTextOutput.asObservable().map { text -> Bool in
-            print("repsValid: ", self.model.validateText(text: text))
-            
+        let repsValid = repsTextOutput.asObservable().map { text -> Bool in            
             return self.model.validateText(text: text)
         }
         

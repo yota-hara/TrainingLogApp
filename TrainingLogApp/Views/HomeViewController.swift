@@ -35,27 +35,62 @@ class HomeViewController: UIViewController, ViewControllerDelegate, UITextFieldD
         super.viewDidLoad()
         view.backgroundColor = .white
         workoutMenuViewModel = WorkoutMenuViewModel()
-
-        setUpCalender()
-        view.addSubview(calender)
-        
         viewModel = FormValidateViewModel()
         
+        setUpCalender()
         footerBind()
         recordFormBind()
+        setupKeyboardAndView()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         calender.frame = CGRect(x: 0, y: view.safeAreaInsets.top, width: view.frame.width, height: 300)
         footer?.anchor(bottom: view.bottomAnchor, left: view.leftAnchor, width: view.frame.size.width, height: 100)
-        recordForm?.anchor(top: view.topAnchor, centerX: view.centerXAnchor, width: view.frame.size.width-40, height: 400, topPadding: 100)
+        recordForm?.anchor(centerY: view.centerYAnchor, centerX: view.centerXAnchor, width: view.frame.size.width-40, height: 400)
     }
     
-    // MARK: - Bindings
+    // MARK: - Setup & Bindings
     
-    func recordFormBind() {
+    private func setupKeyboardAndView() {
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
+                    .subscribe({ notification in
+                        if let element = notification.element {
+                            self.keyboardwillShow(element)
+                        }
+                    })
+                    .disposed(by: disposeBag)
+        
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+                    .subscribe({ notification in
+                        if let element = notification.element {
+                            self.keyboardWillHide(element)
+                        }
+                    })
+                    .disposed(by: disposeBag)
+    }
+    
+    private func keyboardwillShow(_ notification: Notification) {
+        guard let rect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+              let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        if (self.recordForm?.memoTextView.textView?.frame.maxY)! < rect.minY {
+            UIView.animate(withDuration: duration) {
+                let transform = CGAffineTransform(translationX: 0,
+                                                  y:  -rect.size.height + 200)
+                self.view.transform = transform
+            }
+        }
+    }
+    
+    private func keyboardWillHide(_ notification: Notification) {
+        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? TimeInterval else { return }
+        UIView.animate(withDuration: duration) {
+            self.view.transform = CGAffineTransform.identity
+        }
+    }
+    
+    private func recordFormBind() {
         recordForm = RecordFormView()
         recordForm?.alpha = 0
         view.addSubview(recordForm!)
@@ -87,8 +122,7 @@ class HomeViewController: UIViewController, ViewControllerDelegate, UITextFieldD
         }).disposed(by: disposeBag)
     }
     
-    
-    func footerBind() {
+    private func footerBind() {
         footer = PublicFooterView(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: 100))
         view.addSubview(footer!)
         footer?.addWorkoutButton.rx.tap.asDriver().drive(onNext: { [weak self] in
@@ -141,7 +175,7 @@ class HomeViewController: UIViewController, ViewControllerDelegate, UITextFieldD
         }).disposed(by: disposeBag)
     }
     
-    func setUpCalender() {
+    private func setUpCalender() {
         calender = FSCalendar()
         calender.scrollDirection = .horizontal
         calender.scope = .month
@@ -159,9 +193,10 @@ class HomeViewController: UIViewController, ViewControllerDelegate, UITextFieldD
         calender.appearance.titleDefaultColor = .black
         calender.delegate = self
         calender.dataSource = self
+        
+        view.addSubview(calender)
     }
     
-    // MARK: - setupTextFields
     private func setupTextFields() {
         // targetPartTextField
         let targetPartPicker = UIPickerView()
