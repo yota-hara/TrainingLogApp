@@ -11,6 +11,11 @@ import UIKit
 
 class PublicFooterView: UIView {
     
+    let rectangleView1 = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 100))
+    let roundView1 = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 100))
+    let rectangleView2 = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 100))
+    let roundView2 = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 100))
+    
     let homeButton = FooterButtonView(frame: .zero, width: 50, imageName: "house.fill", text: "ホーム", labelWidth: 30)
     let recordWorkoutButton = FooterButtonView(frame: .zero, width: 50, imageName: "book.fill", text: "記録", labelWidth: 30)
     let registerMenuButton = FooterButtonView(frame: .zero, width: 50, imageName: "tablecells.fill", text: "種目", labelWidth: 30)
@@ -29,17 +34,36 @@ class PublicFooterView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         clipsToBounds = true
+        backgroundColor = .clear
 
+        
         let stackView = UIStackView(arrangedSubviews: [homeButton, recordWorkoutButton, registerMenuButton, settingsButton])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
+        addSubview(rectangleView1)
+        addSubview(roundView1)
+        addSubview(rectangleView2)
+        addSubview(roundView2)
         addSubview(stackView)
         addSubview(addWorkoutButton)
-        stackView.anchor(top: topAnchor, bottom: bottomAnchor, left: leftAnchor, right: rightAnchor, topPadding: 25, leftPadding: 10, rightPadding: 10)
-        addWorkoutButton.anchor(bottom: stackView.topAnchor, centerX: centerXAnchor, width: 50, height: 50, bottomPadding: -25)
+        
+        rectangleView1.anchor(bottom: bottomAnchor, centerX: centerXAnchor, width: frame.width, height: 80)
+        roundView1.anchor(centerY: rectangleView2.topAnchor, centerX: centerXAnchor, width: 70, height: 70)
+        rectangleView2.anchor(bottom: bottomAnchor, centerX: centerXAnchor, width: frame.width, height: 75)
+        roundView2.anchor(centerY: rectangleView2.topAnchor, centerX: centerXAnchor, width: 60, height: 60)
+        
+        stackView.anchor(top: rectangleView1.topAnchor, bottom: bottomAnchor, left: leftAnchor, right: rightAnchor, leftPadding: 10, rightPadding: 10)
+        addWorkoutButton.anchor(centerY: rectangleView2.topAnchor, centerX: centerXAnchor, width: 50, height: 50)
+        
+        rectangleView1.backgroundColor = .orange
+        roundView1.layer.backgroundColor = UIColor.orange.cgColor
+        roundView1.layer.cornerRadius = 70 / 2
+        rectangleView2.backgroundColor = .white
+        roundView2.layer.backgroundColor = UIColor.white.cgColor
+        roundView2.layer.cornerRadius = 60 / 2
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -47,7 +47,7 @@ class HomeViewController: UIViewController, ViewControllerDelegate, UITextFieldD
         super.viewDidLayoutSubviews()
         
         calender.frame = CGRect(x: 0, y: view.safeAreaInsets.top, width: view.frame.width, height: 300)
-        footer?.anchor(bottom: view.bottomAnchor, left: view.leftAnchor, width: view.frame.size.width, height: 100)
+        footer?.anchor(bottom: view.bottomAnchor, left: view.leftAnchor, width: view.frame.size.width, height: 130)
         recordForm?.anchor(centerY: view.centerYAnchor, centerX: view.centerXAnchor, width: view.frame.size.width-40, height: 400)
     }
     
