@@ -24,6 +24,8 @@
 		A14DCA162919D02700FBC7B7 /* FormValidateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA132919D02700FBC7B7 /* FormValidateViewModel.swift */; };
 		A14DCA172919D02700FBC7B7 /* WorkoutMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA142919D02700FBC7B7 /* WorkoutMenuViewModel.swift */; };
 		A14DCA182919D02700FBC7B7 /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA152919D02700FBC7B7 /* WorkoutViewModel.swift */; };
+		A14EC1C9291CC258003EF5E5 /* WorkoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14EC1C8291CC258003EF5E5 /* WorkoutCell.swift */; };
+		A14EC1CB291CC4DB003EF5E5 /* WorkoutCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14EC1CA291CC4DB003EF5E5 /* WorkoutCellViewModel.swift */; };
 		A16E3D6429196A72005BD52D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16E3D6329196A72005BD52D /* AppDelegate.swift */; };
 		A16E3D6629196A72005BD52D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16E3D6529196A72005BD52D /* SceneDelegate.swift */; };
 		A16E3D6B29196A72005BD52D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A16E3D6929196A72005BD52D /* Main.storyboard */; };
@@ -51,6 +53,8 @@
 		A14DCA132919D02700FBC7B7 /* FormValidateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValidateViewModel.swift; sourceTree = "<group>"; };
 		A14DCA142919D02700FBC7B7 /* WorkoutMenuViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutMenuViewModel.swift; sourceTree = "<group>"; };
 		A14DCA152919D02700FBC7B7 /* WorkoutViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
+		A14EC1C8291CC258003EF5E5 /* WorkoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCell.swift; sourceTree = "<group>"; };
+		A14EC1CA291CC4DB003EF5E5 /* WorkoutCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutCellViewModel.swift; sourceTree = "<group>"; };
 		A16E3D6029196A72005BD52D /* TrainingLogApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainingLogApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A16E3D6329196A72005BD52D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A16E3D6529196A72005BD52D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +125,7 @@
 				A14DCA132919D02700FBC7B7 /* FormValidateViewModel.swift */,
 				A14DCA142919D02700FBC7B7 /* WorkoutMenuViewModel.swift */,
 				A14DCA152919D02700FBC7B7 /* WorkoutViewModel.swift */,
+				A14EC1CA291CC4DB003EF5E5 /* WorkoutCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -166,6 +171,7 @@
 			children = (
 				A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */,
 				A14DCA0A2919D01600FBC7B7 /* RecordFormView.swift */,
+				A14EC1C8291CC258003EF5E5 /* WorkoutCell.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -301,10 +307,12 @@
 				A1BEC040291BD43400CF8DB3 /* BaseViewController.swift in Sources */,
 				A14DCA182919D02700FBC7B7 /* WorkoutViewModel.swift in Sources */,
 				A14DC9F82919D00400FBC7B7 /* UIColor-Extension.swift in Sources */,
+				A14EC1CB291CC4DB003EF5E5 /* WorkoutCellViewModel.swift in Sources */,
 				A14DC9FA2919D00400FBC7B7 /* UIView-Extension.swift in Sources */,
 				A14DCA162919D02700FBC7B7 /* FormValidateViewModel.swift in Sources */,
 				A14DCA172919D02700FBC7B7 /* WorkoutMenuViewModel.swift in Sources */,
 				A14DC9FF2919D00C00FBC7B7 /* RealmModel.swift in Sources */,
+				A14EC1C9291CC258003EF5E5 /* WorkoutCell.swift in Sources */,
 				A14DC9FB2919D00400FBC7B7 /* UIImage-Extension.swift in Sources */,
 				A14DCA112919D01600FBC7B7 /* RecordFormView.swift in Sources */,
 				A14DCA0E2919D01600FBC7B7 /* PublicFooterView.swift in Sources */,

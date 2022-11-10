@@ -15,6 +15,7 @@ class RealmModel {
         realm.beginWrite()
         realm.add(workout.toRealmObject())
         try! realm.commitWrite()
+        print(#function)
     }
     
     public func deleteWorkout(with workout: WorkoutObject) {
@@ -42,5 +43,3 @@ class RealmModel {
         return workoutArray
     }
 }
-
-
