@@ -17,8 +17,9 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
     private var selectTarget = 0
     private var recordForm: RecordFormView?
     private var footer: PublicFooterView?
-    private var viewModel: FormValidateViewModel?
-    private var workoutMenuViewModel: WorkoutMenuViewModel?
+    private var validationviewModel: FormValidateViewModel?
+    private var menuViewModel: WorkoutMenuViewModel?
+    private var workoutViewModel: WorkoutViewModel?
     private let disposeBag = DisposeBag()
     private var vcView: UIView?
     private var childVC: UIViewController?
@@ -27,8 +28,9 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        workoutMenuViewModel = WorkoutMenuViewModel()
-        viewModel = FormValidateViewModel()
+        menuViewModel = WorkoutMenuViewModel()
+        workoutViewModel = WorkoutViewModel()
+        validationviewModel = FormValidateViewModel()
 
         setupChildVC()
         footerBind()
@@ -113,29 +115,29 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         setupTextFields()
         
         recordForm?.targetPartTextField.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
-            self?.viewModel?.targetTextInput.onNext(text ?? "")
+            self?.validationviewModel?.targetTextInput.onNext(text ?? "")
         }).disposed(by: disposeBag)
         
         recordForm?.workoutNameTextField.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
-            self?.viewModel?.workoutTextInput.onNext(text ?? "")
+            self?.validationviewModel?.workoutTextInput.onNext(text ?? "")
         }).disposed(by: disposeBag)
         
         recordForm?.weightTextField.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
-            self?.viewModel?.weightTextInput.onNext(text ?? "")
+            self?.validationviewModel?.weightTextInput.onNext(text ?? "")
         }).disposed(by: disposeBag)
         
         recordForm?.repsTextField.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
-            self?.viewModel?.repsTextInput.onNext(text ?? "")
+            self?.validationviewModel?.repsTextInput.onNext(text ?? "")
         }).disposed(by: disposeBag)
         
-        viewModel?.validRegisterDriver.drive(onNext: { validAll in
+        validationviewModel?.validRegisterDriver.drive(onNext: { validAll in
             self.recordForm?.registerButton.isEnabled = validAll
             self.recordForm?.registerButton.layer.backgroundColor = validAll ? UIColor.orange.cgColor : UIColor.gray.cgColor
         }).disposed(by: disposeBag)
 
         recordForm?.registerButton.rx.tap.asDriver().drive(onNext: { [weak self] _ in
+            self?.registerWorkout()
             self?.RecordFormDisappear()
-            print("buttonTapped")
         }).disposed(by: disposeBag)
         
         recordForm?.clearButton.rx.tap.asDriver().drive(onNext: { [weak self] _ in
@@ -145,6 +147,20 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
             self?.recordForm?.repsTextField.textField?.text = ""
             self?.recordForm?.memoTextView.textView?.text = ""
         }).disposed(by: disposeBag)
+    }
+    
+    private func registerWorkout() {
+        let target = recordForm?.targetPartTextField.textField?.text!
+        let workoutName = recordForm?.workoutNameTextField.textField?.text!
+        let weight = recordForm?.weightTextField.textField?.text!
+        let reps = recordForm?.repsTextField.textField?.text!
+        let memo = recordForm?.memoTextView.textView?.text!
+        
+        workoutViewModel?.onTapRegister(target: target!,
+                                        workoutName: workoutName!,
+                                        weight: weight!,
+                                        reps: reps!,
+                                        memo: memo!)
     }
     
     private func RecordFormDisappear() {
@@ -335,8 +351,8 @@ extension BaseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
         switch pickerView.tag {
-        case 1: return (workoutMenuViewModel?.workoutMenuArray.count)!
-        case 2: return (workoutMenuViewModel?.workoutMenuArray[selectTarget].workoutNames.count)!
+        case 1: return (menuViewModel?.workoutMenuArray.count)!
+        case 2: return (menuViewModel?.workoutMenuArray[selectTarget].workoutNames.count)!
         default: fatalError()
         }
     }
@@ -345,9 +361,9 @@ extension BaseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         switch pickerView.tag {
         case 1:
             selectTarget = row
-            return workoutMenuViewModel?.workoutMenuArray[row].targetPart
+            return menuViewModel?.workoutMenuArray[row].targetPart
         case 2:
-            return workoutMenuViewModel?.workoutMenuArray[selectTarget].workoutNames[row].workoutName
+            return menuViewModel?.workoutMenuArray[selectTarget].workoutNames[row].workoutName
         default: fatalError()
         }
     }
@@ -355,19 +371,19 @@ extension BaseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView.tag {
         case 1:
-            recordForm?.targetPartTextField.textField!.text = workoutMenuViewModel?
+            recordForm?.targetPartTextField.textField!.text = menuViewModel?
                 .workoutMenuArray[row].targetPart
             
             if recordForm?.targetPartTextField.textField!.text == nil {
-                recordForm?.targetPartTextField.textField!.text = workoutMenuViewModel?
+                recordForm?.targetPartTextField.textField!.text = menuViewModel?
                     .workoutMenuArray[0].targetPart
             }
         case 2:
-            recordForm?.workoutNameTextField.textField!.text = workoutMenuViewModel?
+            recordForm?.workoutNameTextField.textField!.text = menuViewModel?
                 .workoutMenuArray[selectTarget].workoutNames[row].workoutName
             
             if recordForm?.targetPartTextField.textField!.text == nil {
-                recordForm?.targetPartTextField.textField!.text = workoutMenuViewModel?
+                recordForm?.targetPartTextField.textField!.text = menuViewModel?
                     .workoutMenuArray[selectTarget].workoutNames[0].workoutName
             }
         default: fatalError()

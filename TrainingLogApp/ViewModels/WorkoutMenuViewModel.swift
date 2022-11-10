@@ -8,10 +8,6 @@
 import Foundation
 import RealmSwift
 
-
-
-
-
 class WorkoutMenuViewModel {
     
     var workoutMenuArray: [WorkoutMenu] = []

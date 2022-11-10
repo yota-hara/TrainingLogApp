@@ -13,7 +13,8 @@ class RecordWorkoutController: UIViewController {
     
     // MARK: - Properties & UIParts
     
-    var workoutMenuViewModel: WorkoutMenuViewModel?
+    var menuViewModel: WorkoutMenuViewModel?
+    var workoutModel: WorkoutViewModel?
     private let disposeBag = DisposeBag()
     
     // MARK: - LifeCycles
@@ -21,7 +22,10 @@ class RecordWorkoutController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .red
-        workoutMenuViewModel = WorkoutMenuViewModel()
+        menuViewModel = WorkoutMenuViewModel()
+        workoutModel = WorkoutViewModel()
+        
+        print(workoutModel?.viewDidLoad())
     }
     
     override func viewDidLayoutSubviews() {
