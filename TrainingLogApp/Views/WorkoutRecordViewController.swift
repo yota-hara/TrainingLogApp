@@ -9,17 +9,17 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class RecordWorkoutController: UIViewController {
+class WorkoutRecordController: UIViewController {
     
     // MARK: - Properties & UIParts
     
     var menuViewModel: WorkoutMenuViewModel?
-    var workoutViewModel: WorkoutViewModel?
+    var workoutViewModel: WorkoutRecordViewModel?
     private let disposeBag = DisposeBag()
     
     let workoutTableView: UITableView = {
         let table = UITableView()
-        table.register(WorkoutCell.self, forCellReuseIdentifier: WorkoutCell.identifier)
+        table.register(WorkoutRecordCell.self, forCellReuseIdentifier: WorkoutRecordCell.identifier)
        return table
     }()
     
@@ -28,7 +28,7 @@ class RecordWorkoutController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         menuViewModel = WorkoutMenuViewModel()
-        workoutViewModel = WorkoutViewModel()
+        workoutViewModel = WorkoutRecordViewModel()
         
         view.addSubview(workoutTableView)
         workoutTableView.delegate = self
@@ -45,14 +45,14 @@ class RecordWorkoutController: UIViewController {
     
     func workoutBind() {
         workoutViewModel?.workoutCellViewModels
-            .bind(to: workoutTableView.rx.items(cellIdentifier: WorkoutCell.identifier,
-                                                cellType: WorkoutCell.self)) { row, cellViewModel, cell in
-                cell.configure(viewModel: cellViewModel, row: row)
+            .bind(to: workoutTableView.rx.items(cellIdentifier: WorkoutRecordCell.identifier,
+                                                cellType: WorkoutRecordCell.self)) { row, cellViewModel, cell in
+                cell.configure(viewModel: cellViewModel)
             }.disposed(by: disposeBag)
     }
 }
 
-extension RecordWorkoutController: UITableViewDelegate {
+extension WorkoutRecordController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85

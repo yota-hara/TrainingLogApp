@@ -7,11 +7,10 @@
 
 import RxSwift
 import RxRelay
-import Accessibility
 
-class WorkoutViewModel {
+class WorkoutRecordViewModel {
     
-    var workoutCellViewModels = BehaviorRelay<[WorkoutCellViewModel]>(value: [])
+    var workoutCellViewModels = BehaviorRelay<[WorkoutRecordCellViewModel]>(value: [])
     let model = RealmModel()
     
     func onTapRegister(target: String, workoutName: String, weight: String, reps: String, memo: String) {
@@ -23,13 +22,13 @@ class WorkoutViewModel {
         workout.volume = Double(Double(weight)! * Double(reps)!)
         workout.memo = memo
         
-        let workoutCellViewModel = WorkoutCellViewModel(workoutObject: workout)
+        let workoutCellViewModel = WorkoutRecordCellViewModel(workoutObject: workout)
         workoutCellViewModels.accept([workoutCellViewModel])
         model.saveWorkout(with: workout)
     }
 
     func viewDidLoad(){
-        let workoutArray = model.getWorkout().map { WorkoutCellViewModel(workoutObject: $0)}
+        let workoutArray = model.getWorkout().map { WorkoutRecordCellViewModel(workoutObject: $0)}
         workoutCellViewModels.accept(workoutArray)
     }
 }

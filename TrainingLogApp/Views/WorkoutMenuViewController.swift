@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class RegisterMenuController: UIViewController {
+class WorkoutMenuViewController: UIViewController {
     
     // MARK: - Properties & UIParts
     

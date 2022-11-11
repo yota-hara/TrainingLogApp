@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import FSCalendar
 
 class BaseViewController: UIViewController, UITextFieldDelegate {
     
@@ -16,24 +17,26 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
     
     private var selectTarget = 0
     private var recordForm: RecordFormView?
-    private var footer: PublicFooterView?
-    private var validationviewModel: FormValidateViewModel?
-    private var menuViewModel: WorkoutMenuViewModel?
-    private var workoutViewModel: WorkoutViewModel?
-    private let disposeBag = DisposeBag()
+    private var footer: TabButtonFooterView?
     private var vcView: UIView?
     private var childVC: UIViewController?
     
+    private var validationViewModel: FormValidateViewModel?
+    private var menuViewModel: WorkoutMenuViewModel?
+    private var recordViewModel: WorkoutRecordViewModel?
+    
+    private let disposeBag = DisposeBag()
+
     // MARK: - LifeCycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
         menuViewModel = WorkoutMenuViewModel()
-        workoutViewModel = WorkoutViewModel()
-        validationviewModel = FormValidateViewModel()
+        recordViewModel = WorkoutRecordViewModel()
+        validationViewModel = FormValidateViewModel()
 
         setupChildVC()
-        footerBind()
+        setupFooter()
         recordFormBind()
         setupKeyboardAndView()
     }
@@ -41,7 +44,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        vcView!.anchor(top: view.topAnchor, bottom: footer?.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
+        vcView!.anchor(top: view.topAnchor, bottom: footer?.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottomPadding: -40)
         
         footer?.anchor(bottom: view.bottomAnchor, left: view.leftAnchor, width: view.frame.size.width, height: 130)
         recordForm?.anchor(centerY: view.centerYAnchor, centerX: view.centerXAnchor, width: view.frame.size.width-40, height: 400)
@@ -59,11 +62,11 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         homeVC.didMove(toParent: self)
         childVC = homeVC
         
-        let recordWorkoutVC = RecordWorkoutController()
-        recordWorkoutVC.view.frame = vcView!.frame
+        let recordVC = WorkoutRecordController()
+        recordVC.view.frame = vcView!.frame
 
-        let registerMenuVC = RegisterMenuController()
-        registerMenuVC.view.frame = vcView!.frame
+        let menuVC = WorkoutMenuViewController()
+        menuVC.view.frame = vcView!.frame
         
         let settingVC = SettingViewController()
         settingVC.view.frame = vcView!.frame
@@ -92,12 +95,10 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
     private func keyboardwillShow(_ notification: Notification) {
         guard let rect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
               let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
-        if (self.recordForm?.memoTextView.textView?.frame.maxY)! < rect.minY {
             UIView.animate(withDuration: duration) {
                 let transform = CGAffineTransform(translationX: 0,
                                                   y:  -rect.size.height + 200)
                 self.view.transform = transform
-            }
         }
     }
     
@@ -115,22 +116,22 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         setupTextFields()
         
         recordForm?.targetPartTextField.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
-            self?.validationviewModel?.targetTextInput.onNext(text ?? "")
+            self?.validationViewModel?.targetTextInput.onNext(text ?? "")
         }).disposed(by: disposeBag)
         
         recordForm?.workoutNameTextField.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
-            self?.validationviewModel?.workoutTextInput.onNext(text ?? "")
+            self?.validationViewModel?.workoutTextInput.onNext(text ?? "")
         }).disposed(by: disposeBag)
         
         recordForm?.weightTextField.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
-            self?.validationviewModel?.weightTextInput.onNext(text ?? "")
+            self?.validationViewModel?.weightTextInput.onNext(text ?? "")
         }).disposed(by: disposeBag)
         
         recordForm?.repsTextField.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
-            self?.validationviewModel?.repsTextInput.onNext(text ?? "")
+            self?.validationViewModel?.repsTextInput.onNext(text ?? "")
         }).disposed(by: disposeBag)
         
-        validationviewModel?.validRegisterDriver.drive(onNext: { validAll in
+        validationViewModel?.validRegisterDriver.drive(onNext: { validAll in
             self.recordForm?.registerButton.isEnabled = validAll
             self.recordForm?.registerButton.layer.backgroundColor = validAll ? UIColor.orange.cgColor : UIColor.gray.cgColor
         }).disposed(by: disposeBag)
@@ -156,7 +157,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         let reps = recordForm?.repsTextField.textField?.text!
         let memo = recordForm?.memoTextView.textView?.text!
         
-        workoutViewModel?.onTapRegister(target: target!,
+        recordViewModel?.onTapRegister(target: target!,
                                         workoutName: workoutName!,
                                         weight: weight!,
                                         reps: reps!,
@@ -166,28 +167,28 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
     private func RecordFormDisappear() {
         UIView.animate(withDuration: 0.4, delay: 0.1, options: UIView.AnimationOptions.allowUserInteraction, animations: {
             self.recordForm?.alpha = 0
-            self.footer?.addWorkoutButton.setImage(UIImage(systemName: "plus"), for: .normal)
-            self.footer?.addWorkoutButton.backgroundColor = .orange
+            self.footer?.registerButton!.setImage(UIImage(systemName: "plus"), for: .normal)
+            self.footer?.registerButton!.backgroundColor = .orange
         })
     }
     
-    private func footerBind() {
-        footer = PublicFooterView(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: 100))
+    private func setupFooter() {
+        footer = TabButtonFooterView(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: 100))
         view.addSubview(footer!)
-        footer?.addWorkoutButton.rx.tap.asDriver().drive(onNext: { [weak self] in
+        footer?.registerButton!.rx.tap.asDriver().drive(onNext: { [weak self] in
             switch self?.recordForm?.alpha {
             case 0:
                 UIView.animate(withDuration: 0.7, delay: 0.1, options: UIView.AnimationOptions.allowUserInteraction, animations: {
                     self?.recordForm?.alpha = 1
                 })
-                self?.footer?.addWorkoutButton.setImage(UIImage(systemName: "multiply"), for: .normal)
-                self?.footer?.addWorkoutButton.backgroundColor = .systemMint
+                self?.footer?.registerButton!.setImage(UIImage(systemName: "multiply"), for: .normal)
+                self?.footer?.registerButton!.backgroundColor = .systemMint
             case 1:
                 UIView.animate(withDuration: 0.7, delay: 0.1, options: UIView.AnimationOptions.allowUserInteraction, animations: {
                     self?.recordForm?.alpha = 0
                 })
-                self?.footer?.addWorkoutButton.setImage(UIImage(systemName: "plus"), for: .normal)
-                self?.footer?.addWorkoutButton.backgroundColor = .orange
+                self?.footer?.registerButton!.setImage(UIImage(systemName: "plus"), for: .normal)
+                self?.footer?.registerButton!.backgroundColor = .orange
             case .none:
                 break
             case .some(_):
@@ -195,7 +196,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
             }
         }).disposed(by: disposeBag)
         
-        footer?.homeButton.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
+        footer?.homeButton!.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
             let homeVC = HomeViewController()
             
             if self?.childVC != homeVC {
@@ -210,8 +211,8 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
               }
         }).disposed(by: disposeBag)
         
-        footer?.recordWorkoutButton.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
-            let recordVC = RecordWorkoutController()
+        footer?.recordButton!.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
+            let recordVC = WorkoutRecordController()
             if self?.childVC != recordVC {
                 self?.childVC!.willMove(toParent: nil)
                 self?.childVC!.view.removeFromSuperview()
@@ -224,21 +225,21 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
               }
         }).disposed(by: disposeBag)
         
-        footer?.registerMenuButton.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
-            let registerVC = RegisterMenuController()
-            if self?.childVC != registerVC {
+        footer?.menuButton!.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
+            let menuVC = WorkoutMenuViewController()
+            if self?.childVC != menuVC {
                 self?.childVC!.willMove(toParent: nil)
                 self?.childVC!.view.removeFromSuperview()
                 self?.childVC!.removeFromParent()
-                self?.addChild(registerVC)
-                self?.vcView!.addSubview(registerVC.view)
-                registerVC.didMove(toParent: self)
-                self?.childVC = registerVC
+                self?.addChild(menuVC)
+                self?.vcView!.addSubview(menuVC.view)
+                menuVC.didMove(toParent: self)
+                self?.childVC = menuVC
                 self?.RecordFormDisappear()
               }
         }).disposed(by: disposeBag)
         
-        footer?.settingsButton.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
+        footer?.settingsButton!.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
             let settingVC = SettingViewController()
             if self?.childVC != settingVC {
                 self?.childVC!.willMove(toParent: nil)
@@ -262,9 +263,12 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         recordForm?.targetPartTextField.textField!.inputView = targetPartPicker
         let targetPartToolbar = UIToolbar()
         targetPartToolbar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
-        let space1 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButtonItem1 = UIBarButtonItem(title: "次へ", style: .done, target: self, action: #selector(donePicker1))
-        targetPartToolbar.setItems([space1, doneButtonItem1], animated: true)
+        let targetSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let targetDoneButtonItem = UIBarButtonItem(title: "次へ",
+                                                   style: .done,
+                                                   target: self,
+                                                   action: #selector(targetDonePicker))
+        targetPartToolbar.setItems([targetSpace, targetDoneButtonItem], animated: true)
         recordForm?.targetPartTextField.textField!.inputAccessoryView = targetPartToolbar
         recordForm?.targetPartTextField.textField!.delegate = self
         
@@ -276,9 +280,12 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         recordForm?.workoutNameTextField.textField!.inputView = workoutNamePicker
         let workoutNameToolbar = UIToolbar()
         workoutNameToolbar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
-        let space2 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButtonItem2 = UIBarButtonItem(title: "次へ", style: .done, target: self, action: #selector(donePicker2))
-        workoutNameToolbar.setItems([space2, doneButtonItem2], animated: true)
+        let workoutNameSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let workoutNameDoneButtonItem = UIBarButtonItem(title: "次へ",
+                                                        style: .done,
+                                                        target: self,
+                                                        action: #selector(workoutNameDonePicker))
+        workoutNameToolbar.setItems([workoutNameSpace, workoutNameDoneButtonItem], animated: true)
         recordForm?.workoutNameTextField.textField!.inputAccessoryView = workoutNameToolbar
         recordForm?.workoutNameTextField.textField!.delegate = self
         
@@ -286,9 +293,12 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         recordForm?.weightTextField.textField!.keyboardType = .decimalPad
         let weightToolbar = UIToolbar()
         weightToolbar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
-        let space3 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButtonItem3 = UIBarButtonItem(title: "次へ", style: .done, target: self, action: #selector(donePicker3))
-        weightToolbar.setItems([space3, doneButtonItem3], animated: true)
+        let weightSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let weightDoneButtonItem = UIBarButtonItem(title: "次へ",
+                                                   style: .done,
+                                                   target: self,
+                                                   action: #selector(weightDonePicker))
+        weightToolbar.setItems([weightSpace, weightDoneButtonItem], animated: true)
         recordForm?.weightTextField.textField!.inputAccessoryView = weightToolbar
         recordForm?.weightTextField.textField!.delegate = self
         
@@ -296,9 +306,12 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         recordForm?.repsTextField.textField!.keyboardType = .numberPad
         let repsToolbar = UIToolbar()
         repsToolbar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
-        let space4 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButtonItem4 = UIBarButtonItem(title: "次へ", style: .done, target: self, action: #selector(donePicker4))
-        repsToolbar.setItems([space4, doneButtonItem4], animated: true)
+        let repsSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let repsDoneButtonItem = UIBarButtonItem(title: "次へ",
+                                                 style: .done,
+                                                 target: self,
+                                                 action: #selector(repsDonePicker))
+        repsToolbar.setItems([repsSpace, repsDoneButtonItem], animated: true)
         recordForm?.repsTextField.textField!.inputAccessoryView = repsToolbar
         recordForm?.repsTextField.textField!.delegate = self
         
@@ -307,25 +320,28 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         let memoToolbar = UIToolbar()
         memoToolbar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
         let space5 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButtonItem5 = UIBarButtonItem(title: "OK", style: .done, target: self, action: #selector(donePicker5))
+        let doneButtonItem5 = UIBarButtonItem(title: "OK",
+                                              style: .done,
+                                              target: self,
+                                              action: #selector(memoDonePicker))
         memoToolbar.setItems([space5, doneButtonItem5], animated: true)
         recordForm?.memoTextView.textView!.inputAccessoryView = memoToolbar
 
     }
     
-    @objc func donePicker1() {
+    @objc func targetDonePicker() {
         recordForm?.workoutNameTextField.textField!.becomeFirstResponder()
     }
-    @objc func donePicker2() {
+    @objc func workoutNameDonePicker() {
         recordForm?.weightTextField.textField!.becomeFirstResponder()
     }
-    @objc func donePicker3() {
+    @objc func weightDonePicker() {
         recordForm?.repsTextField.textField!.becomeFirstResponder()
     }
-    @objc func donePicker4() {
+    @objc func repsDonePicker() {
         recordForm?.memoTextView.textView!.becomeFirstResponder()
     }
-    @objc func donePicker5() {
+    @objc func memoDonePicker() {
         recordForm?.memoTextView.textView!.resignFirstResponder()
     }
     

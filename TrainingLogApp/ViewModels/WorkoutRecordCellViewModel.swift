@@ -7,13 +7,12 @@
 
 import RealmSwift
 
-class WorkoutCellViewModel {
+class WorkoutRecordCellViewModel {
     
     var workoutObject: WorkoutObject
-    
+
     init(workoutObject: WorkoutObject) {
         self.workoutObject = workoutObject
-        
     }
 }
  

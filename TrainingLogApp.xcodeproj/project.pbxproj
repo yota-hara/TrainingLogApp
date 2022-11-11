@@ -16,16 +16,16 @@
 		A14DC9FF2919D00C00FBC7B7 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9FD2919D00C00FBC7B7 /* RealmModel.swift */; };
 		A14DCA002919D00C00FBC7B7 /* ValidationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DC9FE2919D00C00FBC7B7 /* ValidationModel.swift */; };
 		A14DCA0B2919D01600FBC7B7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA022919D01600FBC7B7 /* SettingViewController.swift */; };
-		A14DCA0D2919D01600FBC7B7 /* RegisterMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */; };
-		A14DCA0E2919D01600FBC7B7 /* PublicFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */; };
-		A14DCA0F2919D01600FBC7B7 /* RecordWorkoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA082919D01600FBC7B7 /* RecordWorkoutController.swift */; };
+		A14DCA0D2919D01600FBC7B7 /* WorkoutMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA062919D01600FBC7B7 /* WorkoutMenuViewController.swift */; };
+		A14DCA0E2919D01600FBC7B7 /* TabButtonFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA072919D01600FBC7B7 /* TabButtonFooterView.swift */; };
+		A14DCA0F2919D01600FBC7B7 /* WorkoutRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA082919D01600FBC7B7 /* WorkoutRecordViewController.swift */; };
 		A14DCA102919D01600FBC7B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA092919D01600FBC7B7 /* HomeViewController.swift */; };
 		A14DCA112919D01600FBC7B7 /* RecordFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA0A2919D01600FBC7B7 /* RecordFormView.swift */; };
 		A14DCA162919D02700FBC7B7 /* FormValidateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA132919D02700FBC7B7 /* FormValidateViewModel.swift */; };
 		A14DCA172919D02700FBC7B7 /* WorkoutMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA142919D02700FBC7B7 /* WorkoutMenuViewModel.swift */; };
-		A14DCA182919D02700FBC7B7 /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA152919D02700FBC7B7 /* WorkoutViewModel.swift */; };
-		A14EC1C9291CC258003EF5E5 /* WorkoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14EC1C8291CC258003EF5E5 /* WorkoutCell.swift */; };
-		A14EC1CB291CC4DB003EF5E5 /* WorkoutCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14EC1CA291CC4DB003EF5E5 /* WorkoutCellViewModel.swift */; };
+		A14DCA182919D02700FBC7B7 /* WorkoutRecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14DCA152919D02700FBC7B7 /* WorkoutRecordViewModel.swift */; };
+		A14EC1C9291CC258003EF5E5 /* WorkoutRecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14EC1C8291CC258003EF5E5 /* WorkoutRecordCell.swift */; };
+		A14EC1CB291CC4DB003EF5E5 /* WorkoutRecordCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14EC1CA291CC4DB003EF5E5 /* WorkoutRecordCellViewModel.swift */; };
 		A16E3D6429196A72005BD52D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16E3D6329196A72005BD52D /* AppDelegate.swift */; };
 		A16E3D6629196A72005BD52D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16E3D6529196A72005BD52D /* SceneDelegate.swift */; };
 		A16E3D6B29196A72005BD52D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A16E3D6929196A72005BD52D /* Main.storyboard */; };
@@ -45,16 +45,16 @@
 		A14DC9FD2919D00C00FBC7B7 /* RealmModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 		A14DC9FE2919D00C00FBC7B7 /* ValidationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationModel.swift; sourceTree = "<group>"; };
 		A14DCA022919D01600FBC7B7 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterMenuController.swift; sourceTree = "<group>"; };
-		A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicFooterView.swift; sourceTree = "<group>"; };
-		A14DCA082919D01600FBC7B7 /* RecordWorkoutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordWorkoutController.swift; sourceTree = "<group>"; };
+		A14DCA062919D01600FBC7B7 /* WorkoutMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutMenuViewController.swift; sourceTree = "<group>"; };
+		A14DCA072919D01600FBC7B7 /* TabButtonFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabButtonFooterView.swift; sourceTree = "<group>"; };
+		A14DCA082919D01600FBC7B7 /* WorkoutRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutRecordViewController.swift; sourceTree = "<group>"; };
 		A14DCA092919D01600FBC7B7 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		A14DCA0A2919D01600FBC7B7 /* RecordFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordFormView.swift; sourceTree = "<group>"; };
 		A14DCA132919D02700FBC7B7 /* FormValidateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValidateViewModel.swift; sourceTree = "<group>"; };
 		A14DCA142919D02700FBC7B7 /* WorkoutMenuViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutMenuViewModel.swift; sourceTree = "<group>"; };
-		A14DCA152919D02700FBC7B7 /* WorkoutViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
-		A14EC1C8291CC258003EF5E5 /* WorkoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCell.swift; sourceTree = "<group>"; };
-		A14EC1CA291CC4DB003EF5E5 /* WorkoutCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutCellViewModel.swift; sourceTree = "<group>"; };
+		A14DCA152919D02700FBC7B7 /* WorkoutRecordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutRecordViewModel.swift; sourceTree = "<group>"; };
+		A14EC1C8291CC258003EF5E5 /* WorkoutRecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRecordCell.swift; sourceTree = "<group>"; };
+		A14EC1CA291CC4DB003EF5E5 /* WorkoutRecordCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutRecordCellViewModel.swift; sourceTree = "<group>"; };
 		A16E3D6029196A72005BD52D /* TrainingLogApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainingLogApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A16E3D6329196A72005BD52D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A16E3D6529196A72005BD52D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -111,8 +111,8 @@
 			children = (
 				A1BEC03F291BD43400CF8DB3 /* BaseViewController.swift */,
 				A14DCA092919D01600FBC7B7 /* HomeViewController.swift */,
-				A14DCA082919D01600FBC7B7 /* RecordWorkoutController.swift */,
-				A14DCA062919D01600FBC7B7 /* RegisterMenuController.swift */,
+				A14DCA082919D01600FBC7B7 /* WorkoutRecordViewController.swift */,
+				A14DCA062919D01600FBC7B7 /* WorkoutMenuViewController.swift */,
 				A14DCA022919D01600FBC7B7 /* SettingViewController.swift */,
 				A1BEC03E291BD3AD00CF8DB3 /* SubViews */,
 			);
@@ -124,8 +124,8 @@
 			children = (
 				A14DCA132919D02700FBC7B7 /* FormValidateViewModel.swift */,
 				A14DCA142919D02700FBC7B7 /* WorkoutMenuViewModel.swift */,
-				A14DCA152919D02700FBC7B7 /* WorkoutViewModel.swift */,
-				A14EC1CA291CC4DB003EF5E5 /* WorkoutCellViewModel.swift */,
+				A14DCA152919D02700FBC7B7 /* WorkoutRecordViewModel.swift */,
+				A14EC1CA291CC4DB003EF5E5 /* WorkoutRecordCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -169,9 +169,9 @@
 		A1BEC03E291BD3AD00CF8DB3 /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
-				A14DCA072919D01600FBC7B7 /* PublicFooterView.swift */,
+				A14DCA072919D01600FBC7B7 /* TabButtonFooterView.swift */,
 				A14DCA0A2919D01600FBC7B7 /* RecordFormView.swift */,
-				A14EC1C8291CC258003EF5E5 /* WorkoutCell.swift */,
+				A14EC1C8291CC258003EF5E5 /* WorkoutRecordCell.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -300,25 +300,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A14DCA0D2919D01600FBC7B7 /* RegisterMenuController.swift in Sources */,
+				A14DCA0D2919D01600FBC7B7 /* WorkoutMenuViewController.swift in Sources */,
 				A14DC9F22919CFFA00FBC7B7 /* RealmObject.swift in Sources */,
 				A14DCA0B2919D01600FBC7B7 /* SettingViewController.swift in Sources */,
 				A14DC9F92919D00400FBC7B7 /* DateUtils.swift in Sources */,
 				A1BEC040291BD43400CF8DB3 /* BaseViewController.swift in Sources */,
-				A14DCA182919D02700FBC7B7 /* WorkoutViewModel.swift in Sources */,
+				A14DCA182919D02700FBC7B7 /* WorkoutRecordViewModel.swift in Sources */,
 				A14DC9F82919D00400FBC7B7 /* UIColor-Extension.swift in Sources */,
-				A14EC1CB291CC4DB003EF5E5 /* WorkoutCellViewModel.swift in Sources */,
+				A14EC1CB291CC4DB003EF5E5 /* WorkoutRecordCellViewModel.swift in Sources */,
 				A14DC9FA2919D00400FBC7B7 /* UIView-Extension.swift in Sources */,
 				A14DCA162919D02700FBC7B7 /* FormValidateViewModel.swift in Sources */,
 				A14DCA172919D02700FBC7B7 /* WorkoutMenuViewModel.swift in Sources */,
 				A14DC9FF2919D00C00FBC7B7 /* RealmModel.swift in Sources */,
-				A14EC1C9291CC258003EF5E5 /* WorkoutCell.swift in Sources */,
+				A14EC1C9291CC258003EF5E5 /* WorkoutRecordCell.swift in Sources */,
 				A14DC9FB2919D00400FBC7B7 /* UIImage-Extension.swift in Sources */,
 				A14DCA112919D01600FBC7B7 /* RecordFormView.swift in Sources */,
-				A14DCA0E2919D01600FBC7B7 /* PublicFooterView.swift in Sources */,
+				A14DCA0E2919D01600FBC7B7 /* TabButtonFooterView.swift in Sources */,
 				A14DCA102919D01600FBC7B7 /* HomeViewController.swift in Sources */,
 				A14DCA002919D00C00FBC7B7 /* ValidationModel.swift in Sources */,
-				A14DCA0F2919D01600FBC7B7 /* RecordWorkoutController.swift in Sources */,
+				A14DCA0F2919D01600FBC7B7 /* WorkoutRecordViewController.swift in Sources */,
 				A16E3D6429196A72005BD52D /* AppDelegate.swift in Sources */,
 				A16E3D6629196A72005BD52D /* SceneDelegate.swift in Sources */,
 			);

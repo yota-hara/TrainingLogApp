@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WorkoutCell: UITableViewCell {
+class WorkoutRecordCell: UITableViewCell {
     
     static let identifier = "WorkoutCell"
     
@@ -94,7 +94,7 @@ class WorkoutCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(viewModel: WorkoutCellViewModel, row: Int) {
+    func configure(viewModel: WorkoutRecordCellViewModel) {
         let workoutObject = viewModel.workoutObject
         targetLabel.text = workoutObject.targetPart
         workoutLabel.text = workoutObject.workoutName
