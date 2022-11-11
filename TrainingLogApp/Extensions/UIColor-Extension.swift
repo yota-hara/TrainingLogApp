@@ -8,8 +8,6 @@ import UIKit
 
 extension UIColor {
     
-    static let frameColor = UIColor.darkGray
-
 convenience init?(hex: String) {
         var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")

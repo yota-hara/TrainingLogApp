@@ -14,9 +14,7 @@ class HomeViewController: UIViewController {
 
     // MARK: - Properties & UIParts
     
-    var viewModel: FormValidateViewModel?
-    var workoutMenuViewModel: WorkoutMenuViewModel?
-    var calender: FSCalendar!
+    var calender: FSCalendar?
     private let disposeBag = DisposeBag()
     
     
@@ -25,8 +23,6 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        workoutMenuViewModel = WorkoutMenuViewModel()
-        viewModel = FormValidateViewModel()
         
         setUpCalender()
     }
@@ -34,31 +30,31 @@ class HomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        calender.frame = CGRect(x: 0, y: view.safeAreaInsets.top, width: view.frame.width, height: 300)
+        calender?.frame = CGRect(x: 0, y: view.safeAreaInsets.top, width: view.frame.width, height: 300)
     }
     
     // MARK: - Setup & Bindings
         
     private func setUpCalender() {
         calender = FSCalendar()
-        calender.scrollDirection = .horizontal
-        calender.scope = .month
+        calender?.scrollDirection = .horizontal
+        calender?.scope = .month
         
-        calender.appearance.titleFont = UIFont.systemFont(ofSize: 14)
-        calender.appearance.headerTitleFont = UIFont.boldSystemFont(ofSize: 18)
-        calender.appearance.headerDateFormat = "yyyy年MM月"
-        calender.appearance.weekdayFont = UIFont.boldSystemFont(ofSize: 16)
+        calender?.appearance.titleFont = UIFont.systemFont(ofSize: 14)
+        calender?.appearance.headerTitleFont = UIFont.boldSystemFont(ofSize: 18)
+        calender?.appearance.headerDateFormat = "yyyy年MM月"
+        calender?.appearance.weekdayFont = UIFont.boldSystemFont(ofSize: 16)
         
-        calender.appearance.todayColor = .systemMint
-        calender.appearance.titleTodayColor = .white
-        calender.appearance.headerTitleColor = .black
-        calender.appearance.weekdayTextColor = .blue
-        calender.appearance.titleWeekendColor = .red
-        calender.appearance.titleDefaultColor = .black
-        calender.delegate = self
-        calender.dataSource = self
+        calender?.appearance.todayColor = .systemMint
+        calender?.appearance.titleTodayColor = .white
+        calender?.appearance.headerTitleColor = .black
+        calender?.appearance.weekdayTextColor = .blue
+        calender?.appearance.titleWeekendColor = .red
+        calender?.appearance.titleDefaultColor = .black
+        calender?.delegate = self
+        calender?.dataSource = self
         
-        view.addSubview(calender)
+        view.addSubview(calender!)
     }
   
 }

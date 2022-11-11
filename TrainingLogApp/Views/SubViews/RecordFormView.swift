@@ -9,64 +9,73 @@ import UIKit
 
 class RecordFormView: UIView, UITextFieldDelegate {
 
-    let titleLabel: UILabel = {
-       let label = UILabel()
-        label.text = "トレーニングを記録する"
-        label.textColor = UIColor.frameColor
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textAlignment = .center
-        label.layer.cornerRadius = 10
-        label.layer.borderColor = UIColor.frameColor.cgColor
-        label.layer.borderWidth = 4
-
-        return label
-    }()
+    let frameColor = UIColor.darkGray
+    var titleLabel: RecordTitleLabel?
     
-    let targetPartLabel = RecordLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30), text: "ターゲット部位")
-    let targetPartTextField = RecordTextField(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
-    
-    let workoutNameLabel = RecordLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30), text: "トレーニング種目")
-    let workoutNameTextField = RecordTextField(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
-    
-    let weightLabel = RecordLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30), text: "重量")
-    let weightTextField = RecordTextField(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
-    
-    let repsLabel = RecordLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30), text: "レップ数")
-    let repsTextField = RecordTextField(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
-    
-    let memoTextView = RecordMemoView(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
-    
-    let memoLabel = RecordLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30), text: "メモ")
-    
-    let registerButton = RecordButton(frame: CGRect(x: 0, y: 0, width: 100, height: 30), title: "記録", backgroundColor: .orange)
-
-    let clearButton = RecordButton(frame: CGRect(x: 0, y: 0, width: 100, height: 30), title: "クリア", backgroundColor: .systemMint)
+    var targetPartLabel: RecordLabel?
+    var targetPartTextField: RecordTextField?
+    var workoutNameLabel: RecordLabel?
+    var workoutNameTextField: RecordTextField?
+    var weightLabel: RecordLabel?
+    var weightTextField: RecordTextField?
+    var repsLabel: RecordLabel?
+    var repsTextField: RecordTextField?
+    var memoLabel: RecordLabel?
+    var memoTextView: RecordMemoView?
+    var registerButton: RecordButton?
+    var clearButton: RecordButton?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        
+        let mainBackgroundColor = UIColor.darkGray
+        let mainForegroundColor = UIColor.white
+        let buttonTintColor = UIColor.white
+        let registerColor = UIColor.orange
+        let clearColor = UIColor.systemMint
+        
+        self.backgroundColor = mainForegroundColor
         layer.cornerRadius = 20
         layer.shadowOffset = .init(width: 1.5, height: 2)
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0.5
         layer.shadowRadius = 15
+
+        titleLabel = RecordTitleLabel(frame: .zero, text: "トレーニングを記録する", backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
+        targetPartLabel = RecordLabel(frame: .zero, text: "ターゲット部位", backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
+        targetPartTextField = RecordTextField(frame: .zero, backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
+        workoutNameLabel = RecordLabel(frame: .zero, text: "トレーニング種目", backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
+        workoutNameTextField = RecordTextField(frame: .zero, backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
+        weightLabel = RecordLabel(frame: .zero, text: "重量", backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
+        weightTextField = RecordTextField(frame: .zero, backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
+        repsLabel = RecordLabel(frame: .zero, text: "レップ数", backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
+        repsTextField = RecordTextField(frame: .zero, backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
+        memoLabel = RecordLabel(frame: .zero, text: "メモ", backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
+        memoTextView = RecordMemoView(frame: .zero, backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
         
-        targetPartTextField.textField!.delegate = self
-        workoutNameTextField.textField!.delegate = self
+        registerButton = RecordButton(frame: .zero, title: "記録", backgroundColor: registerColor, tintColor: buttonTintColor)
+        clearButton = RecordButton(frame: .zero, title: "クリア", backgroundColor: clearColor, tintColor: buttonTintColor)
         
-        addSubview(titleLabel)
-        addSubview(targetPartLabel)
-        addSubview(targetPartTextField)
-        addSubview(workoutNameLabel)
-        addSubview(workoutNameTextField)
-        addSubview(weightLabel)
-        addSubview(weightTextField)
-        addSubview(repsLabel)
-        addSubview(repsTextField)
-        addSubview(memoTextView)
-        addSubview(memoLabel)
-        addSubview(registerButton)
-        addSubview(clearButton)
+        targetPartTextField?.textField!.delegate = self
+        workoutNameTextField?.textField!.delegate = self
+        
+        addSubviews()
+    }
+    
+    private func addSubviews() {
+        addSubview(titleLabel!)
+        addSubview(targetPartLabel!)
+        addSubview(targetPartTextField!)
+        addSubview(workoutNameLabel!)
+        addSubview(workoutNameTextField!)
+        addSubview(weightLabel!)
+        addSubview(weightTextField!)
+        addSubview(repsLabel!)
+        addSubview(repsTextField!)
+        addSubview(memoTextView!)
+        addSubview(memoLabel!)
+        addSubview(registerButton!)
+        addSubview(clearButton!)
     }
     
     required init?(coder: NSCoder) {
@@ -74,86 +83,106 @@ class RecordFormView: UIView, UITextFieldDelegate {
     }
     
     override func layoutSubviews() {
-        titleLabel.anchor(top: topAnchor,
-                                   centerX: centerXAnchor,
-                                   width: frame.size.width-110,
-                                   height: 36,
-                                   topPadding: 20)
         
-        targetPartLabel.anchor(top: titleLabel.bottomAnchor,
-                               left: targetPartTextField.leftAnchor,
+        let titleHeight: CGFloat = 36
+        let titleHorizontalPadding: CGFloat = 55
+        let titleVerticalPadding: CGFloat = 20
+        
+        let labelTopPadding: CGFloat = 10
+        let labelHeight: CGFloat = 18
+        
+        let textFieldHorizontalPadding: CGFloat = 40
+        let textFieldTopPadding: CGFloat = -2
+        let textFieldHeight: CGFloat = 30
+        
+        let shortTextFieldWidth: CGFloat = 100
+        
+        let buttonWidth: CGFloat = 80
+        let buttonHeight: CGFloat = 30
+        let buttonHorizontalPadding: CGFloat = 5
+        let buttonVerticalPadding: CGFloat = 20
+
+        
+        titleLabel?.anchor(top: topAnchor,
+                                   centerX: centerXAnchor,
+                                   width: frame.size.width - titleHorizontalPadding * 2,
+                                   height: titleHeight,
+                                   topPadding: titleVerticalPadding)
+        
+        targetPartLabel?.anchor(top: titleLabel!.bottomAnchor,
+                               left: targetPartTextField!.leftAnchor,
                                width: 100,
-                               height: 18,
-                               topPadding: 20)
+                               height: labelHeight,
+                               topPadding: titleVerticalPadding)
         
-        targetPartTextField.anchor(top: targetPartLabel.bottomAnchor,
+        targetPartTextField?.anchor(top: targetPartLabel!.bottomAnchor,
                                    centerX: centerXAnchor,
-                                   width: frame.size.width-80,
-                                   height: 30,
-                                   topPadding: -2)
+                                   width: frame.size.width - textFieldHorizontalPadding * 2,
+                                   height: textFieldHeight,
+                                   topPadding: textFieldTopPadding)
         
-        workoutNameLabel.anchor(top: targetPartTextField.bottomAnchor,
-                                left: targetPartTextField.leftAnchor,
+        workoutNameLabel?.anchor(top: targetPartTextField!.bottomAnchor,
+                                left: targetPartTextField!.leftAnchor,
                                 width: 110,
-                                height: 18,
-                                topPadding: 10)
+                                height: labelHeight,
+                                topPadding: labelTopPadding)
         
-        workoutNameTextField.anchor(top: workoutNameLabel.bottomAnchor,
+        workoutNameTextField?.anchor(top: workoutNameLabel!.bottomAnchor,
                                     centerX: centerXAnchor,
-                                    width: frame.size.width-80,
-                                    height: 30,
-                                    topPadding: -2)
+                                    width: frame.size.width - textFieldHorizontalPadding * 2,
+                                    height: textFieldHeight,
+                                    topPadding: textFieldTopPadding)
         
-        weightLabel.anchor(top: workoutNameTextField.bottomAnchor,
-                           left: targetPartTextField.leftAnchor,
+        weightLabel?.anchor(top: workoutNameTextField!.bottomAnchor,
+                           left: targetPartTextField!.leftAnchor,
                            width: 50,
-                           height: 18,
-                           topPadding: 10)
+                           height: labelHeight,
+                           topPadding: labelTopPadding)
         
-        weightTextField.anchor(top: weightLabel.bottomAnchor,
-                               left: targetPartTextField.leftAnchor,
-                               width: 100,
-                               height: 30,
-                               topPadding: -2)
+        weightTextField?.anchor(top: weightLabel!.bottomAnchor,
+                               left: targetPartTextField!.leftAnchor,
+                               width: shortTextFieldWidth,
+                               height: textFieldHeight,
+                               topPadding: textFieldTopPadding)
         
-        repsLabel.anchor(top: workoutNameTextField.bottomAnchor,
-                           left: repsTextField.leftAnchor,
+        repsLabel?.anchor(top: workoutNameTextField!.bottomAnchor,
+                           left: repsTextField!.leftAnchor,
                            width: 65,
-                           height: 18,
-                           topPadding: 10)
+                           height: labelHeight,
+                           topPadding: labelTopPadding)
         
-        repsTextField.anchor(top: weightLabel.bottomAnchor,
-                             right: targetPartTextField.rightAnchor,
-                             width: 100,
-                             height: 30,
-                             topPadding: -2)
+        repsTextField?.anchor(top: weightLabel!.bottomAnchor,
+                             right: targetPartTextField!.rightAnchor,
+                             width: shortTextFieldWidth,
+                             height: textFieldHeight,
+                             topPadding: textFieldTopPadding)
         
-        memoLabel.anchor(top: repsTextField.bottomAnchor,
-                         left: memoTextView.leftAnchor,
-                         width: 50,
-                         height: 18,
-                         topPadding: 10)
+        memoLabel?.anchor(top: repsTextField!.bottomAnchor,
+                          left: memoTextView!.leftAnchor,
+                          width: 50,
+                          height: labelHeight,
+                          topPadding: labelTopPadding)
         
-        memoTextView.anchor(top: memoLabel.bottomAnchor,
-                            bottom: registerButton.topAnchor,
-                            centerX: centerXAnchor,
-                            width: frame.size.width-80,
-                            topPadding: -2,
-                            bottomPadding: 20)
-                
-        registerButton.anchor(bottom: bottomAnchor,
-                              left: memoTextView.leftAnchor,
-                              width: 80,
-                              height: 30,
-                              bottomPadding: 20,
-                              leftPadding: 5)
+        memoTextView?.anchor(top: memoLabel!.bottomAnchor,
+                             bottom: registerButton!.topAnchor,
+                             centerX: centerXAnchor,
+                             width: frame.size.width - textFieldHorizontalPadding * 2,
+                             topPadding: textFieldTopPadding,
+                             bottomPadding: 20)
         
-        clearButton.anchor(bottom: bottomAnchor,
-                           right: memoTextView.rightAnchor,
-                           width: 80,
-                           height: 30,
-                           bottomPadding: 20,
-                           rightPadding: 5)
+        registerButton?.anchor(bottom: bottomAnchor,
+                               left: memoTextView!.leftAnchor,
+                               width: buttonWidth,
+                               height: buttonHeight,
+                               bottomPadding: buttonVerticalPadding,
+                               leftPadding: buttonHorizontalPadding)
+        
+        clearButton?.anchor(bottom: bottomAnchor,
+                            right: memoTextView!.rightAnchor,
+                            width: buttonWidth,
+                            height: buttonHeight,
+                            bottomPadding: buttonVerticalPadding,
+                            rightPadding: buttonHorizontalPadding)
     }
 }
 
@@ -163,15 +192,19 @@ class RecordTextField: UIView {
     
     var textField: UITextField?
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, backgroundColor: UIColor, foregroundColor: UIColor) {
         super.init(frame: frame)
-        layer.cornerRadius = 10
+        
+        let outerRadius: CGFloat = 10
+        let innerRadius: CGFloat = 8
+        
+        layer.cornerRadius = outerRadius
         layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        layer.backgroundColor = UIColor.frameColor.cgColor
+        layer.backgroundColor = backgroundColor.cgColor
         
         textField = UITextField()
-        textField?.layer.cornerRadius = 8
-        textField?.backgroundColor = .white
+        textField?.layer.cornerRadius = innerRadius
+        textField?.backgroundColor = foregroundColor
         textField?.textAlignment = .center
         addSubview(textField!)
     }
@@ -193,23 +226,51 @@ class RecordTextField: UIView {
     
 }
 
+class RecordTitleLabel: UILabel {
+    
+    init(frame: CGRect, text: String, backgroundColor: UIColor, foregroundColor: UIColor) {
+        super.init(frame: frame)
+        
+        let cornerRadius: CGFloat = 10
+        let borderWidth: CGFloat = 4
+        
+        self.text = "トレーニングを記録する"
+        self.textColor = backgroundColor
+        self.font = UIFont.boldSystemFont(ofSize: 20)
+        self.textAlignment = .center
+        self.layer.backgroundColor = foregroundColor.cgColor
+        self.layer.cornerRadius = cornerRadius
+        self.layer.borderColor = backgroundColor.cgColor
+        self.layer.borderWidth = borderWidth
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
 // MARK: - RecordLabel
 
 class RecordLabel: UIView {
     
     var label: UILabel?
     
-    init(frame: CGRect, text: String) {
+    init(frame: CGRect, text: String, backgroundColor: UIColor, foregroundColor: UIColor) {
         super.init(frame: frame)
-        layer.cornerRadius = 10
+        
+        let outerRadius: CGFloat = 10
+        let innerRadius: CGFloat = 8
+        
+        layer.cornerRadius = outerRadius
         layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        layer.backgroundColor = UIColor.frameColor.cgColor
+        layer.backgroundColor = backgroundColor.cgColor
         
         label = UILabel()
-        label?.layer.cornerRadius = 8
+        label?.layer.cornerRadius = innerRadius
         label?.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         label?.textAlignment = .center
-        label?.textColor = .white
+        label?.textColor = foregroundColor
         label?.text = text
         label?.font = UIFont.boldSystemFont(ofSize: 12)
         addSubview(label!)
@@ -234,16 +295,19 @@ class RecordLabel: UIView {
 class RecordMemoView: UIView {
     var textView: UITextView?
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, backgroundColor: UIColor, foregroundColor: UIColor) {
         super.init(frame: frame)
         
-        layer.backgroundColor = UIColor.frameColor.cgColor
-        layer.cornerRadius = 10
+        let outerRadius: CGFloat = 10
+        let innerRadius: CGFloat = 8
+        
+        layer.backgroundColor = backgroundColor.cgColor
+        layer.cornerRadius = outerRadius
         layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
         
         textView = UITextView()
-        textView?.layer.backgroundColor = UIColor.white.cgColor
-        textView?.layer.cornerRadius = 8
+        textView?.layer.backgroundColor = foregroundColor.cgColor
+        textView?.layer.cornerRadius = innerRadius
         addSubview(textView!)
     }
     
@@ -283,12 +347,15 @@ class RecordButton: UIButton {
         }
     }
     
-    init(frame: CGRect, title: String, backgroundColor: UIColor) {
+    init(frame: CGRect, title: String, backgroundColor: UIColor, tintColor: UIColor) {
         super.init(frame: frame)
+        
+        let cornerRadius: CGFloat = 10
+        
         setTitle(title, for: .normal)
         layer.backgroundColor = backgroundColor.cgColor
-        layer.cornerRadius = 8
-        tintColor = .white
+        layer.cornerRadius = cornerRadius
+        self.tintColor = tintColor
     }
     
     required init?(coder: NSCoder) {

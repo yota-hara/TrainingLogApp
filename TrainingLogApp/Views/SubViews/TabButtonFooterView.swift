@@ -92,7 +92,6 @@ class TabButtonFooterView: UIView {
         addSubview(menuButton!)
         addSubview(settingsButton!)
         addSubview(registerButton!)
-        homeButton?.button?.imageView?.tintColor = .orange
     }
     
     required init?(coder: NSCoder) {
@@ -180,10 +179,21 @@ class FooterButtonView: UIView {
                                             width: frame.size.width,
                                             height: frame.size.height - labelHeight))
         
+//        var config = UIButton.Configuration.plain()
+//        config.image = buttonImage
+//        config.imagePlacement = .top
+//        config.baseForegroundColor = .orange
+//        config.baseBackgroundColor = .orange
+//        config.title = labelText
+//        config.titleAlignment = .center
+//        config.title.
+//        button?.configuration = config
+        
         button?.setImage(buttonImage, for: .normal)
+        button?.configuration = .plain()
         button?.tintColor = foregroundColor
         button?.layer.backgroundColor = backgroundColor.cgColor
-        
+
         label = UILabel(frame: CGRect(x: button!.center.x - labelWidth / 2,
                                       y: (button?.frame.maxY)!,
                                       width: labelWidth,

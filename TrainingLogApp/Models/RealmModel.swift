@@ -30,14 +30,7 @@ class RealmModel {
         let realm = try! Realm()
         let workoutDataArray = realm.objects(WorkoutRealmObject.self)
         for realmObj in workoutDataArray {
-            var workout = WorkoutObject()
-            workout.targetPart = realmObj.targetPart
-            workout.workoutName = realmObj.workoutName
-            workout.weight = realmObj.weight
-            workout.reps = realmObj.reps
-            workout.doneAt = realmObj.doneAt
-            workout.volume = realmObj.volume
-            workout.memo = realmObj.memo
+            let workout = realmObj.toWorkoutObject()
             workoutArray.append(workout)
         }
         return workoutArray

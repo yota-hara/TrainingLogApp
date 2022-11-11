@@ -15,6 +15,18 @@ class WorkoutRealmObject: Object {
     @objc dynamic var doneAt: Date = Date()
     @objc dynamic var volume: Double = 1
     @objc dynamic var memo: String = ""
+    
+    func toWorkoutObject() -> WorkoutObject {
+        var workout = WorkoutObject()
+        workout.targetPart = self.targetPart
+        workout.workoutName = self.workoutName
+        workout.weight = self.weight
+        workout.reps = self.reps
+        workout.doneAt = self.doneAt
+        workout.volume = self.volume
+        workout.memo = self.memo
+        return workout
+    }
 }
 
 struct WorkoutObject {
