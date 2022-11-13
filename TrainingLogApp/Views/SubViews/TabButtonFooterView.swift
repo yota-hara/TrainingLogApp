@@ -30,7 +30,7 @@ class TabButtonFooterView: UIView {
         let buttonForegroundColor = UIColor.orange
         
         let lineWidth: CGFloat = 5 // fotter全体のボーダーの幅
-        let padding: CGFloat = 20
+        let padding: CGFloat = 10
         let buttonWidth: CGFloat = 60
         let buttonY: CGFloat = center.y
 
@@ -169,30 +169,24 @@ class FooterButtonView: UIView {
         
         let labelWidth: CGFloat = 40
         let labelHeight: CGFloat = 14
-        let magnification: CGFloat = 0.7 // ボタンイメージの拡大倍率
-        let buttonImage = UIImage(systemName: imageName)?
-            .resize(size: .init(width: frame.size.width * magnification,
-                                height: frame.size.width * magnification))
+        let buttonImage = UIImage(systemName: imageName)
+        let buttonMargin: CGFloat = 8
         
         button = FooterButton(frame: CGRect(x: 0,
                                             y: 0,
                                             width: frame.size.width,
                                             height: frame.size.height - labelHeight))
         
-//        var config = UIButton.Configuration.plain()
-//        config.image = buttonImage
-//        config.imagePlacement = .top
-//        config.baseForegroundColor = .orange
-//        config.baseBackgroundColor = .orange
-//        config.title = labelText
-//        config.titleAlignment = .center
-//        config.title.
-//        button?.configuration = config
-        
-        button?.setImage(buttonImage, for: .normal)
-        button?.configuration = .plain()
         button?.tintColor = foregroundColor
         button?.layer.backgroundColor = backgroundColor.cgColor
+        button?.setImage(buttonImage, for: .normal)
+        button?.imageView?.contentMode = .scaleAspectFit
+        button?.contentHorizontalAlignment = .fill
+        button?.contentVerticalAlignment = .fill
+        button?.imageEdgeInsets = UIEdgeInsets(top: buttonMargin,
+                                               left: buttonMargin,
+                                               bottom: buttonMargin,
+                                               right: buttonMargin)
 
         label = UILabel(frame: CGRect(x: button!.center.x - labelWidth / 2,
                                       y: (button?.frame.maxY)!,
@@ -202,7 +196,7 @@ class FooterButtonView: UIView {
         label?.textColor = foregroundColor
         label?.backgroundColor = backgroundColor
         label?.textAlignment = .center
-        label?.font = UIFont.systemFont(ofSize: 11)
+        label?.font = UIFont.boldSystemFont(ofSize: 12)
         
         addSubview(button!)
         addSubview(label!)
@@ -244,11 +238,20 @@ class FooterButton: UIButton {
         super.init(frame: frame)
         
         let buttonRadius = frame.size.width/2
+        let buttonMargin: CGFloat = 10
         
         self.backgroundColor = backgroundColor
         self.setImage(UIImage(systemName: imageName), for: .normal)
         self.tintColor = foregroundColor
         self.layer.cornerRadius = buttonRadius
+        
+        self.imageView?.contentMode = .scaleAspectFit
+        self.contentHorizontalAlignment = .fill
+        self.contentVerticalAlignment = .fill
+        self.imageEdgeInsets = UIEdgeInsets(top: buttonMargin,
+                                               left: buttonMargin,
+                                               bottom: buttonMargin,
+                                               right: buttonMargin)
     }
     
     required init?(coder: NSCoder) {

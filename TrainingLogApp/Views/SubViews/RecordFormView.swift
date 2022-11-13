@@ -84,28 +84,34 @@ class RecordFormView: UIView, UITextFieldDelegate {
     
     override func layoutSubviews() {
         
-        let titleHeight: CGFloat = 36
+        // titleLabel
         let titleHorizontalPadding: CGFloat = 55
         let titleVerticalPadding: CGFloat = 20
+        let titlewidth: CGFloat = frame.size.width - titleHorizontalPadding * 2
+        let titleHeight: CGFloat = 36
         
+        // targetPartLabel, workoutNameLabel, weightLabel, repsLabel, memoLabel
         let labelTopPadding: CGFloat = 10
         let labelHeight: CGFloat = 18
         
-        let textFieldHorizontalPadding: CGFloat = 40
+        // targetPartTextField, workoutNameTextField
         let textFieldTopPadding: CGFloat = -2
+        let textFieldHorizontalPadding: CGFloat = 40
         let textFieldHeight: CGFloat = 30
         
+        // weightTextField, repsTextField
         let shortTextFieldWidth: CGFloat = 100
+        let shortTextFieldHeight: CGFloat = textFieldHeight
         
-        let buttonWidth: CGFloat = 80
-        let buttonHeight: CGFloat = 30
+        // registerButton, clearButton
         let buttonHorizontalPadding: CGFloat = 5
         let buttonVerticalPadding: CGFloat = 20
-
+        let buttonWidth: CGFloat = 80
+        let buttonHeight: CGFloat = 30
         
         titleLabel?.anchor(top: topAnchor,
                                    centerX: centerXAnchor,
-                                   width: frame.size.width - titleHorizontalPadding * 2,
+                                   width: titlewidth,
                                    height: titleHeight,
                                    topPadding: titleVerticalPadding)
         
@@ -142,7 +148,7 @@ class RecordFormView: UIView, UITextFieldDelegate {
         weightTextField?.anchor(top: weightLabel!.bottomAnchor,
                                left: targetPartTextField!.leftAnchor,
                                width: shortTextFieldWidth,
-                               height: textFieldHeight,
+                               height: shortTextFieldHeight,
                                topPadding: textFieldTopPadding)
         
         repsLabel?.anchor(top: workoutNameTextField!.bottomAnchor,
@@ -154,7 +160,7 @@ class RecordFormView: UIView, UITextFieldDelegate {
         repsTextField?.anchor(top: weightLabel!.bottomAnchor,
                              right: targetPartTextField!.rightAnchor,
                              width: shortTextFieldWidth,
-                             height: textFieldHeight,
+                             height: shortTextFieldHeight,
                              topPadding: textFieldTopPadding)
         
         memoLabel?.anchor(top: repsTextField!.bottomAnchor,
