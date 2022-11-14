@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RealmSwift
 
 class BaseViewController: UIViewController, UITextFieldDelegate {
     
@@ -33,6 +34,11 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         menuViewModel = WorkoutMenuViewModel()
         recordViewModel = WorkoutRecordViewModel()
         validationViewModel = FormValidateViewModel()
+        
+//        // test code
+//        let realmModel = RealmModel()
+//        realmModel.deleteAll()
+//        
 
         
         setupChildVC()
@@ -62,7 +68,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         homeVC.didMove(toParent: self)
         childVC = homeVC
         
-        let recordVC = WorkoutRecordController()
+        let recordVC = WorkoutRecordController(recordViewModel: recordViewModel!)
         recordVC.view.frame = vcView!.frame
 
         let menuVC = WorkoutMenuViewController()
@@ -139,6 +145,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         recordForm?.registerButton?.rx.tap.asDriver().drive(onNext: { [weak self] _ in
             self?.registerWorkout()
             self?.RecordFormDisappear()
+            self?.view.endEditing(true)
         }).disposed(by: disposeBag)
         
         recordForm?.clearButton?.rx.tap.asDriver().drive(onNext: { [weak self] _ in
@@ -211,7 +218,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         }).disposed(by: disposeBag)
         
         footer?.recordButton!.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
-            let recordVC = WorkoutRecordController()
+            let recordVC = WorkoutRecordController(recordViewModel: (self?.recordViewModel)!)
             if self?.childVC != recordVC {
                 self?.childVC!.willMove(toParent: nil)
                 self?.childVC!.view.removeFromSuperview()

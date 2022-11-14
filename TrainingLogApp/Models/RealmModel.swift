@@ -35,4 +35,30 @@ class RealmModel {
         }
         return workoutArray
     }
+    
+    public func getWorkout(doneAtDate: Date) -> [WorkoutObject] {
+        var workoutArray = [WorkoutObject]()
+        let realm = try! Realm()
+        let workoutDataArray = realm.objects(WorkoutRealmObject.self).filter { realmObject in
+            realmObject.doneAt == DateUtils.toStringFromDate(date: doneAtDate)
+        }
+        for realmObj in workoutDataArray {
+            let workout = realmObj.toWorkoutObject()
+            workoutArray.append(workout)
+        }
+        return workoutArray
+    }
+    
+    public func deleteAll() {
+        let realm = try! Realm()
+        let realmData = realm.objects(WorkoutRealmObject.self)
+        do {
+            try realm.write {
+            realm.delete(realmData)
+            }
+        } catch {
+            print("delete error")
+        }
+        
+    }
 }

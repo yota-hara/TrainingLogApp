@@ -12,7 +12,7 @@ class WorkoutRealmObject: Object {
     @objc dynamic var workoutName: String = ""
     @objc dynamic var weight: Double = 1
     @objc dynamic var reps: Int = 1
-    @objc dynamic var doneAt: Date = Date()
+    @objc dynamic var doneAt: String = ""
     @objc dynamic var volume: Double = 1
     @objc dynamic var memo: String = ""
     
@@ -34,7 +34,7 @@ struct WorkoutObject {
     var workoutName: String = ""
     var weight: Double = 1
     var reps: Int = 1
-    var doneAt: Date = Date()
+    var doneAt: String = ""
     var volume: Double = 0
     var memo: String = ""
     
