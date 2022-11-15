@@ -15,14 +15,33 @@ class RealmModel {
         realm.beginWrite()
         realm.add(workout.toRealmObject())
         try! realm.commitWrite()
-        print(#function)
     }
     
     public func deleteWorkout(with workout: WorkoutObject) {
         let realm = try! Realm()
-        realm.beginWrite()
+        let realmObject = workout.toRealmObject()
+        let result = realm.objects(WorkoutRealmObject.self).filter {
+            $0.targetPart == realmObject.targetPart &&
+            $0.workoutName == realmObject.workoutName &&
+            $0.weight == realmObject.weight &&
+            $0.reps == realmObject.reps &&
+            $0.doneAt == realmObject.doneAt &&
+            $0.volume == realmObject.volume &&
+            $0.memo == realmObject.memo
+        }.first
+        
+        if result == nil {
+            print("Already Deleted")
+        } else {
+            do {
+                try realm.write {
+                    realm.delete(result!)
+                }
+            } catch {
+                print("delete error")
+            }
+        }
 
-        try! realm.commitWrite()
     }
     
     public func getWorkout() -> [WorkoutObject] {

@@ -29,10 +29,10 @@ class WorkoutRecordController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        dateSelectView = DateSelectView()
-        view.addSubview(dateSelectView!)
+
         setupTableView()
         setupDateSelectView()
+        setupRecordViewModel()
     }
     
     init(recordViewModel: WorkoutRecordViewModel) {
@@ -62,21 +62,27 @@ class WorkoutRecordController: UIViewController {
         view.addSubview(workoutTableView)
         workoutTableView.delegate = self
         
+        
+        
+        workoutTableView.rx.itemDeleted.asDriver().drive { [weak self] indexPath in
+            self?.recordViewModel?.onDeleteRow(row: indexPath.row)
+        }.disposed(by: disposeBag)
+    }
+    
+    private func setupRecordViewModel() {
         recordViewModel?.viewDidLoad()
         
-//        recordViewModel?.workoutCellViewModels
-//            .bind(to: workoutTableView.rx.items(cellIdentifier: WorkoutRecordCell.identifier,
-//                                                cellType: WorkoutRecordCell.self)) { row, cellViewModel, cell in
-//                cell.configure(viewModel: cellViewModel)
-//                cell.selectionStyle = .none
-//            }.disposed(by: disposeBag)
-        
-        recordViewModel?.workoutCellViewModelsRelay!
+        recordViewModel?.itemObservable
             .bind(to: workoutTableView.rx.items(dataSource: workoutRecordTableViewDataSource))
             .disposed(by: disposeBag)
+        
+        recordViewModel?.updateItems()
     }
     
     private func setupDateSelectView() {
+        dateSelectView = DateSelectView()
+        
+        view.addSubview(dateSelectView!)
         
         recordViewModel?.currentDate.asDriver(onErrorJustReturn: Date()).drive(onNext: { date in
             self.dateSelectView?.dateLabel?.text = DateUtils.toStringFromDate(date: date)
@@ -87,7 +93,7 @@ class WorkoutRecordController: UIViewController {
             let date = DateUtils.toDateFromString(string: dateString!)
             let newDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
             self?.recordViewModel?.dateUpdate(date: newDate)
-            self?.workoutTableView.reloadData()
+//            self?.workoutTableView.reloadData()
         }).disposed(by: disposeBag)
         
         dateSelectView?.prevButton?.rx.tap.asDriver().drive(onNext: { [weak self] in
@@ -95,7 +101,7 @@ class WorkoutRecordController: UIViewController {
             let date = DateUtils.toDateFromString(string: dateString!)
             let newDate = Calendar.current.date(byAdding: .day, value: -1, to: date)!
             self?.recordViewModel?.dateUpdate(date: newDate)
-            self?.workoutTableView.reloadData()
+//            self?.workoutTableView.reloadData()
         }).disposed(by: disposeBag)
     }
 }
@@ -105,18 +111,18 @@ class WorkoutRecordController: UIViewController {
 extension WorkoutRecordController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85
+        return 90
     }
     
-    
+    // FIXME: dataSourceから削除されていない -
+
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteAction = UIContextualAction(style: .destructive, title: "削除") {action, view, completionHandler in
             
             let alert = UIAlertController(title: "確認", message: "選択中のデータを削除しますか?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "削除", style: .destructive, handler: { _ in
-// FIXME: dataSourceから削除されていない -
-                tableView.deleteRows(at: [indexPath], with: .fade)
+                self.recordViewModel!.onDeleteRow(row: indexPath.row)
             }))
             alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)

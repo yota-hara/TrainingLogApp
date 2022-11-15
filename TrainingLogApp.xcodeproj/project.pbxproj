@@ -32,6 +32,7 @@
 		A16E3D6D29196A73005BD52D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A16E3D6C29196A73005BD52D /* Assets.xcassets */; };
 		A16E3D7029196A73005BD52D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A16E3D6E29196A73005BD52D /* LaunchScreen.storyboard */; };
 		A1B0ABCA2921CD4E003BCE74 /* DateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B0ABC92921CD4E003BCE74 /* DateSelectView.swift */; };
+		A1B0ABCC292285DA003BCE74 /* BehaviorRelay-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B0ABCB292285DA003BCE74 /* BehaviorRelay-Extensions.swift */; };
 		A1BEC040291BD43400CF8DB3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BEC03F291BD43400CF8DB3 /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		A16E3D6F29196A73005BD52D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A16E3D7129196A73005BD52D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1B0ABC92921CD4E003BCE74 /* DateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectView.swift; sourceTree = "<group>"; };
+		A1B0ABCB292285DA003BCE74 /* BehaviorRelay-Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BehaviorRelay-Extensions.swift"; sourceTree = "<group>"; };
 		A1BEC03F291BD43400CF8DB3 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		C4D0FB1178C466971FAB3F98 /* Pods_TrainingLogApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrainingLogApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -95,6 +97,7 @@
 				A14DC9F52919D00400FBC7B7 /* DateUtils.swift */,
 				A14DC9F62919D00400FBC7B7 /* UIView-Extension.swift */,
 				A14DC9F72919D00400FBC7B7 /* UIImage-Extension.swift */,
+				A1B0ABCB292285DA003BCE74 /* BehaviorRelay-Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				A14DC9F22919CFFA00FBC7B7 /* RealmObject.swift in Sources */,
 				A14DCA0B2919D01600FBC7B7 /* SettingViewController.swift in Sources */,
 				A14DC9F92919D00400FBC7B7 /* DateUtils.swift in Sources */,
+				A1B0ABCC292285DA003BCE74 /* BehaviorRelay-Extensions.swift in Sources */,
 				A1BEC040291BD43400CF8DB3 /* BaseViewController.swift in Sources */,
 				A14DCA182919D02700FBC7B7 /* WorkoutRecordViewModel.swift in Sources */,
 				A14DC9F82919D00400FBC7B7 /* UIColor-Extension.swift in Sources */,

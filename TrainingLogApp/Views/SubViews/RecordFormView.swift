@@ -41,20 +41,51 @@ class RecordFormView: UIView, UITextFieldDelegate {
         layer.shadowOpacity = 0.5
         layer.shadowRadius = 15
 
-        titleLabel = RecordTitleLabel(frame: .zero, text: "トレーニングを記録する", backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
-        targetPartLabel = RecordLabel(frame: .zero, text: "ターゲット部位", backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
-        targetPartTextField = RecordTextField(frame: .zero, backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
-        workoutNameLabel = RecordLabel(frame: .zero, text: "トレーニング種目", backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
-        workoutNameTextField = RecordTextField(frame: .zero, backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
-        weightLabel = RecordLabel(frame: .zero, text: "重量", backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
-        weightTextField = RecordTextField(frame: .zero, backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
-        repsLabel = RecordLabel(frame: .zero, text: "レップ数", backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
-        repsTextField = RecordTextField(frame: .zero, backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
-        memoLabel = RecordLabel(frame: .zero, text: "メモ", backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
-        memoTextView = RecordMemoView(frame: .zero, backgroundColor: mainBackgroundColor, foregroundColor: mainForegroundColor)
+        titleLabel = RecordTitleLabel(frame: .zero,
+                                      text: "トレーニングを記録する",
+                                      backgroundColor: mainBackgroundColor,
+                                      foregroundColor: mainForegroundColor)
+        targetPartLabel = RecordLabel(frame: .zero,
+                                      text: "ターゲット部位",
+                                      backgroundColor: mainBackgroundColor,
+                                      foregroundColor: mainForegroundColor)
+        targetPartTextField = RecordTextField(frame: .zero, backgroundColor: mainBackgroundColor,
+                                              foregroundColor: mainForegroundColor)
+        workoutNameLabel = RecordLabel(frame: .zero,
+                                       text: "トレーニング種目",
+                                       backgroundColor: mainBackgroundColor,
+                                       foregroundColor: mainForegroundColor)
+        workoutNameTextField = RecordTextField(frame: .zero,
+                                               backgroundColor: mainBackgroundColor,
+                                               foregroundColor: mainForegroundColor)
+        weightLabel = RecordLabel(frame: .zero, text: "重量",
+                                  backgroundColor: mainBackgroundColor,
+                                  foregroundColor: mainForegroundColor)
+        weightTextField = RecordTextField(frame: .zero,
+                                          backgroundColor: mainBackgroundColor,
+                                          foregroundColor: mainForegroundColor)
+        repsLabel = RecordLabel(frame: .zero,
+                                text: "レップ数",
+                                backgroundColor: mainBackgroundColor,
+                                foregroundColor: mainForegroundColor)
+        repsTextField = RecordTextField(frame: .zero,
+                                        backgroundColor: mainBackgroundColor,
+                                        foregroundColor: mainForegroundColor)
+        memoLabel = RecordLabel(frame: .zero,
+                                text: "メモ", backgroundColor: mainBackgroundColor,
+                                foregroundColor: mainForegroundColor)
+        memoTextView = RecordMemoView(frame: .zero,
+                                      backgroundColor: mainBackgroundColor,
+                                      foregroundColor: mainForegroundColor)
         
-        registerButton = RecordButton(frame: .zero, title: "記録", backgroundColor: registerColor, tintColor: buttonTintColor)
-        clearButton = RecordButton(frame: .zero, title: "クリア", backgroundColor: clearColor, tintColor: buttonTintColor)
+        registerButton = RecordButton(frame: .zero,
+                                      title: "記録",
+                                      backgroundColor: registerColor,
+                                      tintColor: buttonTintColor)
+        clearButton = RecordButton(frame: .zero,
+                                   title: "クリア",
+                                   backgroundColor: clearColor,
+                                   tintColor: buttonTintColor)
         
         targetPartTextField?.textField!.delegate = self
         workoutNameTextField?.textField!.delegate = self
@@ -238,16 +269,13 @@ class RecordTitleLabel: UILabel {
         super.init(frame: frame)
         
         let cornerRadius: CGFloat = 10
-        let borderWidth: CGFloat = 4
-        
         self.text = "トレーニングを記録する"
         self.textColor = backgroundColor
-        self.font = UIFont.boldSystemFont(ofSize: 20)
+        self.font = UIFont.boldSystemFont(ofSize: 22)
         self.textAlignment = .center
         self.layer.backgroundColor = foregroundColor.cgColor
         self.layer.cornerRadius = cornerRadius
-        self.layer.borderColor = backgroundColor.cgColor
-        self.layer.borderWidth = borderWidth
+
     }
     
     required init?(coder: NSCoder) {

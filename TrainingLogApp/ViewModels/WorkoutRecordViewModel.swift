@@ -9,28 +9,33 @@ import RxSwift
 import RxRelay
 
 class WorkoutRecordViewModel {
-    var doneAtDate: Date = Date()
+    
     private let dateRelay = BehaviorRelay<Date>(value: Date())
     var currentDate: Observable<Date> {
         return dateRelay.share().asObservable()
     }
+        
+    private let items = BehaviorRelay<[WorkoutRecordCellViewModel]>(value: [])
+    var itemObservable: Observable<[WorkoutRecordCellViewModel]> {
+        return items.asObservable()
+    }
+    
+    private let model = RealmModel()
     
     private let disposeBag = DisposeBag()
     
-    var workoutCellViewModels = [WorkoutRecordCellViewModel]()
-    var workoutCellViewModelsRelay: BehaviorRelay<[WorkoutRecordCellViewModel]>?
-    let model = RealmModel()
-    
     init() {
-        workoutCellViewModelsRelay = BehaviorRelay<[WorkoutRecordCellViewModel]>(value: workoutCellViewModels)
-      
-        let workoutArray = model.getWorkout(doneAtDate: doneAtDate).map { WorkoutRecordCellViewModel(workoutObject: $0)}
-        workoutCellViewModelsRelay!.accept(workoutArray)
+        updateItems()
+    }
+    
+    func updateItems() {
+        let workoutArray = model.getWorkout(doneAtDate: dateRelay.value).map { WorkoutRecordCellViewModel(workoutObject: $0)}
+        items.accept(workoutArray)
     }
     
     func onTapRegister(target: String, workoutName: String, weight: String, reps: String, memo: String) {
         var workout = WorkoutObject()
-        workout.doneAt = DateUtils.toStringFromDate(date: doneAtDate)
+        workout.doneAt = DateUtils.toStringFromDate(date: dateRelay.value)
         workout.targetPart = target
         workout.workoutName = workoutName
         workout.weight = Double(weight)!
@@ -38,24 +43,29 @@ class WorkoutRecordViewModel {
         workout.volume = Double(Double(weight)! * Double(reps)!)
         workout.memo = memo
         
-        let workoutCellViewModel = WorkoutRecordCellViewModel(workoutObject: workout)
-        workoutCellViewModelsRelay!.accept([workoutCellViewModel])
+        let item = WorkoutRecordCellViewModel(workoutObject: workout)
+        items.accept([item])
         model.saveWorkout(with: workout)
         
-        dateUpdate(date: doneAtDate)
+        dateUpdate(date: dateRelay.value)
+    }
+    
+    func onDeleteRow(row: Int) {
+        let item = items.value[row]
+        model.deleteWorkout(with: item.workoutObject)
+        items.remove(index: row)
     }
 
     func viewDidLoad(){
-        let workoutArray = model.getWorkout(doneAtDate: doneAtDate).map { WorkoutRecordCellViewModel(workoutObject: $0)}
-        workoutCellViewModelsRelay!.accept(workoutArray)
+        let workoutArray = model.getWorkout(doneAtDate: dateRelay.value).map { WorkoutRecordCellViewModel(workoutObject: $0)}
+        items.accept(workoutArray)
     }
     
     func dateUpdate(date: Date) {
-        self.doneAtDate = date
         dateRelay.accept(date)
         
-        let workoutArray = model.getWorkout(doneAtDate: doneAtDate).map { WorkoutRecordCellViewModel(workoutObject: $0)}
-        workoutCellViewModelsRelay!.accept(workoutArray)
+        let workoutArray = model.getWorkout(doneAtDate: dateRelay.value).map { WorkoutRecordCellViewModel(workoutObject: $0)}
+        items.accept(workoutArray)
     }
 }
 

@@ -43,7 +43,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         
         setupChildVC()
         setupFooter()
-        recordFormBind()
+        setupRecordForm()
         setupKeyboardAndView()
     }
 
@@ -115,10 +115,11 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    private func recordFormBind() {
+    private func setupRecordForm() {
         recordForm = RecordFormView()
         recordForm?.alpha = 0
         view.addSubview(recordForm!)
+        
         setupTextFields()
         
         recordForm?.targetPartTextField?.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
