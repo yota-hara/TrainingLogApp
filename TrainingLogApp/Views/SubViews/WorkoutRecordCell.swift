@@ -26,7 +26,7 @@ class WorkoutRecordCell: UITableViewCell {
         let foregroundColor = UIColor.orange
         let backgroundColor = UIColor.white
         let textColor = UIColor.darkGray
-        let memoTextColor = UIColor.systemTeal.withAlphaComponent(0.9)
+        let memoTextColor = UIColor.systemTeal.withAlphaComponent(1)
         let borderWidth: CGFloat = 2
         let cornerRadius: CGFloat = 8
         
@@ -87,7 +87,7 @@ class WorkoutRecordCell: UITableViewCell {
         // targetLabel, workoutLabel
         let labelHeight: CGFloat = 18
         let labelHorizontalPadding: CGFloat = 20
-        
+        let labelVerticalPadding: CGFloat = 1
         // weightByRepsLabel, volumeLabel
         let smallLabelHeight: CGFloat = 16
         let smallLabelVerticalPadding: CGFloat = 1
@@ -111,7 +111,8 @@ class WorkoutRecordCell: UITableViewCell {
         targetLabel!.anchor(top: bacgroundView!.topAnchor,
                             left: bacgroundView!.leftAnchor,
                             right: centerXAnchor,
-                            height: labelHeight,
+                            height: labelHeight - labelVerticalPadding * 2,
+                            topPadding: labelVerticalPadding,
                             rightPadding: -labelHorizontalPadding)
         
         workoutLabel!.anchor(top: targetLabel!.bottomAnchor,
