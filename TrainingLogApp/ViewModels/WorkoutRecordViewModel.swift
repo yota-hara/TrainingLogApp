@@ -43,11 +43,8 @@ class WorkoutRecordViewModel {
         workout.volume = Double(Double(weight)! * Double(reps)!)
         workout.memo = memo
         
-        let item = WorkoutRecordCellViewModel(workoutObject: workout)
-        items.accept([item])
         model.saveWorkout(with: workout)
-        
-        dateUpdate(date: dateRelay.value)
+        updateItems()
     }
     
     func onDeleteRow(row: Int) {
@@ -73,6 +70,25 @@ class WorkoutRecordViewModel {
         let workoutArray = model.getWorkout(doneAtDate: dateRelay.value)
             .map { WorkoutRecordCellViewModel(workoutObject: $0)}
         items.accept(workoutArray)
+    }
+    
+    func onEditItem(target: String, workoutName: String, weight: String, reps: String, memo: String, row: Int) {
+        var newWorkout = WorkoutObject()
+        newWorkout.doneAt = DateUtils.toStringFromDate(date: dateRelay.value)
+        newWorkout.targetPart = target
+        newWorkout.workoutName = workoutName
+        newWorkout.weight = Double(weight)!
+        newWorkout.reps = Int(reps)!
+        newWorkout.volume = Double(Double(weight)! * Double(reps)!)
+        newWorkout.memo = memo
+        
+        let workout = items.value[row].workoutObject
+        
+//        items.value[row] = WorkoutRecordCellViewModel(workoutObject: newWorkout)
+//        items.value.remove(at: row)
+//        items.value.insert((WorkoutRecordCellViewModel(workoutObject: newWorkout), at: row)
+        model.updateWorkout(from: workout, to: newWorkout)
+        updateItems()
     }
 }
 

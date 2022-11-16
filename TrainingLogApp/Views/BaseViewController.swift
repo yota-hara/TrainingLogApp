@@ -11,13 +11,20 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 
-class BaseViewController: UIViewController, UITextFieldDelegate {
+protocol parentViewControllerPresentable: AnyObject {
+    var recordForm: RecordFormView? { get }
+    var footer: TabButtonFooterView? { get }
+    var parentCenter: CGPoint? { get }
+}
+
+class BaseViewController: UIViewController, UITextFieldDelegate, parentViewControllerPresentable {
     
     // MARK: - Properties & UIParts
     
     private var selectTarget = 0 // recordFormのtargetPartで何番目を選択したか
     var recordForm: RecordFormView?
     var footer: TabButtonFooterView?
+    var parentCenter: CGPoint?
     private var vcView: UIView?
     private var childVC: UIViewController?
     
@@ -34,6 +41,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         menuViewModel = WorkoutMenuViewModel()
         recordViewModel = WorkoutRecordViewModel()
         validationViewModel = FormValidateViewModel()
+        parentCenter = view.center
         
         setupChildVC()
         setupFooter()

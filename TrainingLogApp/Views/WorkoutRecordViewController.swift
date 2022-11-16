@@ -14,7 +14,7 @@ class WorkoutRecordViewController: UIViewController {
     
     // MARK: - Properties & UIParts
   
-    private var parentVC: BaseViewController?
+    private var parentVC: parentViewControllerPresentable?
     private let disposeBag = DisposeBag()
     private let workoutRecordTableViewDataSource = WorkoutRecordTableViewDataSource()
     private var recordViewModel: WorkoutRecordViewModel?
@@ -36,7 +36,7 @@ class WorkoutRecordViewController: UIViewController {
         setupRecordViewModel()
     }
     
-    init(parent: BaseViewController, recordViewModel: WorkoutRecordViewModel) {
+    init(parent: parentViewControllerPresentable, recordViewModel: WorkoutRecordViewModel) {
         super.init(nibName: nil, bundle: nil)
         self.parentVC = parent
         self.recordViewModel = recordViewModel
@@ -189,8 +189,8 @@ extension WorkoutRecordViewController: UITableViewDelegate {
                 let width: CGFloat = (self?.view.frame.size.width)! - 40
                 let height: CGFloat = 400
                 
-                self?.editCellView = EditCellView(frame: CGRect(x: (self?.parentVC?.view.center.x)! - width / 2,
-                                                          y: (self?.parentVC?.view.center.y)! - height / 2,
+                self?.editCellView = EditCellView(frame: CGRect(x: (self?.parentVC?.parentCenter?.x)! - width / 2,
+                                                                y: (self?.parentVC?.parentCenter?.y)! - height / 2,
                                                           width: width,
                                                           height: height),
                                             item: item!)
@@ -204,7 +204,10 @@ extension WorkoutRecordViewController: UITableViewDelegate {
                         self?.editCellView!.transform = transform
                     })
                 
+                // editButton Action
                 self?.editCellView?.editButton?.rx.tap.asDriver().drive(onNext: { [weak self] in
+                    
+                    self?.editWorkout(row: indexPath.row)
                     
                     let transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
                     UIView.animate(withDuration: 0.5, animations: {
@@ -218,6 +221,7 @@ extension WorkoutRecordViewController: UITableViewDelegate {
                     }
                 }).disposed(by: (self?.disposeBag)!)
                 
+                // cancelButton Action
                 self?.editCellView?.cancelButton?.rx.tap.asDriver().drive(onNext: { [weak self] in
                     
                     let transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
@@ -236,6 +240,25 @@ extension WorkoutRecordViewController: UITableViewDelegate {
         editAction.backgroundColor = .green
         
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+    }
+    
+    private func setupEditView() {
+        
+    }
+    
+    private func editWorkout(row: Int) {
+        let target = editCellView?.targetPartTextField?.textField?.text
+        let workoutName = editCellView?.workoutNameTextField?.textField?.text
+        let weight = editCellView?.weightTextField?.textField?.text
+        let reps = editCellView?.repsTextField?.textField?.text
+        let memo = editCellView?.memoTextView?.textView?.text
+        
+        recordViewModel?.onEditItem(target: target!,
+                                    workoutName: workoutName!,
+                                    weight: weight!,
+                                    reps: reps!,
+                                    memo: memo!,
+                                    row: row)
     }
 }
 

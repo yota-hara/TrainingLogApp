@@ -68,6 +68,29 @@ class RealmModel {
         return workoutArray
     }
     
+    public func updateWorkout(from workout: WorkoutObject, to newWorkout: WorkoutObject) {
+        let realm = try! Realm()
+        let realmObject = workout.toRealmObject()
+        let result = realm.objects(WorkoutRealmObject.self).filter {
+            $0.targetPart == realmObject.targetPart &&
+            $0.workoutName == realmObject.workoutName &&
+            $0.weight == realmObject.weight &&
+            $0.reps == realmObject.reps &&
+            $0.doneAt == realmObject.doneAt &&
+            $0.volume == realmObject.volume &&
+            $0.memo == realmObject.memo
+        }.first
+        
+        do{
+          try realm.write{
+              realm.delete(result!)
+              realm.add(newWorkout.toRealmObject())
+          }
+        }catch {
+          print("Error \(error)")
+        }
+    }
+    
     public func deleteAll() {
         let realm = try! Realm()
         let realmData = realm.objects(WorkoutRealmObject.self)
