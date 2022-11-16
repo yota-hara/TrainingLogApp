@@ -62,7 +62,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         homeVC.didMove(toParent: self)
         childVC = homeVC
         
-        let recordVC = WorkoutRecordViewController(recordViewModel: recordViewModel!)
+        let recordVC = WorkoutRecordViewController(parent: self, recordViewModel: recordViewModel!)
         recordVC.view.frame = vcView!.frame
 
         let menuVC = WorkoutMenuViewController()
@@ -213,7 +213,8 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         }).disposed(by: disposeBag)
         
         footer?.recordButton!.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
-            let recordVC = WorkoutRecordViewController(recordViewModel: (self?.recordViewModel)!)
+            let recordVC = WorkoutRecordViewController(parent: self!,
+                                                       recordViewModel: (self?.recordViewModel)!)
             if self?.childVC != recordVC {
                 self?.childVC!.willMove(toParent: nil)
                 self?.childVC!.view.removeFromSuperview()
