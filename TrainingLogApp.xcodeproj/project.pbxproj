@@ -33,6 +33,7 @@
 		A16E3D7029196A73005BD52D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A16E3D6E29196A73005BD52D /* LaunchScreen.storyboard */; };
 		A1B0ABCA2921CD4E003BCE74 /* DateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B0ABC92921CD4E003BCE74 /* DateSelectView.swift */; };
 		A1B0ABCC292285DA003BCE74 /* BehaviorRelay-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B0ABCB292285DA003BCE74 /* BehaviorRelay-Extensions.swift */; };
+		A1B0ABCE29237D92003BCE74 /* EditCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B0ABCD29237D92003BCE74 /* EditCellView.swift */; };
 		A1BEC040291BD43400CF8DB3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BEC03F291BD43400CF8DB3 /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		A16E3D7129196A73005BD52D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1B0ABC92921CD4E003BCE74 /* DateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectView.swift; sourceTree = "<group>"; };
 		A1B0ABCB292285DA003BCE74 /* BehaviorRelay-Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BehaviorRelay-Extensions.swift"; sourceTree = "<group>"; };
+		A1B0ABCD29237D92003BCE74 /* EditCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCellView.swift; sourceTree = "<group>"; };
 		A1BEC03F291BD43400CF8DB3 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		C4D0FB1178C466971FAB3F98 /* Pods_TrainingLogApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrainingLogApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -177,6 +179,7 @@
 				A1B0ABC92921CD4E003BCE74 /* DateSelectView.swift */,
 				A14DCA072919D01600FBC7B7 /* TabButtonFooterView.swift */,
 				A14DCA0A2919D01600FBC7B7 /* RecordFormView.swift */,
+				A1B0ABCD29237D92003BCE74 /* EditCellView.swift */,
 				A14EC1C8291CC258003EF5E5 /* WorkoutRecordCell.swift */,
 			);
 			path = SubViews;
@@ -327,6 +330,7 @@
 				A14DCA102919D01600FBC7B7 /* HomeViewController.swift in Sources */,
 				A14DCA002919D00C00FBC7B7 /* ValidationModel.swift in Sources */,
 				A14DCA0F2919D01600FBC7B7 /* WorkoutRecordViewController.swift in Sources */,
+				A1B0ABCE29237D92003BCE74 /* EditCellView.swift in Sources */,
 				A16E3D6429196A72005BD52D /* AppDelegate.swift in Sources */,
 				A16E3D6629196A72005BD52D /* SceneDelegate.swift in Sources */,
 			);

@@ -16,8 +16,8 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Properties & UIParts
     
     private var selectTarget = 0 // recordFormのtargetPartで何番目を選択したか
-    private var recordForm: RecordFormView?
-    private var footer: TabButtonFooterView?
+    var recordForm: RecordFormView?
+    var footer: TabButtonFooterView?
     private var vcView: UIView?
     private var childVC: UIViewController?
     
@@ -34,12 +34,6 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         menuViewModel = WorkoutMenuViewModel()
         recordViewModel = WorkoutRecordViewModel()
         validationViewModel = FormValidateViewModel()
-        
-//        // test code
-//        let realmModel = RealmModel()
-//        realmModel.deleteAll()
-//        
-
         
         setupChildVC()
         setupFooter()
@@ -68,7 +62,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         homeVC.didMove(toParent: self)
         childVC = homeVC
         
-        let recordVC = WorkoutRecordController(recordViewModel: recordViewModel!)
+        let recordVC = WorkoutRecordController(parent: self, recordViewModel: recordViewModel!)
         recordVC.view.frame = vcView!.frame
 
         let menuVC = WorkoutMenuViewController()
@@ -219,7 +213,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
         }).disposed(by: disposeBag)
         
         footer?.recordButton!.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
-            let recordVC = WorkoutRecordController(recordViewModel: (self?.recordViewModel)!)
+            let recordVC = WorkoutRecordController(parent: self!, recordViewModel: (self?.recordViewModel)!)
             if self?.childVC != recordVC {
                 self?.childVC!.willMove(toParent: nil)
                 self?.childVC!.view.removeFromSuperview()

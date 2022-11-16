@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RecordFormView: UIView, UITextFieldDelegate {
+class EditCellView: UIView, UITextFieldDelegate {
 
     let frameColor = UIColor.darkGray
     var titleLabel: RecordTitleLabel?
@@ -22,31 +22,30 @@ class RecordFormView: UIView, UITextFieldDelegate {
     var repsTextField: RecordTextField?
     var memoLabel: RecordLabel?
     var memoTextView: RecordMemoView?
-    var registerButton: RecordButton?
-    var clearButton: RecordButton?
+    var editButton: RecordButton?
+    var cancelButton: RecordButton?
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, item: WorkoutRecordCellViewModel) {
         super.init(frame: frame)
-        
-        let mainBackgroundColor = UIColor.darkGray
-        let mainForegroundColor = UIColor.white
+                
+        let mainBackgroundColor = UIColor.gray
+        let mainForegroundColor = UIColor.white.withAlphaComponent(0.9)
         let buttonTintColor = UIColor.white
         let registerColor = UIColor.orange
         let clearColor = UIColor.systemMint
         
-        self.backgroundColor = mainForegroundColor
+        self.backgroundColor = .white.withAlphaComponent(0.87)
         layer.cornerRadius = 20
         layer.shadowOffset = .init(width: 1.5, height: 2)
-        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowColor = UIColor.black.cgColor.copy(alpha: 0.8)
         layer.shadowOpacity = 0.5
         layer.shadowRadius = 15
-
+  
         titleLabel = RecordTitleLabel(frame: .zero,
-                                      keyword: "記録",
+                                      keyword: "編集",
                                       textColor: mainBackgroundColor,
                                       accentColor: registerColor,
-                                      addLine: false
-        )
+                                      addLine: true)
         targetPartLabel = RecordLabel(frame: .zero,
                                       text: "ターゲット部位",
                                       backgroundColor: mainBackgroundColor,
@@ -76,22 +75,34 @@ class RecordFormView: UIView, UITextFieldDelegate {
         memoLabel = RecordLabel(frame: .zero,
                                 text: "メモ", backgroundColor: mainBackgroundColor,
                                 foregroundColor: mainForegroundColor)
-//        let testcolor = UIColor.white
         memoTextView = RecordMemoView(frame: .zero,
                                       backgroundColor: mainBackgroundColor,
                                       foregroundColor: mainForegroundColor)
         
-        registerButton = RecordButton(frame: .zero,
-                                      title: "記録",
+        editButton = RecordButton(frame: .zero,
+                                      title: "保存する",
                                       backgroundColor: registerColor,
                                       tintColor: buttonTintColor)
-        clearButton = RecordButton(frame: .zero,
-                                   title: "クリア",
+        cancelButton = RecordButton(frame: .zero,
+                                   title: "キャンセル",
                                    backgroundColor: clearColor,
                                    tintColor: buttonTintColor)
         
         targetPartTextField?.textField!.delegate = self
         workoutNameTextField?.textField!.delegate = self
+
+        let textColor = UIColor.black
+        
+        targetPartTextField?.textField?.text = item.workoutObject.targetPart
+        targetPartTextField?.textField?.textColor = textColor
+        workoutNameTextField?.textField?.text = item.workoutObject.workoutName
+        workoutNameTextField?.textField?.textColor = textColor
+        weightTextField?.textField?.text = item.workoutObject.weight.description
+        weightTextField?.textField?.textColor = textColor
+        repsTextField?.textField?.text = item.workoutObject.reps.description
+        repsTextField?.textField?.textColor = textColor
+        memoTextView?.textView?.text = item.workoutObject.memo
+        memoTextView?.textView?.textColor = textColor
         
         addSubviews()
     }
@@ -106,10 +117,10 @@ class RecordFormView: UIView, UITextFieldDelegate {
         addSubview(weightTextField!)
         addSubview(repsLabel!)
         addSubview(repsTextField!)
-        addSubview(memoLabel!)
         addSubview(memoTextView!)
-        addSubview(registerButton!)
-        addSubview(clearButton!)
+        addSubview(memoLabel!)
+        addSubview(editButton!)
+        addSubview(cancelButton!)
     }
     
     required init?(coder: NSCoder) {
@@ -137,10 +148,10 @@ class RecordFormView: UIView, UITextFieldDelegate {
         let shortTextFieldWidth: CGFloat = 100
         let shortTextFieldHeight: CGFloat = textFieldHeight
         
-        // registerButton, clearButton
+        // editButton, cancelButton
         let buttonHorizontalPadding: CGFloat = 5
         let buttonVerticalPadding: CGFloat = 20
-        let buttonWidth: CGFloat = 80
+        let buttonWidth: CGFloat = 100
         let buttonHeight: CGFloat = 30
         
         titleLabel?.anchor(top: topAnchor,
@@ -204,20 +215,20 @@ class RecordFormView: UIView, UITextFieldDelegate {
                           topPadding: labelTopPadding)
         
         memoTextView?.anchor(top: memoLabel!.bottomAnchor,
-                             bottom: registerButton!.topAnchor,
+                             bottom: editButton!.topAnchor,
                              centerX: centerXAnchor,
                              width: frame.size.width - textFieldHorizontalPadding * 2,
                              topPadding: textFieldTopPadding,
                              bottomPadding: 20)
         
-        registerButton?.anchor(bottom: bottomAnchor,
+        editButton?.anchor(bottom: bottomAnchor,
                                left: memoTextView!.leftAnchor,
                                width: buttonWidth,
                                height: buttonHeight,
                                bottomPadding: buttonVerticalPadding,
                                leftPadding: buttonHorizontalPadding)
         
-        clearButton?.anchor(bottom: bottomAnchor,
+        cancelButton?.anchor(bottom: bottomAnchor,
                             right: memoTextView!.rightAnchor,
                             width: buttonWidth,
                             height: buttonHeight,
@@ -226,207 +237,3 @@ class RecordFormView: UIView, UITextFieldDelegate {
     }
 }
 
-// MARK: - RecordTextField
-
-class RecordTextField: UIView {
-    
-    var textField: UITextField?
-    
-    init(frame: CGRect, backgroundColor: UIColor, foregroundColor: UIColor) {
-        super.init(frame: frame)
-        
-        let outerRadius: CGFloat = 10
-        let innerRadius: CGFloat = 8
-        
-        layer.cornerRadius = outerRadius
-        layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        layer.backgroundColor = backgroundColor.cgColor
-        
-        textField = UITextField()
-        textField?.layer.cornerRadius = innerRadius
-        textField?.backgroundColor = foregroundColor
-        textField?.textAlignment = .center
-        addSubview(textField!)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        textField?.anchor(top: topAnchor,
-                         bottom: bottomAnchor,
-                         left: leftAnchor,
-                         right: rightAnchor,
-                         topPadding: 4,
-                         bottomPadding: 4,
-                         leftPadding: 4,
-                         rightPadding: 4)
-    }
-    
-}
-
-class RecordTitleLabel: UILabel {
-    
-    init(frame: CGRect, keyword: String, textColor: UIColor, accentColor: UIColor, addLine: Bool) {
-        super.init(frame: frame)
-        
-        let font = UIFont.boldSystemFont(ofSize: 20)
-        
-        let headStringAttributes: [NSAttributedString.Key : Any] = [
-            .foregroundColor : textColor,
-            .font : font
-        ]
-        let headString = NSAttributedString(string: "トレーニングを", attributes: headStringAttributes)
-
-        let keywordStringAttributes: [NSAttributedString.Key : Any] = [
-            .foregroundColor : accentColor,
-            .font : font
-            ]
-        let keyword = NSAttributedString(string: keyword, attributes: keywordStringAttributes)
-
-        let footStringAttributes: [NSAttributedString.Key : Any] = [
-            .foregroundColor : textColor,
-            .font : font
-        ]
-        let footString = NSAttributedString(string: "する", attributes: footStringAttributes)
-
-        let mutableAttributedString = NSMutableAttributedString()
-        mutableAttributedString.append(headString)
-        mutableAttributedString.append(keyword)
-        mutableAttributedString.append(footString)
-
-        if addLine {
-            mutableAttributedString.addAttributes([
-                .underlineStyle: NSUnderlineStyle.thick.rawValue,
-                .underlineColor: accentColor],
-                range: NSRange(location: 0, length: mutableAttributedString.length)
-                )
-        }
-        
-        self.attributedText = mutableAttributedString
-        self.textAlignment = .center
-        self.layer.backgroundColor = UIColor.clear.cgColor
-    }
-    
-    
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-}
-
-// MARK: - RecordLabel
-
-class RecordLabel: UIView {
-    
-    var label: UILabel?
-    
-    init(frame: CGRect, text: String, backgroundColor: UIColor, foregroundColor: UIColor) {
-        super.init(frame: frame)
-        
-        let outerRadius: CGFloat = 10
-        let innerRadius: CGFloat = 8
-        
-        layer.cornerRadius = outerRadius
-        layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        layer.backgroundColor = backgroundColor.cgColor
-        
-        label = UILabel()
-        label?.layer.cornerRadius = innerRadius
-        label?.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        label?.textAlignment = .center
-        label?.textColor = foregroundColor
-        label?.text = text
-        label?.font = UIFont.boldSystemFont(ofSize: 12)
-        addSubview(label!)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        label?.anchor(top: topAnchor,
-                         bottom: bottomAnchor,
-                         left: leftAnchor,
-                         right: rightAnchor,
-                         topPadding: 0,
-                         leftPadding: 0,
-                         rightPadding: 0)
-    }
-}
-// MARK: - RecordMemoView
-
-class RecordMemoView: UIView {
-    var textView: UITextView?
-    
-    init(frame: CGRect, backgroundColor: UIColor, foregroundColor: UIColor) {
-        super.init(frame: frame)
-        
-        let outerRadius: CGFloat = 10
-        let innerRadius: CGFloat = 8
-        
-        layer.backgroundColor = backgroundColor.cgColor
-        layer.cornerRadius = outerRadius
-        layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-        
-        textView = UITextView()
-        textView?.backgroundColor = foregroundColor
-        textView?.layer.cornerRadius = innerRadius
-        addSubview(textView!)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        textView?.anchor(top: topAnchor,
-                         bottom: bottomAnchor,
-                         left: leftAnchor,
-                         right: rightAnchor,
-                         topPadding: 4,
-                         bottomPadding: 4,
-                         leftPadding: 4,
-                         rightPadding: 4)
-    }
-    
-}
-
-// MARK: - RecordButton
-class RecordButton: UIButton {
-    
-    override var isHighlighted: Bool {
-        didSet {
-            if isHighlighted {
-                UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.9, options: []) {
-                    self.transform = .init(scaleX: 0.92, y: 0.92)
-                    self.alpha = 0.9
-                    self.layoutIfNeeded()
-                }
-            } else {
-                self.transform = .identity
-                self.alpha = 1
-                self.layoutIfNeeded()
-            }
-        }
-    }
-    
-    init(frame: CGRect, title: String, backgroundColor: UIColor, tintColor: UIColor) {
-        super.init(frame: frame)
-        
-        let cornerRadius: CGFloat = 10
-        
-        setTitle(title, for: .normal)
-        layer.backgroundColor = backgroundColor.cgColor
-        layer.cornerRadius = cornerRadius
-        self.tintColor = tintColor
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-}

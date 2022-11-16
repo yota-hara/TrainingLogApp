@@ -55,16 +55,23 @@ class WorkoutRecordViewModel {
         model.deleteWorkout(with: item.workoutObject)
         items.remove(index: row)
     }
+    
+    func returnItem(row: Int) -> WorkoutRecordCellViewModel {
+        let item = items.value[row]
+        return item
+    }
 
     func viewDidLoad(){
-        let workoutArray = model.getWorkout(doneAtDate: dateRelay.value).map { WorkoutRecordCellViewModel(workoutObject: $0)}
+        let workoutArray = model.getWorkout(doneAtDate: dateRelay.value)
+            .map { WorkoutRecordCellViewModel(workoutObject: $0)}
         items.accept(workoutArray)
     }
     
     func dateUpdate(date: Date) {
         dateRelay.accept(date)
         
-        let workoutArray = model.getWorkout(doneAtDate: dateRelay.value).map { WorkoutRecordCellViewModel(workoutObject: $0)}
+        let workoutArray = model.getWorkout(doneAtDate: dateRelay.value)
+            .map { WorkoutRecordCellViewModel(workoutObject: $0)}
         items.accept(workoutArray)
     }
 }
