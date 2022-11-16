@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-class WorkoutRecordController: UIViewController {
+class WorkoutRecordViewController: UIViewController {
     
     // MARK: - Properties & UIParts
   
@@ -153,7 +153,7 @@ class WorkoutRecordController: UIViewController {
 
 // MARK: - UITableViewDelegate
 
-extension WorkoutRecordController: UITableViewDelegate {
+extension WorkoutRecordViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
