@@ -26,20 +26,18 @@ class WorkoutRecordViewController: UIViewController, UITextFieldDelegate {
     private var totalVolumeView: TotalVolumeView?
     private var dateSelectView: DateSelectView?
     private var editCellView: EditCellView?
-    private let workoutTableView: UITableView = {
-        let table = UITableView()
-        table.register(WorkoutRecordCell.self, forCellReuseIdentifier: WorkoutRecordCell.identifier)
-       return table
-    }()
+    private var workoutTableView: UITableView?
     
     // MARK: - LifeCycles
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        workoutTableView = createTableView()
         menuViewModel = WorkoutMenuViewModel()
         setupTableView()
         setupDateSelectView()
         setupRecordViewModel()
+
         totalVolumeView = TotalVolumeView(frame: .zero,
                                           menuViewModel: menuViewModel!,
                                           recordViewModel: recordViewModel!)
@@ -54,6 +52,21 @@ class WorkoutRecordViewController: UIViewController, UITextFieldDelegate {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func createEditView(row: Int) -> EditCellView {
+        let width: CGFloat = view.frame.size.width - 40
+        let height: CGFloat = 400
+        
+        let editView = EditCellView(frame: CGRect(x: (parentVC?.parentCenter?.x)! - width / 2,
+                                                  y: (parentVC?.parentCenter?.y)! - height / 2,
+                                                  width: width,
+                                                  height: height),
+                                    row: row,
+                                    recordViewModel: recordViewModel!,
+                                    menuViewModel: menuViewModel!)
+        view.addSubview(editView)
+        return editView
     }
     
     override func viewDidLayoutSubviews() {
@@ -71,10 +84,12 @@ class WorkoutRecordViewController: UIViewController, UITextFieldDelegate {
                                         width: view.frame.size.width,
                                         height: 30)
         
-        workoutTableView.frame = CGRect(x: 0,
+        workoutTableView?.frame = CGRect(x: 0,
                                         y: (totalVolumeView?.frame.maxY)!,
                                         width: view.frame.size.width,
                                         height: view.frame.size.height - (totalVolumeView?.frame.maxY)!)
+        
+
     }
     
     private func setupKeyboardAndView() {
@@ -112,9 +127,15 @@ class WorkoutRecordViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func createTableView() -> UITableView {
+        let table = UITableView()
+        table.register(WorkoutRecordCell.self, forCellReuseIdentifier: WorkoutRecordCell.identifier)
+        return table
+    }
+    
     private func setupTableView() {
-        view.addSubview(workoutTableView)
-        workoutTableView.delegate = self
+        view.addSubview(workoutTableView!)
+        workoutTableView?.delegate = self
 
     }
     
@@ -122,8 +143,14 @@ class WorkoutRecordViewController: UIViewController, UITextFieldDelegate {
         recordViewModel?.updateItems()
         
         recordViewModel?.itemObservable
-            .bind(to: workoutTableView.rx.items(dataSource: workoutRecordTableViewDataSource))
+            .bind(to: (workoutTableView?.rx.items(dataSource: workoutRecordTableViewDataSource))!)
             .disposed(by: disposeBag)
+        
+        recordViewModel?.editCellViewAperr.asDriver().drive(onNext: { [weak self] apear in
+            self?.parentVC?.footer?.isUserInteractionEnabled = !apear
+            self?.workoutTableView?.isUserInteractionEnabled = !apear
+            self?.dateSelectView?.isUserInteractionEnabled = !apear
+        }).disposed(by: disposeBag)
         
         recordViewModel?.updateItems()
     }
@@ -138,190 +165,7 @@ class WorkoutRecordViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(dateSelectView!)
     }
     
-    private func editWorkout(row: Int) {
-        let target = editCellView?.targetPartTextField?.textField?.text
-        let workoutName = editCellView?.workoutNameTextField?.textField?.text
-        let weight = editCellView?.weightTextField?.textField?.text
-        let reps = editCellView?.repsTextField?.textField?.text
-        let memo = editCellView?.memoTextView?.textView?.text
-        
-        recordViewModel?.onEditItem(target: target!,
-                                    workoutName: workoutName!,
-                                    weight: weight!,
-                                    reps: reps!,
-                                    memo: memo!,
-                                    row: row)
-    }
-    
-    private func setupEditCellView(row: Int) {
-        validationViewModel = FormValidateViewModel()
-        
-        let item = recordViewModel?.returnItem(row: row)
-        let width: CGFloat = view.frame.size.width - 40
-        let height: CGFloat = 400
-        
-        editCellView = EditCellView(frame: CGRect(x: (parentVC?.parentCenter?.x)! - width / 2,
-                                                  y: (parentVC?.parentCenter?.y)! - height / 2,
-                                                  width: width,
-                                                  height: height),
-                                    item: item!)
-        view.addSubview(editCellView!)
-        setupTextFields()
-        
-        editCellView?.targetPartTextField?.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
-            self?.validationViewModel?.targetTextInput.onNext(text ?? "")
-        }).disposed(by: disposeBag)
-        
-        editCellView?.workoutNameTextField?.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
-            self?.validationViewModel?.workoutTextInput.onNext(text ?? "")
-        }).disposed(by: disposeBag)
-        
-        editCellView?.weightTextField?.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
-            self?.validationViewModel?.weightTextInput.onNext(text ?? "")
-        }).disposed(by: disposeBag)
-        
-        editCellView?.repsTextField?.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
-            self?.validationViewModel?.repsTextInput.onNext(text ?? "")
-        }).disposed(by: disposeBag)
-        
-        validationViewModel?.validRegisterDriver.drive(onNext: { validAll in
-            self.editCellView?.editButton?.isEnabled = validAll
-            self.editCellView?.editButton?.layer.backgroundColor = validAll ? UIColor.orange.cgColor : UIColor.gray.cgColor
-        }).disposed(by: disposeBag)
 
-                
-        let readytransform = CGAffineTransform(scaleX: 0, y: 0)
-        UIView.animate(withDuration: 0, animations: {
-            self.editCellView!.transform = readytransform
-        })
-        let transform = CGAffineTransform(scaleX: 1, y: 1)
-        UIView.animate(withDuration: 0.5, animations: {
-            self.editCellView!.transform = transform
-        })
-        
-        // editButton Action
-        editCellView?.editButton?.rx.tap.asDriver().drive(onNext: { [weak self] in
-            
-            self?.editWorkout(row: row)
-            
-            let transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-            UIView.animate(withDuration: 0.5, animations: {
-                self?.editCellView!.transform = transform
-                self?.editCellView!.alpha = 0
-            }) { _ in
-                self?.editCellView?.isHidden = true
-                self?.parentVC?.footer?.isUserInteractionEnabled = true
-                self?.workoutTableView.isUserInteractionEnabled = true
-                self?.dateSelectView!.isUserInteractionEnabled = true
-            }
-        }).disposed(by: disposeBag)
-        
-        // cancelButton Action
-        editCellView?.cancelButton?.rx.tap.asDriver().drive(onNext: { [weak self] in
-            
-            let transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-            UIView.animate(withDuration: 0.5, animations: {
-                self?.editCellView!.transform = transform
-                self?.editCellView!.alpha = 0
-            }) { _ in
-                self?.editCellView?.isHidden = true
-                self?.parentVC?.footer?.isUserInteractionEnabled = true
-                self?.workoutTableView.isUserInteractionEnabled = true
-                self?.dateSelectView!.isUserInteractionEnabled = true
-            }
-        }).disposed(by: disposeBag)
-    }
-    
-    private func setupTextFields() {
-        // targetPartTextField
-        let targetPartPicker = UIPickerView()
-        targetPartPicker.tag = 1
-        targetPartPicker.delegate = self
-        targetPartPicker.dataSource = self
-        editCellView?.targetPartTextField?.textField!.inputView = targetPartPicker
-        let targetPartToolbar = UIToolbar()
-        targetPartToolbar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
-        let targetSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let targetDoneButtonItem = UIBarButtonItem(title: "次へ",
-                                                   style: .done,
-                                                   target: self,
-                                                   action: #selector(targetDonePicker))
-        targetPartToolbar.setItems([targetSpace, targetDoneButtonItem], animated: true)
-        editCellView?.targetPartTextField?.textField!.inputAccessoryView = targetPartToolbar
-        editCellView?.targetPartTextField?.textField!.delegate = self
-        
-        // workoutNameTextField
-        let workoutNamePicker = UIPickerView()
-        workoutNamePicker.tag = 2
-        workoutNamePicker.delegate = self
-        workoutNamePicker.dataSource = self
-        editCellView?.workoutNameTextField?.textField!.inputView = workoutNamePicker
-        let workoutNameToolbar = UIToolbar()
-        workoutNameToolbar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
-        let workoutNameSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let workoutNameDoneButtonItem = UIBarButtonItem(title: "次へ",
-                                                        style: .done,
-                                                        target: self,
-                                                        action: #selector(workoutNameDonePicker))
-        workoutNameToolbar.setItems([workoutNameSpace, workoutNameDoneButtonItem], animated: true)
-        editCellView?.workoutNameTextField?.textField!.inputAccessoryView = workoutNameToolbar
-        editCellView?.workoutNameTextField?.textField!.delegate = self
-        
-        // weightTextField
-        editCellView?.weightTextField?.textField!.keyboardType = .decimalPad
-        let weightToolbar = UIToolbar()
-        weightToolbar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
-        let weightSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let weightDoneButtonItem = UIBarButtonItem(title: "次へ",
-                                                   style: .done,
-                                                   target: self,
-                                                   action: #selector(weightDonePicker))
-        weightToolbar.setItems([weightSpace, weightDoneButtonItem], animated: true)
-        editCellView?.weightTextField?.textField!.inputAccessoryView = weightToolbar
-        editCellView?.weightTextField?.textField!.delegate = self
-        
-        // repsTextField
-        editCellView?.repsTextField?.textField!.keyboardType = .numberPad
-        let repsToolbar = UIToolbar()
-        repsToolbar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
-        let repsSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let repsDoneButtonItem = UIBarButtonItem(title: "次へ",
-                                                 style: .done,
-                                                 target: self,
-                                                 action: #selector(repsDonePicker))
-        repsToolbar.setItems([repsSpace, repsDoneButtonItem], animated: true)
-        editCellView?.repsTextField?.textField!.inputAccessoryView = repsToolbar
-        editCellView?.repsTextField?.textField!.delegate = self
-        
-        //memoTextView
-        editCellView?.memoTextView?.textView!.keyboardType = .default
-        let memoToolbar = UIToolbar()
-        memoToolbar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
-        let space5 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButtonItem5 = UIBarButtonItem(title: "OK",
-                                              style: .done,
-                                              target: self,
-                                              action: #selector(memoDonePicker))
-        memoToolbar.setItems([space5, doneButtonItem5], animated: true)
-        editCellView?.memoTextView?.textView!.inputAccessoryView = memoToolbar
-
-    }
-    
-    @objc func targetDonePicker() {
-        editCellView?.workoutNameTextField?.textField!.becomeFirstResponder()
-    }
-    @objc func workoutNameDonePicker() {
-        editCellView?.weightTextField?.textField!.becomeFirstResponder()
-    }
-    @objc func weightDonePicker() {
-        editCellView?.repsTextField?.textField!.becomeFirstResponder()
-    }
-    @objc func repsDonePicker() {
-        editCellView?.memoTextView?.textView!.becomeFirstResponder()
-    }
-    @objc func memoDonePicker() {
-        editCellView?.memoTextView?.textView!.resignFirstResponder()
-    }
 }
 
 // MARK: - UITableViewDelegate
@@ -346,11 +190,10 @@ extension WorkoutRecordViewController: UITableViewDelegate {
         }
         
         let editAction = UIContextualAction(style: .normal, title: "編集") { [weak self] action, view, completionHandler in
-                
-                self?.parentVC?.footer?.isUserInteractionEnabled = false
-                self?.workoutTableView.isUserInteractionEnabled = false
-                self?.dateSelectView!.isUserInteractionEnabled = false
-                self?.setupEditCellView(row: indexPath.row)
+
+            self?.editCellView = self?.createEditView(row: indexPath.row)
+            
+            self?.recordViewModel?.editCellViewAperr.accept(true)
         }
         editAction.backgroundColor = .green
         
@@ -404,60 +247,3 @@ class WorkoutRecordTableViewDataSource: NSObject, UITableViewDataSource, RxTable
         return true
     }
 }
-
-// MARK: - UIPickerView
-
-extension WorkoutRecordViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 30
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
-        switch pickerView.tag {
-        case 1: return (menuViewModel?.workoutMenuArray.count)!
-        case 2: return (menuViewModel?.workoutMenuArray[selectTarget].workoutNames.count)!
-        default: fatalError()
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch pickerView.tag {
-        case 1:
-            selectTarget = row
-            return menuViewModel?.workoutMenuArray[row].targetPart
-        case 2:
-            return menuViewModel?.workoutMenuArray[selectTarget].workoutNames[row].workoutName
-        default: fatalError()
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch pickerView.tag {
-        case 1:
-            editCellView?.targetPartTextField?.textField!.text = menuViewModel?
-                .workoutMenuArray[row].targetPart
-            
-            if editCellView?.targetPartTextField?.textField!.text == nil {
-                editCellView?.targetPartTextField?.textField!.text = menuViewModel?
-                    .workoutMenuArray[0].targetPart
-            }
-        case 2:
-            editCellView?.workoutNameTextField?.textField!.text = menuViewModel?
-                .workoutMenuArray[selectTarget].workoutNames[row].workoutName
-            
-            if editCellView?.targetPartTextField?.textField!.text == nil {
-                editCellView?.targetPartTextField?.textField!.text = menuViewModel?
-                    .workoutMenuArray[selectTarget].workoutNames[0].workoutName
-            }
-        default: fatalError()
-        }
-    }
-}
-

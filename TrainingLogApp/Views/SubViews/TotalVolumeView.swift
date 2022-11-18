@@ -76,11 +76,6 @@ class TotalVolumeView: UIView, UITextFieldDelegate {
             
         }).disposed(by: disposeBag)
         
-        recordViewModel?.itemObservable.asDriver(onErrorJustReturn: [WorkoutRecordCellViewModel]()).drive(onNext: { [weak self] _ in
-
-            
-        }).disposed(by: disposeBag)
-        
         targetPartTextField?.rx.text.asDriver().drive(onNext: { [weak self] target in
             
             self?.totalVolumeLabel?.text = (self?.recordViewModel?.returnItemsAndVolume(target: (self?.targetPartTextField?.text)!, addstring: (self?.addString)!))!.description + " KG"
@@ -117,6 +112,9 @@ class TotalVolumeView: UIView, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+
+// MARK: - UIPickerViewDelegate, UIPickerViewDataSource
 
 extension TotalVolumeView: UIPickerViewDelegate, UIPickerViewDataSource {
     

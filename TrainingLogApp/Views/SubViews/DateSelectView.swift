@@ -11,7 +11,7 @@ import RxCocoa
 
 class DateSelectView: UIView {
     
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     private var recordViewModel: WorkoutRecordViewModel?
     var backgroundView: UIView?
     
@@ -108,8 +108,6 @@ class DateSelectView: UIView {
                                    y: contentsY,
                                    width: buttonWidth,
                                    height: buttonHeight)
-
-
     }
     
     required init?(coder: NSCoder) {

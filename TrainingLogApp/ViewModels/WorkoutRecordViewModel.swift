@@ -26,6 +26,7 @@ class WorkoutRecordViewModel {
     
     // recordFormの出現状態
     var recordFormApear = BehaviorRelay<Bool>(value: false)
+    var editCellViewAperr = BehaviorRelay<Bool>(value: false)
     
     init(menuArray: [WorkoutMenu]) {
         self.menuArray = menuArray
@@ -72,7 +73,7 @@ class WorkoutRecordViewModel {
         updateItems()
     }
     
-    func onEditItem(target: String, workoutName: String, weight: String, reps: String, memo: String, row: Int) {
+    func onEditItem(target: String, workoutName: String, weight: String, reps: String, memo: String, item: WorkoutRecordCellViewModel) {
         var newWorkout = WorkoutObject()
         newWorkout.doneAt = DateUtils.toStringFromDate(date: dateRelay.value)
         newWorkout.targetPart = target
@@ -82,7 +83,7 @@ class WorkoutRecordViewModel {
         newWorkout.volume = Double(Double(weight)! * Double(reps)!)
         newWorkout.memo = memo
         
-        let workout = items.value[row].workoutObject
+        let workout = item.workoutObject
 
         model.updateWorkout(from: workout, to: newWorkout)
         updateItems()

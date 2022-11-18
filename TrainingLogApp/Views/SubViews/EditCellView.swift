@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class EditCellView: UIView, UITextFieldDelegate {
 
@@ -25,9 +26,21 @@ class EditCellView: UIView, UITextFieldDelegate {
     var editButton: RecordButton?
     var cancelButton: RecordButton?
     
-    init(frame: CGRect, item: WorkoutRecordCellViewModel) {
+    private var selectTarget = 0
+    private let disposeBag = DisposeBag()
+    private var validationViewModel: FormValidateViewModel?
+    private var recordViewModel: WorkoutRecordViewModel?
+    private var menuViewModel: WorkoutMenuViewModel?
+    private var item: WorkoutRecordCellViewModel?
+    
+    init(frame: CGRect, row: Int, recordViewModel: WorkoutRecordViewModel, menuViewModel: WorkoutMenuViewModel) {
         super.init(frame: frame)
                 
+        self.recordViewModel = recordViewModel
+        self.validationViewModel = FormValidateViewModel()
+        self.menuViewModel = menuViewModel
+        self.item = recordViewModel.returnItem(row: row)
+        
         let mainBackgroundColor = UIColor.gray
         let mainForegroundColor = UIColor.white.withAlphaComponent(0.9)
         let buttonTintColor = UIColor.white
@@ -93,18 +106,21 @@ class EditCellView: UIView, UITextFieldDelegate {
 
         let textColor = UIColor.black
         
-        targetPartTextField?.textField?.text = item.workoutObject.targetPart
+        targetPartTextField?.textField?.text = item?.workoutObject.targetPart
         targetPartTextField?.textField?.textColor = textColor
-        workoutNameTextField?.textField?.text = item.workoutObject.workoutName
+        workoutNameTextField?.textField?.text = item?.workoutObject.workoutName
         workoutNameTextField?.textField?.textColor = textColor
-        weightTextField?.textField?.text = item.workoutObject.weight.description
+        weightTextField?.textField?.text = item?.workoutObject.weight.description
         weightTextField?.textField?.textColor = textColor
-        repsTextField?.textField?.text = item.workoutObject.reps.description
+        repsTextField?.textField?.text = item?.workoutObject.reps.description
         repsTextField?.textField?.textColor = textColor
-        memoTextView?.textView?.text = item.workoutObject.memo
+        memoTextView?.textView?.text = item?.workoutObject.memo
         memoTextView?.textView?.textColor = textColor
         
         addSubviews()
+        setupTextFields()
+        setupButtonActions()
+        
     }
     
     private func addSubviews() {
@@ -235,5 +251,232 @@ class EditCellView: UIView, UITextFieldDelegate {
                             bottomPadding: buttonVerticalPadding,
                             rightPadding: buttonHorizontalPadding)
     }
+    
+    private func setupTextFields(){
+        
+        setupPickers()
+        
+        targetPartTextField?.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
+            self?.validationViewModel?.targetTextInput.onNext(text ?? "")
+        }).disposed(by: disposeBag)
+        
+        workoutNameTextField?.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
+            self?.validationViewModel?.workoutTextInput.onNext(text ?? "")
+        }).disposed(by: disposeBag)
+        
+        weightTextField?.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
+            self?.validationViewModel?.weightTextInput.onNext(text ?? "")
+        }).disposed(by: disposeBag)
+        
+        repsTextField?.textField?.rx.text.asDriver().drive(onNext: { [weak self] text in
+            self?.validationViewModel?.repsTextInput.onNext(text ?? "")
+        }).disposed(by: disposeBag)
+        
+        validationViewModel?.validRegisterDriver.drive(onNext: { validAll in
+            self.editButton?.isEnabled = validAll
+            self.editButton?.layer.backgroundColor = validAll ? UIColor.orange.cgColor : UIColor.gray.cgColor
+        }).disposed(by: disposeBag)
+    }
+    
+    private func setupButtonActions() {
+        
+        let readytransform = CGAffineTransform(scaleX: 0, y: 0)
+        UIView.animate(withDuration: 0, animations: {
+            self.transform = readytransform
+        })
+        let transform = CGAffineTransform(scaleX: 1, y: 1)
+        UIView.animate(withDuration: 0.5, animations: {
+            self.transform = transform
+        })
+        
+        // editButton Action
+        editButton?.rx.tap.asDriver().drive(onNext: { [weak self] in
+            
+            self?.editWorkout()
+            
+            let transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            UIView.animate(withDuration: 0.5, animations: {
+                self?.transform = transform
+                self?.alpha = 0
+            }) { _ in
+                self?.isHidden = true
+                self?.recordViewModel?.editCellViewAperr.accept(false)
+            }
+        }).disposed(by: disposeBag)
+        
+        // cancelButton Action
+        cancelButton?.rx.tap.asDriver().drive(onNext: { [weak self] in
+            
+            let transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            UIView.animate(withDuration: 0.5, animations: {
+                self?.transform = transform
+                self?.alpha = 0
+            }) { _ in
+                self?.isHidden = true
+                self?.recordViewModel?.editCellViewAperr.accept(false)
+            }
+        }).disposed(by: disposeBag)
+    }
+    
+    private func editWorkout() {
+        let target = targetPartTextField?.textField?.text
+        let workoutName = workoutNameTextField?.textField?.text
+        let weight = weightTextField?.textField?.text
+        let reps = repsTextField?.textField?.text
+        let memo = memoTextView?.textView?.text
+        
+        recordViewModel?.onEditItem(target: target!,
+                                    workoutName: workoutName!,
+                                    weight: weight!,
+                                    reps: reps!,
+                                    memo: memo!,
+                                    item: item!)
+    }
+    
+    private func setupPickers() {
+        // targetPartTextField
+        let targetPartPicker = UIPickerView()
+        targetPartPicker.tag = 1
+        targetPartPicker.delegate = self
+        targetPartPicker.dataSource = self
+        targetPartTextField?.textField!.inputView = targetPartPicker
+        let targetPartToolbar = UIToolbar()
+        targetPartToolbar.frame = CGRect(x: 0, y: 0, width: frame.width, height: 30)
+        let targetSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let targetDoneButtonItem = UIBarButtonItem(title: "次へ",
+                                                   style: .done,
+                                                   target: self,
+                                                   action: #selector(targetDonePicker))
+        targetPartToolbar.setItems([targetSpace, targetDoneButtonItem], animated: true)
+        targetPartTextField?.textField!.inputAccessoryView = targetPartToolbar
+        targetPartTextField?.textField!.delegate = self
+        
+        // workoutNameTextField
+        let workoutNamePicker = UIPickerView()
+        workoutNamePicker.tag = 2
+        workoutNamePicker.delegate = self
+        workoutNamePicker.dataSource = self
+        workoutNameTextField?.textField!.inputView = workoutNamePicker
+        let workoutNameToolbar = UIToolbar()
+        workoutNameToolbar.frame = CGRect(x: 0, y: 0, width: frame.width, height: 30)
+        let workoutNameSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let workoutNameDoneButtonItem = UIBarButtonItem(title: "次へ",
+                                                        style: .done,
+                                                        target: self,
+                                                        action: #selector(workoutNameDonePicker))
+        workoutNameToolbar.setItems([workoutNameSpace, workoutNameDoneButtonItem], animated: true)
+        workoutNameTextField?.textField!.inputAccessoryView = workoutNameToolbar
+        workoutNameTextField?.textField!.delegate = self
+        
+        // weightTextField
+        weightTextField?.textField!.keyboardType = .decimalPad
+        let weightToolbar = UIToolbar()
+        weightToolbar.frame = CGRect(x: 0, y: 0, width: frame.width, height: 30)
+        let weightSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let weightDoneButtonItem = UIBarButtonItem(title: "次へ",
+                                                   style: .done,
+                                                   target: self,
+                                                   action: #selector(weightDonePicker))
+        weightToolbar.setItems([weightSpace, weightDoneButtonItem], animated: true)
+        weightTextField?.textField!.inputAccessoryView = weightToolbar
+        weightTextField?.textField!.delegate = self
+        
+        // repsTextField
+        repsTextField?.textField!.keyboardType = .numberPad
+        let repsToolbar = UIToolbar()
+        repsToolbar.frame = CGRect(x: 0, y: 0, width: frame.width, height: 30)
+        let repsSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let repsDoneButtonItem = UIBarButtonItem(title: "次へ",
+                                                 style: .done,
+                                                 target: self,
+                                                 action: #selector(repsDonePicker))
+        repsToolbar.setItems([repsSpace, repsDoneButtonItem], animated: true)
+        repsTextField?.textField!.inputAccessoryView = repsToolbar
+        repsTextField?.textField!.delegate = self
+        
+        //memoTextView
+        memoTextView?.textView!.keyboardType = .default
+        let memoToolbar = UIToolbar()
+        memoToolbar.frame = CGRect(x: 0, y: 0, width: frame.width, height: 30)
+        let space5 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButtonItem5 = UIBarButtonItem(title: "OK",
+                                              style: .done,
+                                              target: self,
+                                              action: #selector(memoDonePicker))
+        memoToolbar.setItems([space5, doneButtonItem5], animated: true)
+        memoTextView?.textView!.inputAccessoryView = memoToolbar
+
+    }
+    
+    @objc func targetDonePicker() {
+        workoutNameTextField?.textField!.becomeFirstResponder()
+    }
+    @objc func workoutNameDonePicker() {
+        weightTextField?.textField!.becomeFirstResponder()
+    }
+    @objc func weightDonePicker() {
+        repsTextField?.textField!.becomeFirstResponder()
+    }
+    @objc func repsDonePicker() {
+        memoTextView?.textView!.becomeFirstResponder()
+    }
+    @objc func memoDonePicker() {
+        memoTextView?.textView!.resignFirstResponder()
+    }
 }
 
+// MARK: - UIPickerView
+
+extension EditCellView: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 30
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        
+        switch pickerView.tag {
+        case 1: return (menuViewModel?.workoutMenuArray.count)!
+        case 2: return (menuViewModel?.workoutMenuArray[selectTarget].workoutNames.count)!
+        default: fatalError()
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch pickerView.tag {
+        case 1:
+            selectTarget = row
+            return menuViewModel?.workoutMenuArray[row].targetPart
+        case 2:
+            return menuViewModel?.workoutMenuArray[selectTarget].workoutNames[row].workoutName
+        default: fatalError()
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        switch pickerView.tag {
+        case 1:
+            targetPartTextField?.textField!.text = menuViewModel?
+                .workoutMenuArray[row].targetPart
+            
+            if targetPartTextField?.textField!.text == nil {
+                targetPartTextField?.textField!.text = menuViewModel?
+                    .workoutMenuArray[0].targetPart
+            }
+        case 2:
+            workoutNameTextField?.textField!.text = menuViewModel?
+                .workoutMenuArray[selectTarget].workoutNames[row].workoutName
+            
+            if targetPartTextField?.textField!.text == nil {
+                targetPartTextField?.textField!.text = menuViewModel?
+                    .workoutMenuArray[selectTarget].workoutNames[0].workoutName
+            }
+        default: fatalError()
+        }
+    }
+}
