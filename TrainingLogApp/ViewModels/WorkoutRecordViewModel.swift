@@ -21,16 +21,23 @@ class WorkoutRecordViewModel {
     }
     
     private let model = RealmModel()
-    
     private let disposeBag = DisposeBag()
+    private var menuArray: [WorkoutMenu] = []
     
-    init() {
+    // recordFormの出現状態
+    var recordFormApear = BehaviorRelay<Bool>(value: false)
+    
+    init(menuArray: [WorkoutMenu]) {
+        self.menuArray = menuArray
         updateItems()
     }
     
     func updateItems() {
-        let workoutArray = model.getWorkout(doneAtDate: dateRelay.value).map { WorkoutRecordCellViewModel(workoutObject: $0)}
-        items.accept(workoutArray)
+        let workoutArray = model.getWorkout(doneAtDate: dateRelay.value)
+        let sortedWorkoutArray = sortItems(workoutArray: workoutArray)
+        let newItems = sortedWorkoutArray.map { WorkoutRecordCellViewModel(workoutObject: $0) }
+
+        items.accept(newItems)
     }
     
     func onTapRegister(target: String, workoutName: String, weight: String, reps: String, memo: String) {
@@ -50,26 +57,19 @@ class WorkoutRecordViewModel {
     func onDeleteRow(row: Int) {
         let item = items.value[row]
         model.deleteWorkout(with: item.workoutObject)
-        items.remove(index: row)
+
+        updateItems()
     }
     
     func returnItem(row: Int) -> WorkoutRecordCellViewModel {
         let item = items.value[row]
         return item
     }
-
-    func viewDidLoad(){
-        let workoutArray = model.getWorkout(doneAtDate: dateRelay.value)
-            .map { WorkoutRecordCellViewModel(workoutObject: $0)}
-        items.accept(workoutArray)
-    }
     
     func dateUpdate(date: Date) {
         dateRelay.accept(date)
         
-        let workoutArray = model.getWorkout(doneAtDate: dateRelay.value)
-            .map { WorkoutRecordCellViewModel(workoutObject: $0)}
-        items.accept(workoutArray)
+        updateItems()
     }
     
     func onEditItem(target: String, workoutName: String, weight: String, reps: String, memo: String, row: Int) {
@@ -83,12 +83,40 @@ class WorkoutRecordViewModel {
         newWorkout.memo = memo
         
         let workout = items.value[row].workoutObject
-        
-//        items.value[row] = WorkoutRecordCellViewModel(workoutObject: newWorkout)
-//        items.value.remove(at: row)
-//        items.value.insert((WorkoutRecordCellViewModel(workoutObject: newWorkout), at: row)
+
         model.updateWorkout(from: workout, to: newWorkout)
         updateItems()
     }
+    
+    func returnItemsAndVolume(target: String, addstring: String) -> Double {
+        let targetString = String(target.prefix(target.count - addstring.count))
+        let workoutArray: [WorkoutObject]
+        
+        if targetString == "すべて" {
+            workoutArray = model.getWorkout(doneAtDate: dateRelay.value)
+        } else {
+            workoutArray = model.getWorkout(doneAtDate: dateRelay.value).filter { $0.targetPart == targetString }
+        }
+        
+        let result = workoutArray.map { $0.volume }.reduce(0, +)
+        let sortedWorkoutArray = sortItems(workoutArray: workoutArray)
+        let itemArray = sortedWorkoutArray.map { WorkoutRecordCellViewModel(workoutObject: $0)}
+        items.accept(itemArray)
+        return result
+    }
+    
+    func sortItems(workoutArray: [WorkoutObject]) -> [WorkoutObject] {
+        let targetMenuArray = menuArray.map { $0.targetPart }
+        
+        let workoutArray = workoutArray.sorted { lhs, rhs in
+            if lhs.targetPart == rhs.targetPart {
+                let workoutNamesArray = menuArray[targetMenuArray.firstIndex(of: lhs.targetPart)!]
+                    .workoutNames.map { $0.workoutName }
+                return workoutNamesArray.firstIndex(of: lhs.workoutName)! < workoutNamesArray.firstIndex(of: rhs.workoutName)!
+            } else {
+                return targetMenuArray.firstIndex(of: lhs.targetPart)! < targetMenuArray.firstIndex(of: rhs.targetPart)!
+            }
+        }
+        return workoutArray
+    }
 }
-

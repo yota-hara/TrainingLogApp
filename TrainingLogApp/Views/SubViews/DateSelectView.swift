@@ -6,18 +6,24 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class DateSelectView: UIView {
     
+    let disposeBag = DisposeBag()
+    private var recordViewModel: WorkoutRecordViewModel?
     var backgroundView: UIView?
     
-    var dateLabel: UILabel?
+    var dateTextField: UITextField?
     var nextButton: UIButton?
     var prevButton: UIButton?
+    var datePicker: UIDatePicker?
     
-    var dateText = DateUtils.toStringFromDate(date: Date())
-    override init(frame: CGRect) {
+    init(frame: CGRect, recordViewModel: WorkoutRecordViewModel) {
         super.init(frame: frame)
+        
+        self.recordViewModel = recordViewModel
         
         let cornerRadius: CGFloat = 8
         
@@ -34,12 +40,13 @@ class DateSelectView: UIView {
         backgroundView = UIView()
         backgroundView?.backgroundColor = backgroundColor
         
-        dateLabel = UILabel()
-        dateLabel?.text = dateText
-        dateLabel?.textColor = dateStringColor
-        dateLabel?.textAlignment = .center
-        dateLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        dateTextField = UITextField()
+        dateTextField?.text = DateUtils.toStringFromDate(date: Date())
+        dateTextField?.textColor = dateStringColor
+        dateTextField?.textAlignment = .center
+        dateTextField?.font = UIFont.boldSystemFont(ofSize: 20)
         
+        datePicker = createDatePicker()
         
         nextButton = UIButton()
         nextButton?.setTitle("翌日>", for: .normal)
@@ -54,10 +61,18 @@ class DateSelectView: UIView {
         prevButton?.layer.backgroundColor = buttonBackgroundColor.cgColor
         
         addSubview(backgroundView!)
-        addSubview(dateLabel!)
+        addSubview(dateTextField!)
         addSubview(nextButton!)
         addSubview(prevButton!)
         
+        recordViewModel.recordFormApear.asDriver().drive(onNext: { [weak self] apear in
+            self?.dateTextField?.isUserInteractionEnabled = !apear
+            self?.nextButton?.isUserInteractionEnabled = !apear
+            self?.prevButton?.isUserInteractionEnabled = !apear
+
+        }).disposed(by: disposeBag)
+        
+        setupButtonAction()
     }
     
     override func layoutSubviews() {
@@ -79,7 +94,7 @@ class DateSelectView: UIView {
                                        width: frame.size.width,
                                        height: frame.size.height - lineWidth)
         
-        dateLabel?.frame = CGRect(x: center.x - dateLabelWidth / 2,
+        dateTextField?.frame = CGRect(x: center.x - dateLabelWidth / 2,
                                   y: contentsY,
                                   width: dateLabelWidth,
                                   height: dateLabelHeight)
@@ -101,4 +116,49 @@ class DateSelectView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func createDatePicker() -> UIDatePicker {
+        let picker = UIDatePicker()
+        picker.datePickerMode = .date
+        picker.timeZone = NSTimeZone.local
+        picker.locale = Locale.current
+        picker.preferredDatePickerStyle = .wheels
+        
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 35))
+        let spacelItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let doneItem = UIBarButtonItem(title: "決定", style: .done, target: self, action: #selector(done))
+        toolbar.setItems([spacelItem, doneItem], animated: true)
+        
+        dateTextField?.inputView = picker
+        dateTextField?.inputAccessoryView = toolbar
+
+        picker.rx.value.asDriver().drive(onNext: { [weak self] date  in
+            self?.dateTextField?.text! = DateUtils.toStringFromDate(date: date)
+            self?.recordViewModel?.dateUpdate(date: date)
+        }).disposed(by: disposeBag)
+        
+        return picker
+    }
+    
+    @objc func done() {
+        dateTextField!.resignFirstResponder()
+    }
+    
+    private func setupButtonAction() {
+        nextButton?.rx.tap.asDriver().drive(onNext: { [weak self] in
+                
+                let dateString = self?.dateTextField?.text
+                let date = DateUtils.toDateFromString(string: dateString!)
+                let newDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+                self?.recordViewModel?.dateUpdate(date: newDate)
+        }).disposed(by: disposeBag)
+        
+        prevButton?.rx.tap.asDriver().drive(onNext: { [weak self] in
+
+            let dateString = self?.dateTextField?.text
+            let date = DateUtils.toDateFromString(string: dateString!)
+            let newDate = Calendar.current.date(byAdding: .day, value: -1, to: date)!
+            self?.recordViewModel?.dateUpdate(date: newDate)
+        }).disposed(by: disposeBag)
+    }
 }
+

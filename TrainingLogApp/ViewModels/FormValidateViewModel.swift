@@ -8,14 +8,7 @@
 import RxSwift
 import RxCocoa
 
-protocol FormValidateViewModelInput {
-}
-
-protocol ViewModelOutput {
-    
-}
-
-class FormValidateViewModel: FormValidateViewModelInput {
+class FormValidateViewModel {
     
     private let disposeBag = DisposeBag()
     let model = ValidationModel()

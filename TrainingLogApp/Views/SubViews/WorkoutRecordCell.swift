@@ -196,7 +196,7 @@ class CellLabel: UILabel {
     init(frame: CGRect, borderWidth: CGFloat, borderColor: UIColor, textColor: UIColor, backgroundColor: UIColor, maskedCorners: CACornerMask, cornerRadius: CGFloat) {
         super.init(frame: frame)
                  
-        self.font = UIFont.systemFont(ofSize: 16)
+        self.font = UIFont.systemFont(ofSize: 14)
         self.textColor = textColor
         self.textAlignment = .center
         self.layer.backgroundColor = backgroundColor.cgColor

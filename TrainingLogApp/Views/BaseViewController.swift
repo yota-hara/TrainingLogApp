@@ -33,27 +33,29 @@ class BaseViewController: UIViewController, UITextFieldDelegate, parentViewContr
     private var recordViewModel: WorkoutRecordViewModel?
     
     private let disposeBag = DisposeBag()
-
+    
     // MARK: - LifeCycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
         menuViewModel = WorkoutMenuViewModel()
-        recordViewModel = WorkoutRecordViewModel()
+        recordViewModel = WorkoutRecordViewModel(menuArray: menuViewModel!.workoutMenuArray)
         validationViewModel = FormValidateViewModel()
         parentCenter = view.center
+        
+        vcView = UIView()
+        view.addSubview(vcView!)
         
         setupChildVC()
         setupFooter()
         setupRecordForm()
         setupKeyboardAndView()
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         vcView!.anchor(top: view.topAnchor, bottom: footer?.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottomPadding: -40)
-        
         footer?.anchor(bottom: view.bottomAnchor, left: view.leftAnchor, width: view.frame.size.width, height: 130)
         recordForm?.anchor(centerY: view.centerYAnchor, centerX: view.centerXAnchor, width: view.frame.size.width-40, height: 400)
     }
@@ -61,10 +63,9 @@ class BaseViewController: UIViewController, UITextFieldDelegate, parentViewContr
     // MARK: - Setup & Bindings
     
     private func setupChildVC() {
-        vcView = UIView()
-        
         let homeVC = HomeViewController()
         homeVC.view.frame = vcView!.frame
+        homeVC.view.autoresizingMask = []
         addChild(homeVC)
         vcView?.addSubview(homeVC.view)
         homeVC.didMove(toParent: self)
@@ -72,41 +73,40 @@ class BaseViewController: UIViewController, UITextFieldDelegate, parentViewContr
         
         let recordVC = WorkoutRecordViewController(parent: self, recordViewModel: recordViewModel!)
         recordVC.view.frame = vcView!.frame
-
+        
         let menuVC = WorkoutMenuViewController()
         menuVC.view.frame = vcView!.frame
         
         let settingVC = SettingViewController()
         settingVC.view.frame = vcView!.frame
         
-        view.addSubview(vcView!)
     }
     
     private func setupKeyboardAndView() {
         NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
-                    .subscribe({ notification in
-                        if let element = notification.element {
-                            self.keyboardwillShow(element)
-                        }
-                    })
-                    .disposed(by: disposeBag)
+            .subscribe({ notification in
+                if let element = notification.element {
+                    self.keyboardwillShow(element)
+                }
+            })
+            .disposed(by: disposeBag)
         
         NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
-                    .subscribe({ notification in
-                        if let element = notification.element {
-                            self.keyboardWillHide(element)
-                        }
-                    })
-                    .disposed(by: disposeBag)
+            .subscribe({ notification in
+                if let element = notification.element {
+                    self.keyboardWillHide(element)
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     private func keyboardwillShow(_ notification: Notification) {
         guard let rect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
               let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
-            UIView.animate(withDuration: duration) {
-                let transform = CGAffineTransform(translationX: 0,
-                                                  y:  -rect.size.height + 200)
-                self.view.transform = transform
+        UIView.animate(withDuration: duration) {
+            let transform = CGAffineTransform(translationX: 0,
+                                              y:  -rect.size.height + 200)
+            self.view.transform = transform
         }
     }
     
@@ -144,7 +144,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate, parentViewContr
             self.recordForm?.registerButton?.isEnabled = validAll
             self.recordForm?.registerButton?.layer.backgroundColor = validAll ? UIColor.orange.cgColor : UIColor.gray.cgColor
         }).disposed(by: disposeBag)
-
+        
         recordForm?.registerButton?.rx.tap.asDriver().drive(onNext: { [weak self] _ in
             self?.registerWorkout()
             self?.RecordFormDisappear()
@@ -168,10 +168,10 @@ class BaseViewController: UIViewController, UITextFieldDelegate, parentViewContr
         let memo = recordForm?.memoTextView?.textView?.text!
         
         recordViewModel?.onTapRegister(target: target!,
-                                        workoutName: workoutName!,
-                                        weight: weight!,
-                                        reps: reps!,
-                                        memo: memo!)
+                                       workoutName: workoutName!,
+                                       weight: weight!,
+                                       reps: reps!,
+                                       memo: memo!)
     }
     
     private func RecordFormDisappear() {
@@ -179,6 +179,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate, parentViewContr
             self.recordForm?.alpha = 0
             self.footer?.registerButton!.setImage(UIImage(systemName: "plus"), for: .normal)
             self.footer?.registerButton!.backgroundColor = .orange
+            self.recordViewModel?.recordFormApear.accept(false)
         })
     }
     
@@ -193,12 +194,14 @@ class BaseViewController: UIViewController, UITextFieldDelegate, parentViewContr
                 })
                 self?.footer?.registerButton!.setImage(UIImage(systemName: "multiply"), for: .normal)
                 self?.footer?.registerButton!.backgroundColor = .systemMint
+                self?.recordViewModel?.recordFormApear.accept(true)
             case 1:
                 UIView.animate(withDuration: 0.7, delay: 0.1, options: UIView.AnimationOptions.allowUserInteraction, animations: {
                     self?.recordForm?.alpha = 0
                 })
                 self?.footer?.registerButton!.setImage(UIImage(systemName: "plus"), for: .normal)
                 self?.footer?.registerButton!.backgroundColor = .orange
+                self?.recordViewModel?.recordFormApear.accept(false)
             case .none:
                 break
             case .some(_):
@@ -217,7 +220,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate, parentViewContr
                 homeVC.didMove(toParent: self)
                 self?.childVC = homeVC
                 self?.RecordFormDisappear()
-              }
+            }
         }).disposed(by: disposeBag)
         
         footer?.recordButton!.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
@@ -228,11 +231,13 @@ class BaseViewController: UIViewController, UITextFieldDelegate, parentViewContr
                 self?.childVC!.view.removeFromSuperview()
                 self?.childVC!.removeFromParent()
                 self?.addChild(recordVC)
+                recordVC.view.frame = (self?.vcView!.frame)!
+                recordVC.view.autoresizingMask = []
                 self?.vcView!.addSubview(recordVC.view)
                 recordVC.didMove(toParent: self)
                 self?.childVC = recordVC
                 self?.RecordFormDisappear()
-              }
+            }
         }).disposed(by: disposeBag)
         
         footer?.menuButton!.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
@@ -246,7 +251,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate, parentViewContr
                 menuVC.didMove(toParent: self)
                 self?.childVC = menuVC
                 self?.RecordFormDisappear()
-              }
+            }
         }).disposed(by: disposeBag)
         
         footer?.settingsButton!.button?.rx.tap.asDriver().drive(onNext: { [weak self] in
@@ -260,7 +265,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate, parentViewContr
                 settingVC.didMove(toParent: self)
                 self?.childVC = settingVC
                 self?.RecordFormDisappear()
-              }
+            }
         }).disposed(by: disposeBag)
     }
     
@@ -336,7 +341,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate, parentViewContr
                                               action: #selector(memoDonePicker))
         memoToolbar.setItems([space5, doneButtonItem5], animated: true)
         recordForm?.memoTextView?.textView!.inputAccessoryView = memoToolbar
-
+        
     }
     
     @objc func targetDonePicker() {

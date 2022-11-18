@@ -34,6 +34,7 @@
 		A1B0ABCA2921CD4E003BCE74 /* DateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B0ABC92921CD4E003BCE74 /* DateSelectView.swift */; };
 		A1B0ABCC292285DA003BCE74 /* BehaviorRelay-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B0ABCB292285DA003BCE74 /* BehaviorRelay-Extensions.swift */; };
 		A1B0ABCE29237D92003BCE74 /* EditCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B0ABCD29237D92003BCE74 /* EditCellView.swift */; };
+		A1B0ABD029251AB1003BCE74 /* TotalVolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B0ABCF29251AB1003BCE74 /* TotalVolumeView.swift */; };
 		A1BEC040291BD43400CF8DB3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BEC03F291BD43400CF8DB3 /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		A1B0ABC92921CD4E003BCE74 /* DateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectView.swift; sourceTree = "<group>"; };
 		A1B0ABCB292285DA003BCE74 /* BehaviorRelay-Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BehaviorRelay-Extensions.swift"; sourceTree = "<group>"; };
 		A1B0ABCD29237D92003BCE74 /* EditCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCellView.swift; sourceTree = "<group>"; };
+		A1B0ABCF29251AB1003BCE74 /* TotalVolumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalVolumeView.swift; sourceTree = "<group>"; };
 		A1BEC03F291BD43400CF8DB3 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		C4D0FB1178C466971FAB3F98 /* Pods_TrainingLogApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrainingLogApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -177,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				A1B0ABC92921CD4E003BCE74 /* DateSelectView.swift */,
+				A1B0ABCF29251AB1003BCE74 /* TotalVolumeView.swift */,
 				A14DCA072919D01600FBC7B7 /* TabButtonFooterView.swift */,
 				A14DCA0A2919D01600FBC7B7 /* RecordFormView.swift */,
 				A1B0ABCD29237D92003BCE74 /* EditCellView.swift */,
@@ -317,6 +320,7 @@
 				A1BEC040291BD43400CF8DB3 /* BaseViewController.swift in Sources */,
 				A14DCA182919D02700FBC7B7 /* WorkoutRecordViewModel.swift in Sources */,
 				A14DC9F82919D00400FBC7B7 /* UIColor-Extension.swift in Sources */,
+				A1B0ABD029251AB1003BCE74 /* TotalVolumeView.swift in Sources */,
 				A14EC1CB291CC4DB003EF5E5 /* WorkoutRecordCellViewModel.swift in Sources */,
 				A1B0ABCA2921CD4E003BCE74 /* DateSelectView.swift in Sources */,
 				A14DC9FA2919D00400FBC7B7 /* UIView-Extension.swift in Sources */,

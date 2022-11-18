@@ -41,7 +41,7 @@ class WorkoutMenuViewModel {
         workoutMenuArray.append(backMenu)
         
         let deltDic: [String: Any] = ["targetPart": "三角筋",
-                                      "workoutNames": [["workoutName": "バーベルショルダーープレス"],
+                                      "workoutNames": [["workoutName": "バーベルショルダープレス"],
                                                        ["workoutName": "ダンベルショルダープレス"],
                                                        ["workoutName": "アップライトロウ"],
                                                        ["workoutName": "フロントレイズ"],
