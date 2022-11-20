@@ -1,5 +1,5 @@
 //
-//  SettingViewController.swift
+//  RegisterMenuController.swift
 //  ProgressLogRE
 //
 //  Created by 田原葉 on 2022/11/01.
@@ -9,8 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-
-class SettingViewController: UIViewController {
+class WorkoutMenuViewController: UIViewController {
     
     // MARK: - Properties & UIParts
     
@@ -21,7 +20,7 @@ class SettingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .blue
+        view.backgroundColor = .green
         workoutMenuViewModel = WorkoutMenuViewModel()
     }
     

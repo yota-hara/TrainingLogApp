@@ -5,12 +5,7 @@
 //  Created by 田原葉 on 2022/11/02.
 //
 
-import Foundation
 import RealmSwift
-
-
-
-
 
 class WorkoutMenuViewModel {
     
@@ -46,7 +41,7 @@ class WorkoutMenuViewModel {
         workoutMenuArray.append(backMenu)
         
         let deltDic: [String: Any] = ["targetPart": "三角筋",
-                                      "workoutNames": [["workoutName": "バーベルショルダーープレス"],
+                                      "workoutNames": [["workoutName": "バーベルショルダープレス"],
                                                        ["workoutName": "ダンベルショルダープレス"],
                                                        ["workoutName": "アップライトロウ"],
                                                        ["workoutName": "フロントレイズ"],

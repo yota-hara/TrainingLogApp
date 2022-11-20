@@ -5,7 +5,6 @@
 //  Created by 田原葉 on 2022/11/01.
 //
 
-import Foundation
 import RealmSwift
 
 class WorkoutRealmObject: Object {
@@ -13,31 +12,31 @@ class WorkoutRealmObject: Object {
     @objc dynamic var workoutName: String = ""
     @objc dynamic var weight: Double = 1
     @objc dynamic var reps: Int = 1
-    @objc dynamic var doneAt: Date = Date()
-    @objc dynamic var volume: Double = 0.0
+    @objc dynamic var doneAt: String = ""
+    @objc dynamic var volume: Double = 1
     @objc dynamic var memo: String = ""
+    
+    func toWorkoutObject() -> WorkoutObject {
+        var workout = WorkoutObject()
+        workout.targetPart = self.targetPart
+        workout.workoutName = self.workoutName
+        workout.weight = self.weight
+        workout.reps = self.reps
+        workout.doneAt = self.doneAt
+        workout.volume = self.volume
+        workout.memo = self.memo
+        return workout
+    }
 }
 
-// Objectを継承しない、データの削除や更新をするためのstruct
 struct WorkoutObject {
     var targetPart: String = ""
     var workoutName: String = ""
     var weight: Double = 1
     var reps: Int = 1
-    var doneAt: Date = Date()
-    var volume: Double
+    var doneAt: String = ""
+    var volume: Double = 0
     var memo: String = ""
-    
-    init() {
-        let obj = WorkoutRealmObject()
-        self.targetPart = obj.targetPart
-        self.workoutName = obj.workoutName
-        self.weight = obj.weight
-        self.reps = obj.reps
-        self.doneAt = obj.doneAt
-        self.volume = obj.volume
-        self.memo = obj.memo
-    }
     
     // Object継承クラス型に変換するメソッド
     func toRealmObject() -> WorkoutRealmObject {
@@ -52,8 +51,6 @@ struct WorkoutObject {
         return obj
     }
 }
-
-
 
 class WorkoutMenu: Object {
     @objc dynamic var targetPart: String = ""
